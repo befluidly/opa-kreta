@@ -1,0 +1,16 @@
+# *
+User-agent: *
+Allow: /
+
+# *
+User-agent: *
+Disallow: /_next/
+Disallow: /api/
+Disallow: /categorie/category/
+
+# Host
+Host: https://www.opakreta.be
+
+# Sitemaps
+Sitemap: https://www.opakreta.be/sitemap.xml
+Sitemap: https://www.opakreta.be/sitemap-0.xml
