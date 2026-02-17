@@ -10,6 +10,7 @@ import TagList from "../components/TagList";
 import Link from "next/link";
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 import { serialize } from "next-mdx-remote/serialize";
+import remarkGfm from "remark-gfm";
 
 // 🔹 In-article componenten
 import AffiliateBox from "../components/AffiliateBox";
@@ -130,9 +131,33 @@ export default function PostPage({
       <div className="max-w-screen-xl mx-auto px-4 mt-10 grid grid-cols-1 md:grid-cols-[3fr_1fr] gap-10 mb-20">
         {/* Artikelinhoud */}
         <div>
-          <article className="prose prose-sky lg:prose-lg xl:prose-xl font-body leading-relaxed text-gray-800 prose-img:rounded-xl max-w-full">
-            <MDXRemote {...mdxSource} components={components} />
-          </article>
+          <article
+  className="
+    prose prose-sky lg:prose-lg xl:prose-xl
+    font-body leading-relaxed text-gray-800
+    prose-img:rounded-xl max-w-full
+
+    prose-table:w-full
+    prose-table:border-collapse
+    prose-table:my-8
+
+    prose-th:bg-skyBlue/10
+    prose-th:text-darkCornflower
+    prose-th:font-semibold
+    prose-th:p-3
+    prose-th:border
+    prose-th:border-gray-200
+
+    prose-td:p-3
+    prose-td:border
+    prose-td:border-gray-200
+
+    prose-tr:align-top
+  "
+>
+  <MDXRemote {...mdxSource} components={components} />
+</article>
+
 
           {/* 🔹 Nieuw: regio-links */}
           <PostRegions post={post} />
@@ -217,8 +242,12 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const source = fs.readFileSync(filePath, "utf8");
 
   const mdxSource = await serialize(source, {
-    parseFrontmatter: true,
-  });
+  parseFrontmatter: true,
+  mdxOptions: {
+    remarkPlugins: [remarkGfm],
+  },
+});
+
 
   const allPosts = getAllPosts();
   const relatedPosts = allPosts

@@ -1,10 +1,14 @@
 import createMDX from "@next/mdx";
+import remarkGfm from "remark-gfm";
 
 /**
  * ✅ Activeer MDX-ondersteuning
  */
 const withMDX = createMDX({
   extension: /\.mdx?$/,
+  options: {
+    remarkPlugins: [remarkGfm],
+  },
 });
 
 /**
@@ -26,19 +30,17 @@ const nextConfig = {
     const isProduction = process.env.NODE_ENV === "production";
 
     return [
-      // ✅ non-www → www redirect enkel in productie
       ...(isProduction
         ? [
             {
               source: "/:path*",
-              has: [{ type: "host", value: "opakreta.be" }], // ⬅️ Enkel exact domein zonder www
+              has: [{ type: "host", value: "opakreta.be" }],
               destination: "https://www.opakreta.be/:path*",
               permanent: true,
             },
           ]
         : []),
 
-      // ✅ Correctie voor oude categorie-URLs
       {
         source: "/categorie/category/:path*",
         destination: "/categorie/:path*",
