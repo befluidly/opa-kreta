@@ -7,6 +7,7 @@ User-agent: *
 Disallow: /_next/
 Disallow: /api/
 Disallow: /categorie/category/
+Disallow: /tag/
 
 # Host
 Host: https://www.opakreta.be

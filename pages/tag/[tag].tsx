@@ -7,22 +7,35 @@ import { NextSeo } from "next-seo";
 import { Post } from "../../types/post";
 
 interface TagPageProps {
-  tag: string;
+  tag: string; // slug uit de URL, bv. "agios-nikolaos"
+  formattedTag: string; // mooi voor de UI, bv. "Agios Nikolaos"
   posts: Post[];
 }
 
-export default function TagPage({ tag, posts }: TagPageProps) {
-  const formattedTag = tag
+/** Zet een tag om naar een URL-veilige slug */
+const toSlug = (s: string) =>
+  s
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, "") // verwijder rare tekens
+    .replace(/\s+/g, "-"); // spaties -> -
+
+/** Maak een slug terug leesbaar (voor titel/hero) */
+const toTitle = (slug: string) =>
+  slug
     .replace(/-/g, " ")
     .replace(/\b\w/g, (l) => l.toUpperCase());
 
+export default function TagPage({ tag, formattedTag, posts }: TagPageProps) {
   return (
     <Layout>
-      {/* ✅ SEO */}
+      {/* ✅ SEO: Tagpagina’s niet indexeren, maar links wel volgen */}
       <NextSeo
         title={`Artikels over ${formattedTag} | Opa Kreta`}
         description={`Alle artikels die te maken hebben met ${formattedTag} op Kreta.`}
         canonical={`https://www.opakreta.be/tag/${tag}`}
+        noindex={true}
+        nofollow={false}
         openGraph={{
           title: `Artikels over ${formattedTag}`,
           description: `Alle artikels die te maken hebben met ${formattedTag} op Kreta.`,
@@ -45,24 +58,18 @@ export default function TagPage({ tag, posts }: TagPageProps) {
 
       {/* ✅ Inhoud */}
       <div className="max-w-screen-xl mx-auto px-4 mt-10 mb-20">
-        {posts.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {posts.map((p) => (
-              <PostCard
-                key={p.slug}
-                slug={p.slug}
-                title={p.title}
-                excerpt={p.excerpt}
-                coverImage={p.coverImage}
-                category={p.category}
-              />
-            ))}
-          </div>
-        ) : (
-          <p className="text-gray-600 text-center">
-            Geen artikels gevonden voor deze tag.
-          </p>
-        )}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {posts.map((p) => (
+            <PostCard
+              key={p.slug}
+              slug={p.slug}
+              title={p.title}
+              excerpt={p.excerpt}
+              coverImage={p.coverImage}
+              category={p.category}
+            />
+          ))}
+        </div>
       </div>
     </Layout>
   );
@@ -71,21 +78,41 @@ export default function TagPage({ tag, posts }: TagPageProps) {
 /* ✅ Static paths + props */
 export const getStaticPaths: GetStaticPaths = async () => {
   const posts = getAllPosts();
-  const allTags = Array.from(
-    new Set(posts.flatMap((p) => p.tags || []))
-  ).filter(Boolean);
 
+  // Verzamel alle tags uit content
+  const allTags = Array.from(new Set(posts.flatMap((p) => p.tags || []))).filter(
+    Boolean
+  ) as string[];
+
+  // Maak URL-slugs van tags
   const paths = allTags.map((t) => ({
-    params: { tag: t },
+    params: { tag: toSlug(t) },
   }));
 
-  return { paths, fallback: "blocking" };
+  // Belangrijk: geen dynamische onbekende tags laten crawlen
+  return { paths, fallback: false };
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const tag = String(params?.tag);
-  const allPosts = getAllPosts();
-  const posts = allPosts.filter((p) => p.tags?.includes(tag));
+  const tagSlug = String(params?.tag || "").toLowerCase().trim();
 
-  return { props: { tag, posts } };
+  const allPosts = getAllPosts();
+
+  // Vind posts waarvan minstens 1 tag (geslugified) matcht met de URL-tag
+  const posts = allPosts.filter((p) =>
+    (p.tags || []).some((pt) => toSlug(pt) === tagSlug)
+  );
+
+  // Geen posts? Maak er een echte 404 van (voorkomt Soft 404)
+  if (posts.length === 0) {
+    return { notFound: true };
+  }
+
+  return {
+    props: {
+      tag: tagSlug,
+      formattedTag: toTitle(tagSlug),
+      posts,
+    },
+  };
 };

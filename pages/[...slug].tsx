@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { GetStaticPaths, GetStaticProps } from "next";
+import { useRouter } from "next/router";
 import Layout from "../components/Layout";
 import PageHero from "../components/PageHero";
 import { getAllPosts, getPostBySlug } from "../lib/api";
@@ -34,18 +35,14 @@ interface PostPageProps {
   relatedPosts: Post[];
 }
 
-export default function PostPage({
-  post,
-  mdxSource,
-  relatedPosts,
-}: PostPageProps) {
+export default function PostPage({ post, mdxSource, relatedPosts }: PostPageProps) {
+  const router = useRouter();
+
   if (!post) {
     return (
       <Layout>
         <div className="max-w-3xl mx-auto p-8 text-center">
-          <h1 className="text-2xl font-bold mb-4">
-            404 — Artikel niet gevonden
-          </h1>
+          <h1 className="text-2xl font-bold mb-4">404 — Artikel niet gevonden</h1>
           <p>Het lijkt erop dat deze pagina niet meer bestaat.</p>
         </div>
       </Layout>
@@ -66,6 +63,24 @@ export default function PostPage({
     IntroBox,
     InfoBox,
   };
+
+  const fallbackHref =
+    post.category === "inspiratie" || post.category === "tips"
+      ? "/inspiratie"
+      : post.category
+      ? `/categorie/${post.category}`
+      : "/";
+
+  const categoryLabel =
+    {
+      "opas-blog": "Opa’s Blog",
+      gidsen: "Gidsen",
+      praktisch: "Praktisch",
+      inspiratie: "Inspiratie",
+      tips: "Inspiratie",
+      shop: "Shop",
+      recepten: "Recepten",
+    }[post.category || ""] || "Overzicht";
 
   return (
     <Layout>
@@ -103,27 +118,29 @@ export default function PostPage({
         }
       />
 
-      {/* 🔹 Terugknop */}
+      {/* 🔹 Terugknoppen */}
       <div className="max-w-screen-xl mx-auto px-4 mt-8 flex flex-wrap gap-3">
-        <Link
-          href={
-            post.category === "inspiratie" || post.category === "tips"
-              ? "/inspiratie"
-              : post.category
-              ? `/categorie/${post.category}`
-              : "/"
-          }
+        {/* 1) Echte “Terug” via history */}
+        <button
+          type="button"
+          onClick={() => {
+            if (typeof window !== "undefined" && window.history.length > 1) {
+              router.back();
+              return;
+            }
+            router.push(fallbackHref);
+          }}
           className="inline-block bg-skyBlue hover:bg-skyBlue/80 text-white font-semibold py-3 px-6 rounded-lg transition"
         >
-          ← Terug naar{" "}
-          {{
-            "opas-blog": "Opa’s Blog",
-            gidsen: "Gidsen",
-            praktisch: "Praktisch",
-            inspiratie: "Inspiratie",
-            tips: "Inspiratie",
-            shop: "Shop",
-          }[post.category || ""] || "Overzicht"}
+          ← Terug
+        </button>
+
+        {/* 2) Optioneel: vaste link naar overzicht (handig voor gebruikers) */}
+        <Link
+          href={fallbackHref}
+          className="inline-block bg-white border border-skyBlue text-skyBlue font-semibold py-3 px-6 rounded-lg transition hover:bg-skyBlue/10"
+        >
+          Naar {categoryLabel}
         </Link>
       </div>
 
@@ -132,34 +149,33 @@ export default function PostPage({
         {/* Artikelinhoud */}
         <div>
           <article
-  className="
-    prose prose-sky lg:prose-lg xl:prose-xl
-    font-body leading-relaxed text-gray-800
-    prose-img:rounded-xl max-w-full
+            className="
+              prose prose-sky lg:prose-lg xl:prose-xl
+              font-body leading-relaxed text-gray-800
+              prose-img:rounded-xl max-w-full
 
-    prose-table:w-full
-    prose-table:border-collapse
-    prose-table:my-8
+              prose-table:w-full
+              prose-table:border-collapse
+              prose-table:my-8
 
-    prose-th:bg-skyBlue/10
-    prose-th:text-darkCornflower
-    prose-th:font-semibold
-    prose-th:p-3
-    prose-th:border
-    prose-th:border-gray-200
+              prose-th:bg-skyBlue/10
+              prose-th:text-darkCornflower
+              prose-th:font-semibold
+              prose-th:p-3
+              prose-th:border
+              prose-th:border-gray-200
 
-    prose-td:p-3
-    prose-td:border
-    prose-td:border-gray-200
+              prose-td:p-3
+              prose-td:border
+              prose-td:border-gray-200
 
-    prose-tr:align-top
-  "
->
-  <MDXRemote {...mdxSource} components={components} />
-</article>
+              prose-tr:align-top
+            "
+          >
+            <MDXRemote {...mdxSource} components={components} />
+          </article>
 
-
-          {/* 🔹 Nieuw: regio-links */}
+          {/* 🔹 Regio-links */}
           <PostRegions post={post} />
 
           {/* 🔹 Gerelateerde posts */}
@@ -229,7 +245,13 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const slugArray = Array.isArray(params?.slug) ? params.slug : [params?.slug];
+  const slugParam = params?.slug;
+  const slugArray = Array.isArray(slugParam)
+    ? slugParam
+    : typeof slugParam === "string"
+    ? [slugParam]
+    : [];
+
   const slug = slugArray.join("/");
 
   const post = getPostBySlug(slug);
@@ -242,12 +264,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const source = fs.readFileSync(filePath, "utf8");
 
   const mdxSource = await serialize(source, {
-  parseFrontmatter: true,
-  mdxOptions: {
-    remarkPlugins: [remarkGfm],
-  },
-});
-
+    parseFrontmatter: true,
+    mdxOptions: {
+      remarkPlugins: [remarkGfm],
+    },
+  });
 
   const allPosts = getAllPosts();
   const relatedPosts = allPosts
@@ -255,9 +276,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       (p) =>
         p.slug !== post.slug &&
         p.category === post.category &&
-        p.subcategories?.some((sub) =>
-          post.subcategories?.includes(sub)
-        )
+        p.subcategories?.some((sub) => post.subcategories?.includes(sub))
     )
     .slice(0, 3);
 
