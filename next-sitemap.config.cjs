@@ -67,6 +67,6 @@ module.exports = {
         ],
       },
     ],
-    additionalSitemaps: ["https://www.opakreta.be/sitemap-0.xml"],
+    additionalSitemaps: [],
   },
 };

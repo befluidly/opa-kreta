@@ -14,4 +14,3 @@ Host: https://www.opakreta.be
 
 # Sitemaps
 Sitemap: https://www.opakreta.be/sitemap.xml
-Sitemap: https://www.opakreta.be/sitemap-0.xml
