@@ -60,12 +60,12 @@ const NavBar = () => {
               >
                 Recepten
               </Link>
-              <Link
+              {/* <Link
                 href="/over"
                 className="hover:text-spanishBlue transition-colors"
               >
                 Over
-              </Link>
+              </Link> */}
               <Link
                 href="/contact"
                 className="hover:text-spanishBlue transition-colors"
