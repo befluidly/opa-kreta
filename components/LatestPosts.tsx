@@ -13,7 +13,7 @@ export default function LatestPosts({ posts }: LatestPostsProps) {
   Laatste artikels
 </h1>
 
-      <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 items-stretch">
+      <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-4 items-stretch">
         {posts.map((post) => (
           <Link
             key={post.slug}

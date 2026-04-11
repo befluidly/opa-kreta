@@ -53,7 +53,7 @@ export async function getStaticProps() {
       const dateB = postDateToTimestamp(b.date);
       return dateB - dateA;
     })
-    .slice(0, 3);
+    .slice(0, 4);
 
   return {
     props: { posts },
