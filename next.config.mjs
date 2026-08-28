@@ -1,18 +1,14 @@
-import createMDX from "@next/mdx";
-import remarkGfm from "remark-gfm";
+import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
 
-/**
- * ✅ Activeer MDX-ondersteuning
- */
-const withMDX = createMDX({
-  extension: /\.mdx?$/,
-  options: {
-    remarkPlugins: [remarkGfm],
-  },
-});
+initOpenNextCloudflareForDev();
 
 /**
  * ✅ Next.js Configuratie
+ *
+ * MDX-content (content/**\/*.mdx) wordt volledig gerenderd via
+ * `next-mdx-remote/rsc` (zie app/[...slug]/page.tsx en components/RecipeLayout.tsx).
+ * Er zijn geen .mdx-bestanden die als echte route/pagina fungeren, dus de
+ * `@next/mdx`-webpack/Turbopack-loader is hier niet nodig.
  */
 const nextConfig = {
   reactStrictMode: true,
@@ -24,7 +20,6 @@ const nextConfig = {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [{ protocol: "https", hostname: "**" }],
   },
-  pageExtensions: ["tsx", "ts", "jsx", "js", "mdx"],
 
   async redirects() {
     const isProduction = process.env.NODE_ENV === "production";
@@ -46,8 +41,13 @@ const nextConfig = {
         destination: "/categorie/:path*",
         permanent: true,
       },
+      {
+        source: "/categorie/shop",
+        destination: "/shop",
+        permanent: true,
+      },
     ];
   },
 };
 
-export default withMDX(nextConfig);
+export default nextConfig;

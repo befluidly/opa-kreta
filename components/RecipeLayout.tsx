@@ -1,7 +1,7 @@
-import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
+import { MDXRemote } from "next-mdx-remote/rsc";
+import remarkGfm from "remark-gfm";
 import Layout from "./Layout";
 import PageHero from "./PageHero";
-import { NextSeo } from "next-seo";
 import Link from "next/link";
 import { Post } from "../types/post";
 
@@ -15,30 +15,14 @@ import IntroBox from "./IntroBox";
 
 interface RecipeLayoutProps {
   post: Post;
-  mdxSource: MDXRemoteSerializeResult;
+  source: string;
 }
 
-export default function RecipeLayout({ post, mdxSource }: RecipeLayoutProps) {
-  const canonicalUrl = `https://www.opakreta.be/${post.slug}`;
+export default function RecipeLayout({ post, source }: RecipeLayoutProps) {
   const components = { AffiliateBox, ClimateBox, GreekPhrases, InfoBox, IntroBox };
 
   return (
     <Layout>
-      {/* SEO */}
-      <NextSeo
-        title={`${post.title} | Griekse Recepten`}
-        description={post.intro || post.excerpt?.slice(0, 160)} // ✅ nieuw veld + fallback
-        canonical={canonicalUrl}
-        openGraph={{
-          title: post.title,
-          description: post.intro || post.excerpt?.slice(0, 160),
-          url: canonicalUrl,
-          images: post.coverImage ? [{ url: post.coverImage }] : [],
-          siteName: "Opa Kreta",
-        }}
-      />
-
-
       {/* Hero */}
       <PageHero
         imageUrl={
@@ -74,7 +58,11 @@ export default function RecipeLayout({ post, mdxSource }: RecipeLayoutProps) {
 
           {/* Artikelinhoud */}
           <article className="recipe-content prose prose-sky lg:prose-lg xl:prose-xl font-body leading-relaxed text-gray-800 prose-img:rounded-xl max-w-full">
-            <MDXRemote {...mdxSource} components={components} />
+            <MDXRemote
+              source={source}
+              components={components}
+              options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
+            />
           </article>
         </div>
 
@@ -104,32 +92,6 @@ export default function RecipeLayout({ post, mdxSource }: RecipeLayoutProps) {
           )}
         </aside>
       </div>
-
-      {/* 🔹 Stijlen */}
-      <style jsx global>{`
-        .recipe-content h2 {
-          font-size: 1.5rem;
-          margin-top: 1.25rem; /* kleiner */
-          margin-bottom: 1rem;
-        }
-        .recipe-content h2:first-of-type {
-          margin-top: 0.75rem; /* eerste kop extra dicht bij excerpt */
-        }
-        .recipe-content h3 {
-          font-size: 1.25rem;
-          margin-top: 1.25rem;
-          margin-bottom: 0.75rem;
-        }
-        .recipe-content ul {
-          line-height: 1.3;
-          font-size: 1rem;
-        }
-        .recipe-content li {
-          margin-bottom: 0.35rem;
-          font-size: 1rem;
-          line-height: 1.5;
-        }
-      `}</style>
     </Layout>
   );
 }
