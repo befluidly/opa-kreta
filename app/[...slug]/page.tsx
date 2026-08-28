@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { MDXRemote } from "next-mdx-remote/rsc";
-import remarkGfm from "remark-gfm";
 import Layout from "../../components/Layout";
 import PageHero from "../../components/PageHero";
 import { getAllPosts, getPostBySlug } from "../../lib/api";
+import { getMdxComponent } from "../../lib/mdx";
 import Link from "next/link";
 import BackButton from "../../components/BackButton";
 import TagList from "../../components/TagList";
@@ -43,9 +42,6 @@ export async function generateStaticParams() {
   const posts = getAllPosts();
   return posts.map((p) => ({ slug: p.slug.split("/") }));
 }
-
-// Komt overeen met de oude `fallback: false`: onbekende paden geven altijd 404.
-export const dynamicParams = false;
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug: slugParts } = await params;
@@ -106,7 +102,7 @@ export default async function PostPage({ params }: PageProps) {
 
   // 🔹 Recepten krijgen aparte layout
   if (post.category === "recepten") {
-    return <RecipeLayout post={post} source={post.content} />;
+    return <RecipeLayout post={post} />;
   }
 
   const components = {
@@ -116,6 +112,8 @@ export default async function PostPage({ params }: PageProps) {
     IntroBox,
     InfoBox,
   };
+
+  const MdxContent = getMdxComponent(post.slug);
 
   const fallbackHref =
     post.category === "inspiratie" || post.category === "tips"
@@ -189,11 +187,7 @@ export default async function PostPage({ params }: PageProps) {
               prose-tr:align-top
             "
           >
-            <MDXRemote
-              source={post.content}
-              components={components}
-              options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
-            />
+            {MdxContent && <MdxContent components={components} />}
           </article>
 
           {/* 🔹 Regio-links */}

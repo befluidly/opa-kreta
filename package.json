@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "generate-content-data": "node scripts/generate-content-data.mjs",
+    "predev": "npm run generate-content-data",
     "dev": "next dev --webpack",
+    "prebuild": "npm run generate-content-data",
     "build": "next build --webpack && next-sitemap --config next-sitemap.config.cjs",
     "start": "next start",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
@@ -15,16 +18,15 @@
     "critters": "^0.0.25",
     "gray-matter": "^4.0.3",
     "next": "^16.3.3",
-    "next-mdx-remote": "^6.0.0",
     "next-sitemap": "^4.2.3",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-icons": "^5.5.0",
-    "remark-gfm": "^4.0.1",
     "resend": "^6.24.0",
     "tailwindcss": "^3.4.13"
   },
   "devDependencies": {
+    "@mdx-js/mdx": "^3.1.1",
     "@opennextjs/cloudflare": "^1.20.4",
     "@tailwindcss/typography": "^0.5.15",
     "@types/node": "^20.14.12",
@@ -32,6 +34,7 @@
     "@types/react-dom": "^19.2.3",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.47",
+    "remark-gfm": "^4.0.1",
     "typescript": "^5.9.3",
     "wrangler": "^4.127.0"
   },

@@ -29,9 +29,6 @@ export async function generateStaticParams() {
   return allTags.map((t) => ({ tag: toSlug(t) }));
 }
 
-// Komt overeen met de oude `fallback: false`: onbekende tags geven altijd 404.
-export const dynamicParams = false;
-
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { tag: tagSlug } = await params;
   const formattedTag = toTitle(tagSlug);

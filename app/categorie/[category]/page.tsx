@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import Layout from "../../../components/Layout";
 import PageHero from "../../../components/PageHero";
 import PostCard from "../../../components/PostCard";
@@ -40,9 +41,6 @@ export async function generateStaticParams() {
   return categories.map((c) => ({ category: c }));
 }
 
-// Komt overeen met de oude `fallback: false`: onbekende categorieën geven altijd 404.
-export const dynamicParams = false;
-
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { category } = await params;
   const pageTitle = titleMap[category] || category;
@@ -66,7 +64,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function CategoryPage({ params }: PageProps) {
   const { category } = await params;
-  const posts = getAllPosts().filter((p) => p.category === category);
+  const allPosts = getAllPosts();
+  const knownCategories = new Set(allPosts.map((p) => p.category).filter(Boolean));
+  if (!knownCategories.has(category)) {
+    notFound();
+  }
+  const posts = allPosts.filter((p) => p.category === category);
 
   const pageTitle = titleMap[category] || category;
   const pageSubtitle = subtitleMap[category] || "Artikels in deze categorie";

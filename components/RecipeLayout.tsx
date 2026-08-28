@@ -1,9 +1,8 @@
-import { MDXRemote } from "next-mdx-remote/rsc";
-import remarkGfm from "remark-gfm";
 import Layout from "./Layout";
 import PageHero from "./PageHero";
 import Link from "next/link";
 import { Post } from "../types/post";
+import { getMdxComponent } from "../lib/mdx";
 
 import TagList from "./TagList";
 import AffiliateSidebarBox from "./AffiliateSidebarBox";
@@ -15,11 +14,11 @@ import IntroBox from "./IntroBox";
 
 interface RecipeLayoutProps {
   post: Post;
-  source: string;
 }
 
-export default function RecipeLayout({ post, source }: RecipeLayoutProps) {
+export default function RecipeLayout({ post }: RecipeLayoutProps) {
   const components = { AffiliateBox, ClimateBox, GreekPhrases, InfoBox, IntroBox };
+  const MdxContent = getMdxComponent(post.slug);
 
   return (
     <Layout>
@@ -58,11 +57,7 @@ export default function RecipeLayout({ post, source }: RecipeLayoutProps) {
 
           {/* Artikelinhoud */}
           <article className="recipe-content prose prose-sky lg:prose-lg xl:prose-xl font-body leading-relaxed text-gray-800 prose-img:rounded-xl max-w-full">
-            <MDXRemote
-              source={source}
-              components={components}
-              options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
-            />
+            {MdxContent && <MdxContent components={components} />}
           </article>
         </div>
 
