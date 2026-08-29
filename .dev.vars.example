@@ -1,0 +1,9 @@
+# Kopieer dit bestand naar `.dev.vars` voor lokale ontwikkeling met `wrangler dev` / `npm run preview`.
+# `.dev.vars` zelf wordt nooit gecommit (zie .gitignore).
+
+# Selecteert welke Next.js .env-omgeving lokaal geladen wordt op de Worker runtime.
+NEXTJS_ENV=development
+
+# API key voor Resend (https://resend.com), gebruikt door het contactformulier
+# (app/contact/actions.ts) om e-mails te versturen naar opa@opakreta.be.
+RESEND_API_KEY=

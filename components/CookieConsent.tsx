@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from "react";
 
 // ✅ TypeScript fix – voeg dataLayer toe aan window
