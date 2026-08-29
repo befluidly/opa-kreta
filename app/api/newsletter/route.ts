@@ -28,9 +28,7 @@ export async function POST(request: Request) {
 
     const resend = new Resend(apiKey);
     const { error } = await resend.emails.send({
-      // ⚠️ Zolang opakreta.be niet als domein geverifieerd is bij Resend moet
-      // hier het gratis Resend-testadres blijven staan, anders weigert Resend de mail.
-      from: "Opa Kreta <onboarding@resend.dev>",
+      from: "Opa Kreta <noreply@opakreta.be>",
       to: "opa@opakreta.be",
       replyTo: email,
       subject: "Nieuwe nieuwsbrief-inschrijving (Opa Kreta)",
