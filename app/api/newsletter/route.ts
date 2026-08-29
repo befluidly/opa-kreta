@@ -29,7 +29,7 @@ export async function POST(request: Request) {
     const resend = new Resend(apiKey);
     const { error } = await resend.emails.send({
       from: "Opa Kreta <noreply@opakreta.be>",
-      to: "opa@opakreta.be",
+      to: "gizzylynne@gmail.com",
       replyTo: email,
       subject: "Nieuwe nieuwsbrief-inschrijving (Opa Kreta)",
       text: `Nieuwe inschrijving:\n\nEmail: ${email}\nTijdstip: ${new Date().toISOString()}\n`,

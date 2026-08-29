@@ -40,7 +40,7 @@ export async function submitContactForm(
     const resend = new Resend(apiKey);
     const { error } = await resend.emails.send({
       from: "Opa Kreta contactformulier <noreply@opakreta.be>",
-      to: "opa@opakreta.be",
+      to: "gizzylynne@gmail.com",
       replyTo: email,
       subject: `Nieuw bericht via het contactformulier van ${name}`,
       text: `Naam: ${name}\nE-mail: ${email}\n\n${message}`,
