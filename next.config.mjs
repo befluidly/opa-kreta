@@ -21,21 +21,10 @@ const nextConfig = {
     remotePatterns: [{ protocol: "https", hostname: "**" }],
   },
 
+  // De apex→www-redirect (opakreta.be -> www.opakreta.be) staat niet hier,
+  // maar in middleware.ts — zie de toelichting daar.
   async redirects() {
-    const isProduction = process.env.NODE_ENV === "production";
-
     return [
-      ...(isProduction
-        ? [
-            {
-              source: "/:path*",
-              has: [{ type: "host", value: "opakreta.be" }],
-              destination: "https://www.opakreta.be/:path*",
-              permanent: true,
-            },
-          ]
-        : []),
-
       {
         source: "/categorie/category/:path*",
         destination: "/categorie/:path*",
