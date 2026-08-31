@@ -129,6 +129,17 @@ html {
   font-size: 1.25rem;
   margin-top: 1.25rem;
   margin-bottom: 0.75rem;
+  line-height: 1.6;
+}
+@media (min-width: 1024px) {
+  .recipe-content h2 {
+    line-height: 1.5;
+  }
+}
+@media (min-width: 1280px) {
+  .recipe-content h2 {
+    line-height: 1.3333333;
+  }
 }
 .recipe-content ul {
   line-height: 1.3;
