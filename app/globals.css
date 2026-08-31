@@ -30,6 +30,55 @@
   @apply font-title font-semibold text-gray-900;
 }
 
+/* Kopniveau-correctie (audit MDX heading-hiërarchie): secties die
+   voorheen h3 waren zijn nu h2, en voorheen-h4-subsecties zijn nu h3. Deze
+   regels geven ze exact de oude Tailwind Typography h3/h4-opmaak
+   (font-size/margin/line-height uit @tailwindcss/typography 0.5.20) zodat
+   het HTML-niveau verandert zonder dat het uiterlijk verandert.
+   .recipe-content heeft zijn eigen regels (zie onderaan dit bestand).
+   .article-legacy-title-kept (8 artikelen die hun oorspronkelijke
+   titelregel als h2 behielden) had geen h3/h4-promotie nodig, dus die
+   krijgen geen h3-compensatie — hun secties/subsecties staan al op hun
+   oorspronkelijke niveau. */
+.prose:not(.recipe-content) h2 {
+  font-size: 1.25em;
+  margin-top: 1.6em;
+  margin-bottom: 0.6em;
+  line-height: 1.6;
+}
+.prose:not(.recipe-content):not(.article-legacy-title-kept) h3 {
+  font-size: 1em;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  line-height: 1.5;
+}
+@media (min-width: 1024px) {
+  .prose:not(.recipe-content) h2 {
+    font-size: 1.3333333em;
+    margin-top: 1.6666667em;
+    margin-bottom: 0.6666667em;
+    line-height: 1.5;
+  }
+  .prose:not(.recipe-content):not(.article-legacy-title-kept) h3 {
+    margin-top: 1.7777778em;
+    margin-bottom: 0.4444444em;
+    line-height: 1.5555556;
+  }
+}
+@media (min-width: 1280px) {
+  .prose:not(.recipe-content) h2 {
+    font-size: 1.5em;
+    margin-top: 1.6em;
+    margin-bottom: 0.6666667em;
+    line-height: 1.3333333;
+  }
+  .prose:not(.recipe-content):not(.article-legacy-title-kept) h3 {
+    margin-top: 1.8em;
+    margin-bottom: 0.6em;
+    line-height: 1.6;
+  }
+}
+
 .prose p {
   @apply font-body text-[17px] leading-relaxed text-gray-800;
 }
@@ -72,19 +121,25 @@ html {
   animation: fade-in 0.5s ease-in-out;
 }
 
-/* Recept-artikelen (zie components/RecipeLayout.tsx) */
+/* Recept-artikelen (zie components/RecipeLayout.tsx). Alle kopjes
+   (Ingrediënten/Bereiding/...) waren h3 en zijn nu h2 (kopniveau-correctie,
+   RecipeLayout rendert de titel al apart als h1) — deze regel geeft h2
+   exact de vroegere h3-opmaak, zodat het uiterlijk niet verandert. */
 .recipe-content h2 {
-  font-size: 1.5rem;
-  margin-top: 1.25rem; /* kleiner */
-  margin-bottom: 1rem;
-}
-.recipe-content h2:first-of-type {
-  margin-top: 0.75rem; /* eerste kop extra dicht bij excerpt */
-}
-.recipe-content h3 {
   font-size: 1.25rem;
   margin-top: 1.25rem;
   margin-bottom: 0.75rem;
+  line-height: 1.6;
+}
+@media (min-width: 1024px) {
+  .recipe-content h2 {
+    line-height: 1.5;
+  }
+}
+@media (min-width: 1280px) {
+  .recipe-content h2 {
+    line-height: 1.3333333;
+  }
 }
 .recipe-content ul {
   line-height: 1.3;

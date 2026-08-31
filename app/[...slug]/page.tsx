@@ -28,6 +28,22 @@ interface PageProps {
   params: Promise<{ slug: string[] }>;
 }
 
+// Artikelen waarvan de MDX-body haar oorspronkelijke titelregel (nu als
+// gewone ## Titel-kop) heeft behouden i.p.v. verwijderd, omdat die tekst
+// merkbaar specifieker/beter is dan de frontmatter-titel (zie PR-
+// beschrijving). Hun h3/h4-secties zijn niet opgeschoven en moeten dus hun
+// oorspronkelijke Tailwind Typography-opmaak behouden — zie globals.css.
+const LEGACY_TITLE_KEPT_SLUGS = new Set([
+  "gidsen/chania/bezienswaardigheden-chania",
+  "gidsen/eten-en-drinken/taverne-me-raki",
+  "gidsen/heraklion/daguitstap-vanuit-chersonissos",
+  "gidsen/heraklion/knossos-hoe-lang-heb-je-nodig",
+  "gidsen/lassithi/agios-nikolaos",
+  "gidsen/lassithi/spinalonga",
+  "gidsen/lassithi/vai-beach",
+  "tips/muziek/melina-merkouri",
+]);
+
 const categoryLabels: Record<string, string> = {
   "opas-blog": "Opa’s Blog",
   gidsen: "Gidsen",
@@ -163,8 +179,12 @@ export default async function PostPage({ params }: PageProps) {
       <div className="max-w-screen-xl mx-auto px-4 mt-10 grid grid-cols-1 md:grid-cols-[3fr_1fr] gap-10 mb-20">
         {/* Artikelinhoud */}
         <div>
+          <h1 className="text-5xl font-title font-semibold text-black mb-4 leading-tight max-w-none">
+            {post.title}
+          </h1>
+
           <article
-            className="
+            className={`
               prose prose-sky lg:prose-lg xl:prose-xl
               font-body leading-relaxed text-gray-800
               prose-img:rounded-xl max-w-full
@@ -185,7 +205,8 @@ export default async function PostPage({ params }: PageProps) {
               prose-td:border-gray-200
 
               prose-tr:align-top
-            "
+              ${LEGACY_TITLE_KEPT_SLUGS.has(post.slug) ? "article-legacy-title-kept" : ""}
+            `}
           >
             {MdxContent && <MdxContent components={components} />}
           </article>
