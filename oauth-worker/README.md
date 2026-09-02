@@ -12,7 +12,9 @@ volledig los van de hoofdsite (`opakreta`-worker) en wordt apart gedeployed.
 
 ## Eenmalige setup (door de site-eigenaar of iemand met Cloudflare/GitHub-toegang)
 
-1. **Deze worker deployen naar Cloudflare:**
+1. **Deze worker deployen naar Cloudflare** — twee manieren, kies er één:
+
+   **Optie A — via de terminal (`wrangler` CLI):**
    ```bash
    cd oauth-worker
    npm install
@@ -20,6 +22,26 @@ volledig los van de hoofdsite (`opakreta`-worker) en wordt apart gedeployed.
    ```
    Na deployen toont Wrangler de worker-URL, iets als
    `https://opakreta-cms-auth.<jouw-subdomein>.workers.dev`. Noteer die URL.
+
+   **Optie B — via het Cloudflare-dashboard (geen terminal nodig):**
+   Workers & Pages → **Create** → **Workers** → **Connect to Git**, kies deze
+   repository. Belangrijk:
+   - **Root directory**: `oauth-worker` (niet de repo-root — anders vindt
+     Cloudflare `wrangler.toml` niet en faalt de build, of bouwt het
+     per ongeluk de hoofdsite in plaats van deze worker).
+   - Build command mag leeg blijven: dit is een kale Worker zonder
+     bundel-stap, Cloudflare leest `wrangler.toml` en deployt rechtstreeks.
+   - De worker-projectnaam komt overeen met `name` in `wrangler.toml`
+     (`opakreta-cms-auth`) — zie de "Domains & Routes"-tab na de eerste
+     deploy voor de definitieve `workers.dev`-URL.
+   - **Handmatig opnieuw deployen** (bv. na een instelling wijzigen) kan via
+     de **Deployments**-tab: `...`-menu bij de laatste deployment. Staat daar
+     geen "Retry deployment"-optie, dan triggert een nieuwe push naar de
+     gekoppelde branch (van eender welk bestand in `oauth-worker/`) sowieso
+     een nieuwe build.
+   - Secrets (`GITHUB_CLIENT_ID`/`GITHUB_CLIENT_SECRET`, zie stap 3) zet je
+     in dat geval via **Settings → Variables and Secrets** i.p.v.
+     `wrangler secret put`.
 
 2. **Een GitHub OAuth App registreren** op
    https://github.com/settings/applications/new (met het GitHub-account dat
@@ -31,7 +53,8 @@ volledig los van de hoofdsite (`opakreta`-worker) en wordt apart gedeployed.
    Klik daarna op **Generate a new client secret**. Noteer de **Client ID**
    en **Client Secret** die verschijnen (het geheim is maar één keer zichtbaar).
 
-3. **De secrets instellen op de worker:**
+3. **De secrets instellen op de worker** (via de terminal — zie Optie B
+   hierboven voor het dashboard-equivalent):
    ```bash
    npx wrangler secret put GITHUB_CLIENT_ID
    npx wrangler secret put GITHUB_CLIENT_SECRET
