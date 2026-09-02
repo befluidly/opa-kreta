@@ -49,6 +49,32 @@ function safeString(value) {
   return typeof value === "string" ? value : "";
 }
 
+// Meertaligheid (Sveltia CMS i18n.structure: multiple_folders, zie
+// public/admin/config.yml): de standaardtaal (nl) staat via
+// omit_default_locale_from_file_path NOOIT als los padsegment in content/ —
+// enkel Engelse bestanden krijgen een "en"-segment, ergens ná de
+// collectie-folder (die per collectie een andere diepte kan hebben, bv.
+// "tips/muziek" is zelf al 2 niveaus diep). Omdat geen enkele bestaande
+// categorie-, subcategorie- of bestandsnaam ooit letterlijk "en" heet, is
+// een simpele, diepte-onafhankelijke regel voldoende: het eerste losse
+// "en"-padsegment (waar dan ook) markeert de Engelse versie; alles zonder
+// zo'n segment is Nederlands. `canonicalSlug` is het pad zonder dat
+// locale-segment — dezelfde waarde voor de nl- en de en-versie van eenzelfde
+// artikel, en dus de sleutel om vertaalde tegenhangers aan elkaar te koppelen.
+function splitLocale(relativeSlug) {
+  const parts = relativeSlug.split("/");
+  const localeIndex = parts.indexOf("en");
+
+  if (localeIndex === -1) {
+    return { locale: "nl", canonicalSlug: relativeSlug };
+  }
+
+  const canonicalSlug = [...parts.slice(0, localeIndex), ...parts.slice(localeIndex + 1)].join(
+    "/"
+  );
+  return { locale: "en", canonicalSlug };
+}
+
 function getAllContentFiles(dir) {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
 
@@ -65,7 +91,11 @@ function buildPost(filePath) {
   const { data, content } = matter(fileContents);
 
   const relativePath = path.relative(contentDirectory, filePath);
-  const slug = relativePath.replace(/\\/g, "/").replace(/\.mdx?$/, "");
+  const rawSlug = relativePath.replace(/\\/g, "/").replace(/\.mdx?$/, "");
+  const { locale, canonicalSlug } = splitLocale(rawSlug);
+  // Route-slug: ongewijzigd voor nl (blijft exact het bestaande pad — geen
+  // van de 48 bestaande NL-URL's verandert), en/-geprefixt voor en.
+  const slug = locale === "nl" ? canonicalSlug : `en/${canonicalSlug}`;
 
   return {
     slug,
@@ -85,6 +115,8 @@ function buildPost(filePath) {
         : [],
     tags: Array.isArray(data.tags) ? data.tags : [],
     content: typeof content === "string" ? content : "",
+    locale,
+    canonicalSlug,
     // Optionele, gestructureerde receptvelden (CMS) — gewoon doorgegeven
     // zoals ze zijn, geen normalisatie nodig zoals bij subcategories.
     prepTime: safeString(data.prepTime) || undefined,
