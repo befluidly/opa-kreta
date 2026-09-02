@@ -75,6 +75,14 @@ volledig los van de hoofdsite (`opakreta`-worker) en wordt apart gedeployed.
      in dat geval via **Settings → Variables and Secrets** i.p.v.
      `wrangler secret put`.
 
+   **Snel controleren dat de juiste worker is gedeployed**, vóór je verder
+   gaat met de OAuth App (stap 2): open `<worker-URL>/auth` in de browser.
+   Zie je de tekst "Your Git backend is not supported by the authenticator."
+   (een pagina van deze worker zelf, want er ontbreken query-parameters),
+   dan is de juiste code live. Krijg je Cloudflare's generieke foutpagina of
+   iets dat op de hoofdsite lijkt, dan is er nog steeds het verkeerde
+   entrypoint gedeployed — zie de vorige stap.
+
 2. **Een GitHub OAuth App registreren** op
    https://github.com/settings/applications/new (met het GitHub-account dat
    schrijftoegang heeft tot deze repository):
