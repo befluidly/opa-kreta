@@ -29,6 +29,18 @@ volledig los van de hoofdsite (`opakreta`-worker) en wordt apart gedeployed.
    - **Root directory**: `oauth-worker` (niet de repo-root — anders vindt
      Cloudflare `wrangler.toml` niet en faalt de build, of bouwt het
      per ongeluk de hoofdsite in plaats van deze worker).
+   - **Controleer in het build-log of dit ook echt is toegepast** — het
+     dashboard-veld kan de juiste waarde tonen zonder dat een build hem
+     effectief gebruikt (bv. als de instelling op het verkeerde Cloudflare-
+     project staat, of niet goed werd opgeslagen). Aan deze regels in het
+     log herken je een verkeerd gescopete build: `npm run build` dat
+     "content-bestanden ingelezen" of `next build` meldt (dat is het
+     build-script van de hoofdsite — `oauth-worker` heeft zelf geen
+     `build`-script),
+     of een pad zoals `/opt/buildhome/repo/next-sitemap.config.cjs` **zonder**
+     `oauth-worker/` erin. Een correcte build toont enkel
+     `npx wrangler deploy` (of `versions upload`) tegen `oauth-worker/src/index.js`,
+     zonder Next.js-stappen ervoor.
    - Build command mag leeg blijven: dit is een kale Worker zonder
      bundel-stap, Cloudflare leest `wrangler.toml` en deployt rechtstreeks.
    - De worker-projectnaam komt overeen met `name` in `wrangler.toml`
