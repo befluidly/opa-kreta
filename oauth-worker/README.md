@@ -54,9 +54,13 @@ volledig los van de hoofdsite (`opakreta`-worker) en wordt apart gedeployed.
      ook al is Root directory correct ingesteld én toegepast op de install.
      Vermoedelijke oorzaak: het Cloudflare-project heeft zijn
      entrypoint/config-resolutie gecachet van vóór Root directory werd
-     gecorrigeerd, en een instelling wijzigen ververst die cache niet altijd.
-     Kijk eerst of er een aparte "Path to Wrangler configuration"-instelling
-     bestaat (los van Root directory) en zet die expliciet op
+     gecorrigeerd, en een instelling wijzigen ververst die cache niet altijd
+     — te herkennen aan `Restoring from dependencies cache` /
+     `Restoring from build output cache`-regels bovenaan het build-log.
+     **Probeer eerst Settings → Build → Build cache → Clear Cache** (minder
+     drastisch dan hieronder) en trigger daarna een nieuwe deployment. Helpt
+     dat niet, kijk dan of er een aparte "Path to Wrangler configuration"-
+     instelling bestaat (los van Root directory) en zet die expliciet op
      `oauth-worker/wrangler.toml`; is die er niet, dan is het Worker-project
      opnieuw aanmaken (met Root directory meteen goed ingesteld bij het
      aanmaken, niet achteraf gewijzigd) de betrouwbaarste fix.
