@@ -1,19 +1,19 @@
 import type { Metadata } from "next";
-import Layout from "../../../../components/Layout";
-import PageHero from "../../../../components/PageHero";
-import SubcategoryPosts from "../../../../components/SubcategoryPosts";
-import { getAllPosts } from "../../../../lib/api";
-import { regionInfo } from "../../../../lib/regionInfo";
+import Layout from "../../../../../../components/Layout";
+import PageHero from "../../../../../../components/PageHero";
+import SubcategoryPosts from "../../../../../../components/SubcategoryPosts";
+import { getAllPosts } from "../../../../../../lib/api";
+import { regionInfo } from "../../../../../../lib/regionInfo";
 
 interface PageProps {
   params: Promise<{ category: string; subcategory: string }>;
 }
 
 const titleMap: Record<string, string> = {
-  gidsen: "Kreta Reisgidsen",
-  "opas-blog": "Opa’s Blog",
-  praktisch: "Praktische Tips",
-  tips: "Tavernas & Aanraders",
+  gidsen: "Crete Travel Guides",
+  "opas-blog": "Opa's Blog",
+  praktisch: "Practical Tips",
+  tips: "Tavernas & Recommendations",
   shop: "Shop & E-books",
 };
 
@@ -36,7 +36,7 @@ const heroSubMap: Record<string, string> = {
 };
 
 export async function generateStaticParams() {
-  const posts = getAllPosts();
+  const posts = getAllPosts(undefined, "en");
   const paths: { category: string; subcategory: string }[] = [];
 
   for (const p of posts) {
@@ -56,9 +56,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const formattedSubcategory = subcategory
     .replace(/-/g, " ")
     .replace(/\b\w/g, (l) => l.toUpperCase());
-  const canonicalUrl = `https://www.opakreta.be/categorie/${category}/${subcategory}`;
+  const canonicalUrl = `https://www.opakreta.be/en/categorie/${category}/${subcategory}`;
   const title = `${pageTitle}: ${formattedSubcategory}`;
-  const description = `Alle artikels binnen ${formattedSubcategory}`;
+  const description = `All articles about ${formattedSubcategory}`;
 
   return {
     title,
@@ -74,7 +74,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-export default async function SubCategoryPage({ params }: PageProps) {
+export default async function EnglishSubCategoryPage({ params }: PageProps) {
   const { category, subcategory } = await params;
 
   const pageTitle = titleMap[category] || category;
@@ -82,7 +82,7 @@ export default async function SubCategoryPage({ params }: PageProps) {
     .replace(/-/g, " ")
     .replace(/\b\w/g, (l) => l.toUpperCase());
 
-  const allPosts = getAllPosts();
+  const allPosts = getAllPosts(undefined, "en");
   const posts = allPosts.filter(
     (p) => p.category === category && p.subcategories?.includes(subcategory)
   );
@@ -92,7 +92,7 @@ export default async function SubCategoryPage({ params }: PageProps) {
       {/* ✅ Hero */}
       <PageHero
         title={`${pageTitle}: ${formattedSubcategory}`}
-        subtitle={`Ontdek de mooiste plekken van ${formattedSubcategory}`}
+        subtitle={`Discover the best of ${formattedSubcategory}`}
         imageUrl={
           heroSubMap[subcategory] || heroImageMap[category] || heroImageMap["gidsen"]
         }
@@ -107,11 +107,10 @@ export default async function SubCategoryPage({ params }: PageProps) {
         {/* ✅ Terugkeerknop */}
         <div className="mb-8">
           <a
-            href={`/categorie/${category}`}
+            href={`/en/categorie/${category}`}
             className="inline-flex items-center gap-2 text-skyBlue font-medium hover:underline"
           >
-            ← Keer terug naar alle{" "}
-            {category === "gidsen" ? "reisgidsen" : "artikels"}
+            ← Back to all {category === "gidsen" ? "guides" : "articles"}
           </a>
         </div>
       </div>
@@ -149,7 +148,7 @@ export default async function SubCategoryPage({ params }: PageProps) {
                 </ul>
               </>
             ) : (
-              <p>Geen extra informatie beschikbaar voor deze regio.</p>
+              <p>No additional information available for this region yet.</p>
             )}
           </div>
         </aside>

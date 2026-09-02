@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Layout from "../../components/Layout";
-import PageHero from "../../components/PageHero";
+import Layout from "../../../components/Layout";
+import PageHero from "../../../components/PageHero";
 
 export const metadata: Metadata = {
   title: "Over Opa Kreta",

@@ -1,28 +1,28 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Layout from "../../../components/Layout";
-import PageHero from "../../../components/PageHero";
-import PostCard from "../../../components/PostCard";
-import { getAllPosts } from "../../../lib/api";
+import Layout from "../../../../../components/Layout";
+import PageHero from "../../../../../components/PageHero";
+import PostCard from "../../../../../components/PostCard";
+import { getAllPosts } from "../../../../../lib/api";
 
 interface PageProps {
   params: Promise<{ category: string }>;
 }
 
 const titleMap: Record<string, string> = {
-  "opas-blog": "Opa’s Blog",
-  gidsen: "Kreta Reisgidsen",
-  praktisch: "Praktische informatie",
+  "opas-blog": "Opa's Blog",
+  gidsen: "Crete Travel Guides",
+  praktisch: "Practical Information",
   shop: "Shop & E-books",
-  recepten: "Griekse recepten",
+  recepten: "Greek Recipes",
 };
 
 const subtitleMap: Record<string, string> = {
-  "opas-blog": "Verhalen en gedachten van Opa op Kreta",
-  gidsen: "Ontdek de mooiste stranden, dorpen en kloven van Kreta",
-  praktisch: "Handige info voor een zorgeloze reis",
-  shop: "Onze digitale gidsen en partners",
-  recepten: "Authentieke gerechten van Kreta en heel Griekenland",
+  "opas-blog": "Stories and thoughts from Opa on Crete",
+  gidsen: "Discover the most beautiful beaches, villages and gorges of Crete",
+  praktisch: "Handy info for a worry-free trip",
+  shop: "Our digital guides and partners",
+  recepten: "Authentic dishes from Crete and Greece",
 };
 
 const heroMap: Record<string, string> = {
@@ -34,7 +34,7 @@ const heroMap: Record<string, string> = {
 };
 
 export async function generateStaticParams() {
-  const posts = getAllPosts();
+  const posts = getAllPosts(undefined, "en");
   const categories = Array.from(
     new Set(posts.map((p) => p.category).filter(Boolean))
   ) as string[];
@@ -44,9 +44,9 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { category } = await params;
   const pageTitle = titleMap[category] || category;
-  const pageSubtitle = subtitleMap[category] || "Artikels in deze categorie";
+  const pageSubtitle = subtitleMap[category] || "Articles in this category";
   const heroImage = heroMap[category] || heroMap["gidsen"];
-  const canonicalUrl = `https://www.opakreta.be/categorie/${category}`;
+  const canonicalUrl = `https://www.opakreta.be/en/categorie/${category}`;
 
   return {
     title: pageTitle,
@@ -62,9 +62,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-export default async function CategoryPage({ params }: PageProps) {
+export default async function EnglishCategoryPage({ params }: PageProps) {
   const { category } = await params;
-  const allPosts = getAllPosts();
+  const allPosts = getAllPosts(undefined, "en");
   const knownCategories = new Set(allPosts.map((p) => p.category).filter(Boolean));
   if (!knownCategories.has(category)) {
     notFound();
@@ -72,7 +72,7 @@ export default async function CategoryPage({ params }: PageProps) {
   const posts = allPosts.filter((p) => p.category === category);
 
   const pageTitle = titleMap[category] || category;
-  const pageSubtitle = subtitleMap[category] || "Artikels in deze categorie";
+  const pageSubtitle = subtitleMap[category] || "Articles in this category";
   const heroImage = heroMap[category] || heroMap["gidsen"];
 
   // 🔹 Subcategorieën bepalen (rekening houdend met meerdere per post)
@@ -94,20 +94,13 @@ export default async function CategoryPage({ params }: PageProps) {
         <div className="text-gray-700 font-body leading-relaxed">
           {category === "gidsen" ? (
             <p>
-              Ontdek de mooiste stranden, dorpen en kloven van Kreta. Onze
-              reisgidsen brengen je op plekken die je niet in toeristische
-              folders vindt.
+              Discover the most beautiful beaches, villages and gorges of Crete. Our
+              travel guides take you to places you won't find in the tourist brochures.
             </p>
           ) : category === "praktisch" ? (
-            <p>
-              Alles wat je moet weten voor je reis naar Kreta — van autohuur tot
-              geldzaken.
-            </p>
+            <p>Everything you need to know for your trip to Crete — from renting a car to money matters.</p>
           ) : category === "shop" ? (
-            <p>
-              Steun Opa’s Kreta met onze digitale gidsen en e-books, of boek
-              via onze betrouwbare partners.
-            </p>
+            <p>Support Opa's Kreta with our digital guides and e-books, or book through our trusted partners.</p>
           ) : (
             <p>{pageSubtitle}</p>
           )}
@@ -154,10 +147,10 @@ export default async function CategoryPage({ params }: PageProps) {
                     {sub.replace(/-/g, " ")}
                   </h2>
                   <a
-                    href={`/categorie/${category}/${sub}`}
+                    href={`/en/categorie/${category}/${sub}`}
                     className="text-sm text-skyBlue hover:underline"
                   >
-                    Naar alle artikels →
+                    View all articles →
                   </a>
                 </div>
 
@@ -178,10 +171,10 @@ export default async function CategoryPage({ params }: PageProps) {
                 {/* Knop onderaan */}
                 <div className="mt-6 text-left">
                   <a
-                    href={`/categorie/${category}/${sub}`}
+                    href={`/en/categorie/${category}/${sub}`}
                     className="inline-block bg-skyBlue text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-sky-600 transition"
                   >
-                    Bekijk alle artikels over{" "}
+                    View all articles about{" "}
                     {sub
                       .replace(/-/g, " ")
                       .replace(/\b\w/g, (char) => char.toUpperCase())}{" "}
@@ -208,7 +201,7 @@ export default async function CategoryPage({ params }: PageProps) {
             ))
           ) : (
             <p className="text-gray-600 text-center col-span-full">
-              Geen artikels gevonden.
+              No articles found yet in English — check back soon.
             </p>
           )}
         </div>
