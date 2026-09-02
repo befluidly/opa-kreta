@@ -18,9 +18,11 @@ volledig los van de hoofdsite (`opakreta`-worker) en wordt apart gedeployed.
    ```bash
    cd oauth-worker
    npm install
-   npx wrangler deploy
+   npx wrangler deploy --config wrangler.toml
    ```
-   Na deployen toont Wrangler de worker-URL, iets als
+   De `--config wrangler.toml`-vlag is hier niet optioneel — zie de
+   toelichting bij Optie B hieronder voor waarom. Na deployen toont Wrangler
+   de worker-URL, iets als
    `https://opakreta-cms-auth.<jouw-subdomein>.workers.dev`. Noteer die URL.
 
    **Optie B — via het Cloudflare-dashboard (geen terminal nodig):**
@@ -43,27 +45,24 @@ volledig los van de hoofdsite (`opakreta`-worker) en wordt apart gedeployed.
      zonder Next.js-stappen ervoor.
    - Build command mag leeg blijven: dit is een kale Worker zonder
      bundel-stap, Cloudflare leest `wrangler.toml` en deployt rechtstreeks.
-   - **Een subtielere variant van hetzelfde probleem**: de installatiestap
-     draait al correct binnen `oauth-worker/` (je ziet enkel de ~37-40
-     dependencies van dit kleine project, geen Next.js-installatie), maar de
-     deploy-stap (`npx wrangler deploy` / `versions upload`) klaagt toch over
-     een ontbrekend `.open-next/worker.js`-entrypoint. Dat pad bestaat enkel
-     in het `wrangler.jsonc` van de hoofdsite (repo-root), nooit in
-     `oauth-worker/wrangler.toml` (`main = "src/index.js"`) — dus als dit
-     opduikt, gebruikt de deploy-stap het verkeerde configuratiebestand,
-     ook al is Root directory correct ingesteld én toegepast op de install.
-     Vermoedelijke oorzaak: het Cloudflare-project heeft zijn
-     entrypoint/config-resolutie gecachet van vóór Root directory werd
-     gecorrigeerd, en een instelling wijzigen ververst die cache niet altijd
-     — te herkennen aan `Restoring from dependencies cache` /
-     `Restoring from build output cache`-regels bovenaan het build-log.
-     **Probeer eerst Settings → Build → Build cache → Clear Cache** (minder
-     drastisch dan hieronder) en trigger daarna een nieuwe deployment. Helpt
-     dat niet, kijk dan of er een aparte "Path to Wrangler configuration"-
-     instelling bestaat (los van Root directory) en zet die expliciet op
-     `oauth-worker/wrangler.toml`; is die er niet, dan is het Worker-project
-     opnieuw aanmaken (met Root directory meteen goed ingesteld bij het
-     aanmaken, niet achteraf gewijzigd) de betrouwbaarste fix.
+   - **Bevestigde oorzaak van een ontbrekend `.open-next/worker.js`-entrypoint
+     bij deploy** (ook al draait de installatiestap al correct binnen
+     `oauth-worker/`): Wrangler's automatische configuratie-detectie geeft
+     een `wrangler.jsonc`/`wrangler.json` ergens hogerop in de mappenboom
+     voorrang boven een `wrangler.toml` in de huidige map — dus de
+     `wrangler.jsonc` van de hoofdsite (repo-root, `main: ".open-next/worker.js"`)
+     wint altijd van `oauth-worker/wrangler.toml` (`main = "src/index.js"`),
+     ongeacht Root directory, build-cache of welk Cloudflare-project het is.
+     Dit is lokaal bevestigd door `wrangler deploy` rechtstreeks (buiten
+     Cloudflare's Git-integratie om) vanuit `oauth-worker/` te draaien: zonder
+     `--config` gaf het exact dezelfde fout; met `--config wrangler.toml`
+     verdween de fout volledig.
+     **Fix**: zet de **Deploy command** in het dashboard expliciet op
+     `npx wrangler deploy --config wrangler.toml` (i.p.v. het kale
+     `npx wrangler deploy` dat Cloudflare standaard voorstelt). Dit lost het
+     op ongeacht Root directory/cache/project-instellingen — die waren in dit
+     geval geen van alle de echte oorzaak, al is een correcte Root directory
+     nog steeds nodig zodat de installatiestap in de juiste map draait.
    - De worker-projectnaam komt overeen met `name` in `wrangler.toml`
      (`opakreta-cms-auth`) — zie de "Domains & Routes"-tab na de eerste
      deploy voor de definitieve `workers.dev`-URL.
