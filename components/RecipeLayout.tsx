@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Post } from "../types/post";
 import { getMdxComponent } from "../lib/mdx";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { getArticleAlternates } from "../lib/i18n-alternates";
 
 import TagList from "./TagList";
 import AffiliateSidebarBox from "./AffiliateSidebarBox";
@@ -30,6 +31,7 @@ export default async function RecipeLayout({ post }: RecipeLayoutProps) {
   const climateT = await getTranslations({ locale, namespace: "climateBox" });
   const greekT = await getTranslations({ locale, namespace: "greekPhrases" });
   const introT = await getTranslations({ locale, namespace: "introBox" });
+  const alternates = getArticleAlternates(post.canonicalSlug);
 
   // Zelfde aanpak als app/(en)/en/[...slug]/page.tsx: componenten die ook
   // ingebed kunnen worden in de MDX-body krijgen hier vast-gebonden,
@@ -76,7 +78,7 @@ export default async function RecipeLayout({ post }: RecipeLayoutProps) {
   const MdxContent = getMdxComponent(post.slug);
 
   return (
-    <Layout>
+    <Layout articleAlternates={alternates}>
       {/* Hero */}
       <PageHero
         imageUrl={
