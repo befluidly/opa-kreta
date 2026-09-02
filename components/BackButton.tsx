@@ -2,7 +2,13 @@
 
 import { useRouter } from "next/navigation";
 
-export default function BackButton({ fallbackHref }: { fallbackHref: string }) {
+export default function BackButton({
+  fallbackHref,
+  label = "← Terug",
+}: {
+  fallbackHref: string;
+  label?: string;
+}) {
   const router = useRouter();
 
   return (
@@ -17,7 +23,7 @@ export default function BackButton({ fallbackHref }: { fallbackHref: string }) {
       }}
       className="inline-block bg-skyBlue hover:bg-skyBlue/80 text-white font-semibold py-3 px-6 rounded-lg transition"
     >
-      ← Terug
+      {label}
     </button>
   );
 }

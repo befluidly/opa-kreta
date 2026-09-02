@@ -1,16 +1,22 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations, useLocale } from "next-intl";
 
 export default function Footer() {
   const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState<{ text: string; success: boolean } | null>(null);
   const [loading, setLoading] = useState(false);
+  const t = useTranslations("footer");
+  const locale = useLocale();
+  // Footer is een gedeeld component (components/Layout.tsx), gerenderd in
+  // zowel de NL- als de EN-routeboom — zie Navbar.tsx voor dezelfde reden.
+  const prefix = locale === "en" ? "/en" : "";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setMessage("");
+    setMessage(null);
 
     try {
       const res = await fetch("/api/newsletter", {
@@ -22,13 +28,13 @@ export default function Footer() {
       const data = await res.json();
 
       if (res.ok && data?.ok) {
-        setMessage("Bedankt! 🎉 Je bent ingeschreven.");
+        setMessage({ text: t("subscribeSuccess"), success: true });
         setEmail("");
       } else {
-        setMessage(data?.message || "Er ging iets mis. Probeer opnieuw.");
+        setMessage({ text: data?.message || t("subscribeError"), success: false });
       }
     } catch {
-      setMessage("Er ging iets mis. Probeer opnieuw.");
+      setMessage({ text: t("subscribeError"), success: false });
     } finally {
       setLoading(false);
     }
@@ -39,31 +45,31 @@ export default function Footer() {
       <div className="max-w-screen-xl mx-auto px-4 py-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 text-gray-700">
         {/* Kolom 1: Over & navigatie */}
         <div>
-          <h3 className="text-lg font-semibold mb-3 text-skyBlue">Hidden Crete</h3>
+          <h3 className="text-lg font-semibold mb-3 text-skyBlue">{t("brand")}</h3>
           <ul className="space-y-2">
-            <li><a href="/over" className="hover:text-skyBlue transition">Over ons</a></li>
-            <li><a href="/categorie/opas-blog" className="hover:text-skyBlue transition">Opa’s blog</a></li>
-            <li><a href="/categorie/praktisch" className="hover:text-skyBlue transition">Praktische tips</a></li>
-            <li><a href="/categorie/gidsen" className="hover:text-skyBlue transition">Bezienswaardigheden</a></li>
-            <li><a href="/contact" className="hover:text-skyBlue transition">Contact</a></li>
+            <li><a href={`${prefix}/over`} className="hover:text-skyBlue transition">{t("aboutUs")}</a></li>
+            <li><a href={`${prefix}/categorie/opas-blog`} className="hover:text-skyBlue transition">{t("blog")}</a></li>
+            <li><a href={`${prefix}/categorie/praktisch`} className="hover:text-skyBlue transition">{t("practicalTips")}</a></li>
+            <li><a href={`${prefix}/categorie/gidsen`} className="hover:text-skyBlue transition">{t("sights")}</a></li>
+            <li><a href={`${prefix}/contact`} className="hover:text-skyBlue transition">{t("contact")}</a></li>
           </ul>
         </div>
 
         {/* Kolom 2: Populaire gidsen */}
         <div>
-          <h3 className="text-lg font-semibold mb-3 text-skyBlue">Populaire gidsen</h3>
+          <h3 className="text-lg font-semibold mb-3 text-skyBlue">{t("popularGuides")}</h3>
           <ul className="space-y-2">
-            <li><a href="/praktisch/auto-huren-op-kreta" className="hover:text-skyBlue transition">Auto huren op Kreta</a></li>
-            <li><a href="/categorie/gidsen/rethymnon" className="hover:text-skyBlue transition">Regio Rethymnon</a></li>
-            <li><a href="/categorie/gidsen/heraklion" className="hover:text-skyBlue transition">Regio Heraklion</a></li>
-            <li><a href="/categorie/gidsen/lassithi" className="hover:text-skyBlue transition">Regio Lassithi</a></li>
-            <li><a href="/categorie/gidsen/chania" className="hover:text-skyBlue transition">Regio Chania</a></li>
+            <li><a href={`${prefix}/praktisch/auto-huren-op-kreta`} className="hover:text-skyBlue transition">{t("carRental")}</a></li>
+            <li><a href={`${prefix}/categorie/gidsen/rethymnon`} className="hover:text-skyBlue transition">{t("regionRethymnon")}</a></li>
+            <li><a href={`${prefix}/categorie/gidsen/heraklion`} className="hover:text-skyBlue transition">{t("regionHeraklion")}</a></li>
+            <li><a href={`${prefix}/categorie/gidsen/lassithi`} className="hover:text-skyBlue transition">{t("regionLassithi")}</a></li>
+            <li><a href={`${prefix}/categorie/gidsen/chania`} className="hover:text-skyBlue transition">{t("regionChania")}</a></li>
           </ul>
         </div>
 
         {/* Kolom 3: Affiliate tips */}
         <div>
-          <h3 className="text-lg font-semibold mb-3 text-skyBlue">Handige partners</h3>
+          <h3 className="text-lg font-semibold mb-3 text-skyBlue">{t("usefulPartners")}</h3>
           <ul className="space-y-2 text-sm">
             <li>
               🚗{" "}
@@ -73,7 +79,7 @@ export default function Footer() {
                 rel="nofollow sponsored noopener"
                 className="hover:text-skyBlue underline"
               >
-                Sunny Cars – huurauto zonder zorgen
+                {t("sunnyCars")}
               </a>
             </li>
             <li>
@@ -84,7 +90,7 @@ export default function Footer() {
                 rel="nofollow sponsored noopener"
                 className="hover:text-skyBlue underline"
               >
-                Booking.com – hotels & appartementen
+                {t("booking")}
               </a>
             </li>
             <li>
@@ -95,26 +101,22 @@ export default function Footer() {
                 rel="nofollow sponsored noopener"
                 className="hover:text-skyBlue underline"
               >
-                Skyscanner – goedkope vluchten
+                {t("skyscanner")}
               </a>
             </li>
           </ul>
-          <p className="mt-3 text-xs text-gray-500">
-            * Sommige links zijn affiliate — wij ontvangen mogelijk een kleine commissie, zonder extra kosten voor jou.
-          </p>
+          <p className="mt-3 text-xs text-gray-500">{t("affiliateDisclosure")}</p>
         </div>
 
         {/* Kolom 4: Nieuwsbrief */}
         <div>
-          <h3 className="text-lg font-semibold mb-3 text-skyBlue">Blijf op de hoogte</h3>
-          <p className="text-sm mb-4">
-            Ontvang 1x per maand inspiratie, verborgen plekjes en reistips over Kreta.
-          </p>
+          <h3 className="text-lg font-semibold mb-3 text-skyBlue">{t("newsletterHeading")}</h3>
+          <p className="text-sm mb-4">{t("newsletterText")}</p>
 
           <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2">
             <input
               type="email"
-              placeholder="Jouw e-mailadres"
+              placeholder={t("emailPlaceholder")}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -125,13 +127,13 @@ export default function Footer() {
               disabled={loading}
               className="bg-skyBlue text-white font-semibold px-4 py-2 rounded hover:bg-skyBlue/80 transition disabled:opacity-50"
             >
-              {loading ? "Even geduld..." : "Inschrijven"}
+              {loading ? t("subscribing") : t("subscribe")}
             </button>
           </form>
 
           {message && (
-            <p className={`mt-3 text-sm ${message.includes("Bedankt") ? "text-green-600" : "text-red-600"}`}>
-              {message}
+            <p className={`mt-3 text-sm ${message.success ? "text-green-600" : "text-red-600"}`}>
+              {message.text}
             </p>
           )}
         </div>
@@ -139,7 +141,7 @@ export default function Footer() {
 
       {/* Onderbalk */}
       <div className="border-t border-gray-100 py-6 text-center text-sm text-gray-600">
-        © {new Date().getFullYear()} Opa! Kreta — Handige links zijn mogelijk affiliate (sponsored).
+        {t("copyright", { year: new Date().getFullYear() })}
       </div>
     </footer>
   );

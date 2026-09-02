@@ -2,9 +2,17 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useTranslations, useLocale } from "next-intl";
 
 const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const t = useTranslations("nav");
+  // Navbar is een gedeeld component (components/Layout.tsx) dat in zowel de
+  // NL- als de EN-routeboom gerenderd wordt — de links moeten dus zelf een
+  // "/en"-prefix toevoegen op de EN-site, anders stuurt elke klik je terug
+  // naar de Nederlandse versie van die pagina.
+  const locale = useLocale();
+  const prefix = locale === "en" ? "/en" : "";
 
   return (
     <>
@@ -12,11 +20,11 @@ const NavBar = () => {
       <nav className="w-full fixed top-0 left-0 z-[100] bg-white shadow-md">
         <div className="max-w-screen-xl mx-auto px-4 flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center h-full">
+          <Link href={prefix || "/"} className="flex items-center h-full">
             <div className="relative w-32 h-8 md:h-10">
               <Image
                 src="/images/logo/Opa_logo-blauw.png"
-                alt="Opa! Kreta"
+                alt={t("logoAlt")}
                 fill
                 className="object-contain"
                 priority
@@ -27,59 +35,59 @@ const NavBar = () => {
           {/* Desktop menu */}
           <div className="hidden md:flex items-center flex-1 justify-between ml-10 text-darkCornflower">
             <div className="flex space-x-8 items-center text-[18px] font-medium tracking-wide">
-              <Link href="/" className="hover:text-spanishBlue transition-colors">
-                Home
+              <Link href={prefix || "/"} className="hover:text-spanishBlue transition-colors">
+                {t("home")}
               </Link>
               <Link
-                href="/categorie/opas-blog"
+                href={`${prefix}/categorie/opas-blog`}
                 className="hover:text-spanishBlue transition-colors"
               >
-                Opa’s Blog
+                {t("blog")}
               </Link>
               <Link
-                href="/categorie/gidsen"
+                href={`${prefix}/categorie/gidsen`}
                 className="hover:text-spanishBlue transition-colors"
               >
-                Gids
+                {t("gidsen")}
               </Link>
               <Link
-                href="/categorie/praktisch"
+                href={`${prefix}/categorie/praktisch`}
                 className="hover:text-spanishBlue transition-colors"
               >
-                Praktisch
+                {t("praktisch")}
               </Link>
               <Link
-                href="/inspiratie"
+                href={`${prefix}/inspiratie`}
                 className="hover:text-spanishBlue transition-colors"
               >
-                Inspiratie
+                {t("inspiratie")}
               </Link>
               <Link
-                href="/categorie/recepten"
+                href={`${prefix}/categorie/recepten`}
                 className="hover:text-spanishBlue transition-colors"
               >
-                Recepten
+                {t("recepten")}
               </Link>
               {/* <Link
-                href="/over"
+                href={`${prefix}/over`}
                 className="hover:text-spanishBlue transition-colors"
               >
-                Over
+                {t("over")}
               </Link> */}
               <Link
-                href="/contact"
+                href={`${prefix}/contact`}
                 className="hover:text-spanishBlue transition-colors"
               >
-                Contact
+                {t("contact")}
               </Link>
             </div>
 
             <div className="ml-auto">
               <Link
-                href="/shop"
+                href={`${prefix}/shop`}
                 className="hover:text-spanishBlue font-semibold transition-colors text-[18px]"
               >
-                Shop
+                {t("shop")}
               </Link>
             </div>
           </div>
@@ -100,36 +108,36 @@ const NavBar = () => {
           }`}
       >
         <div className="flex flex-col items-center py-6 space-y-5 text-darkCornflower text-lg font-medium">
-          <Link href="/" onClick={() => setMenuOpen(false)}>
-            Home
+          <Link href={prefix || "/"} onClick={() => setMenuOpen(false)}>
+            {t("home")}
           </Link>
-          <Link href="/categorie/opas-blog" onClick={() => setMenuOpen(false)}>
-            Opa’s Blog
+          <Link href={`${prefix}/categorie/opas-blog`} onClick={() => setMenuOpen(false)}>
+            {t("blog")}
           </Link>
-          <Link href="/categorie/gidsen" onClick={() => setMenuOpen(false)}>
-            Gids
+          <Link href={`${prefix}/categorie/gidsen`} onClick={() => setMenuOpen(false)}>
+            {t("gidsen")}
           </Link>
-          <Link href="/categorie/praktisch" onClick={() => setMenuOpen(false)}>
-            Praktisch
+          <Link href={`${prefix}/categorie/praktisch`} onClick={() => setMenuOpen(false)}>
+            {t("praktisch")}
           </Link>
-          <Link href="/inspiratie" onClick={() => setMenuOpen(false)}>
-            Inspiratie
+          <Link href={`${prefix}/inspiratie`} onClick={() => setMenuOpen(false)}>
+            {t("inspiratie")}
           </Link>
-          <Link href="/categorie/recepten" onClick={() => setMenuOpen(false)}>
-            Recepten
+          <Link href={`${prefix}/categorie/recepten`} onClick={() => setMenuOpen(false)}>
+            {t("recepten")}
           </Link>
-          <Link href="/over" onClick={() => setMenuOpen(false)}>
-            Over
+          <Link href={`${prefix}/over`} onClick={() => setMenuOpen(false)}>
+            {t("over")}
           </Link>
-          <Link href="/contact" onClick={() => setMenuOpen(false)}>
-            Contact
+          <Link href={`${prefix}/contact`} onClick={() => setMenuOpen(false)}>
+            {t("contact")}
           </Link>
           <Link
-            href="/categorie/shop"
+            href={`${prefix}/categorie/shop`}
             className="font-semibold"
             onClick={() => setMenuOpen(false)}
           >
-            Shop
+            {t("shop")}
           </Link>
         </div>
       </div>

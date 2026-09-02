@@ -3,6 +3,7 @@ import Layout from "../../../components/Layout";
 import PageHero from "../../../components/PageHero";
 import { FaEnvelope, FaInstagram, FaFacebook } from "react-icons/fa";
 import ContactForm from "../../../components/contact/ContactForm";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -18,26 +19,27 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Contact() {
+export default async function Contact() {
+  setRequestLocale("nl");
+  const t = await getTranslations({ locale: "nl", namespace: "contact" });
+
   return (
     <Layout>
       {/* 🔹 Hero-afbeelding */}
       <PageHero
-        title="Contact"
-        subtitle="Stuur Opa Kreta een bericht, vraag of samenwerking"
+        title={t("heroTitle")}
+        subtitle={t("heroSubtitle")}
         imageUrl="https://images.pexels.com/photos/29399456/pexels-photo-29399456.jpeg"
       />
 
       {/* 🔹 Inhoud zonder box */}
       <div className="max-w-screen-xl mx-auto px-4 -mt-0 text-left relative z-30">
         <h1 className="text-3xl font-title font-semibold text-darkCornflower mb-4">
-          Neem contact op
+          {t("heading")}
         </h1>
 
         <p className="text-gray-700 font-body leading-relaxed mb-8 max-w-2xl">
-          Heb je een vraag over Kreta, een tip voor de site of wil je samenwerken?
-          Opa hoort het graag! Vul het formulier hieronder in of stuur een berichtje
-          via sociale media.
+          {t("intro")}
         </p>
 
         {/* 🔹 Contactformulier */}
@@ -73,9 +75,7 @@ export default function Contact() {
 
         {/* 🔹 Afsluitend tekstje */}
         <div className="text-center mt-16 text-gray-600 font-body italic">
-          <p>
-            Opa is meestal te vinden op een terrasje in Heraklion — een antwoord komt dus soms pas na de koffie ☕️😉
-          </p>
+          <p>{t("closingText")}</p>
         </div>
       </div>
     </Layout>

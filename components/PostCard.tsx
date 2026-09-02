@@ -8,6 +8,8 @@ interface PostCardProps {
   coverImage?: string;
   date?: string;
   category?: string;
+  readMoreLabel?: string;
+  dateLocale?: string;
 }
 
 export default function PostCard({
@@ -16,6 +18,8 @@ export default function PostCard({
   excerpt,
   coverImage,
   date,
+  readMoreLabel = "Lees meer →",
+  dateLocale = "nl-BE",
 }: PostCardProps) {
   return (
     <Link key={slug} href={`/${slug}`} className="group block h-full">
@@ -45,7 +49,7 @@ export default function PostCard({
         <div className="p-4 flex flex-col justify-between flex-grow">
           {date && (
             <p className="text-xs text-gray-400 mb-1">
-              {new Date(date).toLocaleDateString("nl-BE", {
+              {new Date(date).toLocaleDateString(dateLocale, {
                 day: "2-digit",
                 month: "short",
                 year: "numeric",
@@ -67,7 +71,7 @@ export default function PostCard({
               group-hover:underline transition-colors
             "
           >
-            Lees meer →
+            {readMoreLabel}
           </span>
         </div>
       </article>

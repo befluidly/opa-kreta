@@ -3,6 +3,7 @@ import PageHero from "./PageHero";
 import Link from "next/link";
 import { Post } from "../types/post";
 import { getMdxComponent } from "../lib/mdx";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import TagList from "./TagList";
 import AffiliateSidebarBox from "./AffiliateSidebarBox";
@@ -16,8 +17,62 @@ interface RecipeLayoutProps {
   post: Post;
 }
 
-export default function RecipeLayout({ post }: RecipeLayoutProps) {
-  const components = { AffiliateBox, ClimateBox, GreekPhrases, InfoBox, IntroBox };
+export default async function RecipeLayout({ post }: RecipeLayoutProps) {
+  // RecipeLayout wordt door zowel de NL- als de EN-routeboom rechtstreeks
+  // geïmporteerd (geen aparte kopie per taal, zoals de meeste pagina's) —
+  // de locale komt daarom uit post.locale in plaats van uit een prop.
+  const locale = post.locale;
+  setRequestLocale(locale);
+  const hrefPrefix = locale === "en" ? "/en" : "";
+
+  const recepten = await getTranslations({ locale, namespace: "recepten" });
+  const common = await getTranslations({ locale, namespace: "common" });
+  const climateT = await getTranslations({ locale, namespace: "climateBox" });
+  const greekT = await getTranslations({ locale, namespace: "greekPhrases" });
+  const introT = await getTranslations({ locale, namespace: "introBox" });
+
+  // Zelfde aanpak als app/(en)/en/[...slug]/page.tsx: componenten die ook
+  // ingebed kunnen worden in de MDX-body krijgen hier vast-gebonden,
+  // locale-passende props mee i.p.v. de Nederlandse standaardwaarden.
+  const components = {
+    AffiliateBox: (props: React.ComponentProps<typeof AffiliateBox>) => (
+      <AffiliateBox label={common("affiliateBoxDefaultLabel")} {...props} />
+    ),
+    ClimateBox: (props: React.ComponentProps<typeof ClimateBox>) => (
+      <ClimateBox
+        mapAlt={climateT("mapAlt")}
+        heading={climateT("heading")}
+        paragraph={climateT("paragraph")}
+        legendCold={climateT("legendCold")}
+        legendMild={climateT("legendMild")}
+        legendWarm={climateT("legendWarm")}
+        legendHot={climateT("legendHot")}
+        {...props}
+      />
+    ),
+    GreekPhrases: (props: React.ComponentProps<typeof GreekPhrases>) => (
+      <GreekPhrases
+        helloLabel={greekT("hello")}
+        thanksLabel={greekT("thanks")}
+        pleaseLabel={greekT("please")}
+        excuseLabel={greekT("excuse")}
+        {...props}
+      />
+    ),
+    InfoBox: (props: React.ComponentProps<typeof InfoBox>) => (
+      <InfoBox title={common("infoBoxDefaultTitle")} {...props} />
+    ),
+    IntroBox: (props: React.ComponentProps<typeof IntroBox>) => (
+      <IntroBox
+        heading={introT("heading")}
+        paragraph={introT("paragraph")}
+        cta={introT("cta")}
+        imageAlt={introT("imageAlt")}
+        hrefPrefix={hrefPrefix}
+        {...props}
+      />
+    ),
+  };
   const MdxContent = getMdxComponent(post.slug);
 
   return (
@@ -33,10 +88,10 @@ export default function RecipeLayout({ post }: RecipeLayoutProps) {
       {/* Terugknop */}
       <div className="max-w-screen-xl mx-auto px-4 mt-8 flex flex-wrap gap-3">
         <Link
-          href="/categorie/recepten"
+          href={`${hrefPrefix}/categorie/recepten`}
           className="inline-block bg-skyBlue hover:bg-skyBlue/80 text-white font-semibold py-3 px-6 rounded-lg transition"
         >
-          ← Terug naar Recepten
+          {recepten("backToRecipes")}
         </Link>
       </div>
 
@@ -62,17 +117,17 @@ export default function RecipeLayout({ post }: RecipeLayoutProps) {
             <div className="flex flex-wrap gap-6 mb-6 text-gray-700 font-body">
               {post.prepTime && (
                 <span>
-                  <strong>Voorbereiding:</strong> {post.prepTime}
+                  <strong>{recepten("prepTime")}:</strong> {post.prepTime}
                 </span>
               )}
               {post.cookTime && (
                 <span>
-                  <strong>Kooktijd:</strong> {post.cookTime}
+                  <strong>{recepten("cookTime")}:</strong> {post.cookTime}
                 </span>
               )}
               {post.servings && (
                 <span>
-                  <strong>Porties:</strong> {post.servings}
+                  <strong>{recepten("servings")}:</strong> {post.servings}
                 </span>
               )}
             </div>
@@ -81,7 +136,7 @@ export default function RecipeLayout({ post }: RecipeLayoutProps) {
           {post.ingredients && post.ingredients.length > 0 && (
             <div className="mb-8">
               <h2 className="text-2xl font-title font-semibold text-darkCornflower mb-3">
-                Ingrediënten
+                {recepten("ingredients")}
               </h2>
               <ul className="list-disc list-inside space-y-1 text-gray-800 font-body">
                 {post.ingredients.map((ing, index) => (
@@ -103,7 +158,7 @@ export default function RecipeLayout({ post }: RecipeLayoutProps) {
         <aside className="md:pl-4 self-start">
           {/* Tags */}
           <div className="mb-4">
-            <TagList tags={post.tags} />
+            <TagList tags={post.tags} heading={common("tags")} hrefPrefix={hrefPrefix} />
           </div>
 
           {/* Affiliate-boxen */}
@@ -117,11 +172,18 @@ export default function RecipeLayout({ post }: RecipeLayoutProps) {
                   link={a.link}
                   button={a.button}
                   image={a.image}
+                  defaultTitle={common("affiliateSidebarDefaultTitle")}
+                  defaultText={common("affiliateSidebarDefaultText")}
+                  defaultButton={common("affiliateSidebarDefaultButton")}
                 />
               ))}
             </div>
           ) : (
-            <AffiliateSidebarBox />
+            <AffiliateSidebarBox
+              defaultTitle={common("affiliateSidebarDefaultTitle")}
+              defaultText={common("affiliateSidebarDefaultText")}
+              defaultButton={common("affiliateSidebarDefaultButton")}
+            />
           )}
         </aside>
       </div>

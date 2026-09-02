@@ -1,28 +1,40 @@
 import React from "react";
 
-const Hero: React.FC = () => {
+interface HeroProps {
+  imageAlt?: string;
+  title?: string;
+  subtitle?: string;
+  cta?: string;
+  hrefPrefix?: string;
+}
+
+const Hero: React.FC<HeroProps> = ({
+  imageAlt = "Uitzicht over Kreta met bergen en zee",
+  title = "Ervaar het echte Kreta",
+  subtitle = "Praktische tips, inspiratie en insider-advies voor jouw vakantie.",
+  cta = "Ga naar Opa's Blog",
+  hrefPrefix = "",
+}) => {
   return (
     <section className="relative w-full h-[60vh] min-h-[350px] md:h-[70vh] overflow-hidden animate-fade-in">
       {/* Achtergrondafbeelding */}
       <img
         src="/images/hero/hero.jpg"
-        alt="Uitzicht over Kreta met bergen en zee"
+        alt={imageAlt}
         className="absolute inset-0 w-full h-full object-cover"
       />
 
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-white px-4 text-center pt-16 md:pt-0">
-        <h1 className="text-4xl md:text-6xl font-bold drop-shadow-lg">
-          Ervaar het echte Kreta
-        </h1>
+        <h1 className="text-4xl md:text-6xl font-bold drop-shadow-lg">{title}</h1>
         <p className="hidden md:block mt-4 text-lg md:text-2xl max-w-2xl drop-shadow-md">
-          Praktische tips, inspiratie en insider-advies voor jouw vakantie.
+          {subtitle}
         </p>
         <a
-  href="/categorie/opas-blog"
+  href={`${hrefPrefix}/categorie/opas-blog`}
   className="mt-8 inline-block bg-skyBlue hover:bg-skyBlue/80 text-white font-semibold py-3 px-6 rounded-lg transition"
 >
-  Ga naar Opa&apos;s Blog
+  {cta}
 </a>
 
 

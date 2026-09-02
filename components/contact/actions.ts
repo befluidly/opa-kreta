@@ -1,6 +1,7 @@
 "use server";
 
 import { Resend } from "resend";
+import { getTranslations } from "next-intl/server";
 
 export interface ContactFormState {
   status: "idle" | "success" | "error";
@@ -18,13 +19,17 @@ export async function submitContactForm(
   const name = String(formData.get("name") || "").trim();
   const email = String(formData.get("email") || "").trim();
   const message = String(formData.get("message") || "").trim();
+  // Meegegeven door ContactForm.tsx (verborgen veld) — de server action zelf
+  // heeft geen toegang tot de React-context van next-intl.
+  const locale = formData.get("locale") === "en" ? "en" : "nl";
+  const t = await getTranslations({ locale, namespace: "contact" });
 
   if (!name || !email || !message) {
-    return { status: "error", message: "Vul alle velden in." };
+    return { status: "error", message: t("errorAllFields") };
   }
 
   if (!isValidEmail(email)) {
-    return { status: "error", message: "Vul een geldig e-mailadres in." };
+    return { status: "error", message: t("errorEmail") };
   }
 
   const apiKey = process.env.RESEND_API_KEY;
@@ -32,7 +37,7 @@ export async function submitContactForm(
     console.error("[contact] Ontbrekende RESEND_API_KEY environment variable");
     return {
       status: "error",
-      message: "Serverconfig ontbreekt. Probeer later opnieuw.",
+      message: t("errorServerConfig"),
     };
   }
 
@@ -50,19 +55,19 @@ export async function submitContactForm(
       console.error("[contact] Resend error:", error);
       return {
         status: "error",
-        message: "Er ging iets mis bij het versturen. Probeer later opnieuw.",
+        message: t("errorSend"),
       };
     }
 
     return {
       status: "success",
-      message: "Bedankt voor je bericht! Opa neemt zo snel mogelijk contact op.",
+      message: t("success"),
     };
   } catch (err) {
     console.error("[contact] error:", err);
     return {
       status: "error",
-      message: "Er ging iets mis bij het versturen. Probeer later opnieuw.",
+      message: t("errorSend"),
     };
   }
 }

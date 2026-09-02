@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Layout from "../../../../components/Layout";
 import PageHero from "../../../../components/PageHero";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
 export const metadata: Metadata = {
   title: "About Opa Kreta",
@@ -17,13 +18,16 @@ export const metadata: Metadata = {
   },
 };
 
-export default function EnglishOver() {
+export default async function EnglishOver() {
+  setRequestLocale("en");
+  const t = await getTranslations({ locale: "en", namespace: "over" });
+
   return (
     <Layout>
       {/* 🔹 Hero-afbeelding */}
       <PageHero
-        title="About Opa Kreta"
-        subtitle="Get to know the story behind this website"
+        title={t("heroTitle")}
+        subtitle={t("heroSubtitle")}
         imageUrl="/images/hero/voulisma-beach.jpg"
       />
 
@@ -33,51 +37,17 @@ export default function EnglishOver() {
           {/* 🔹 Tekstblok */}
           <div>
             <h1 className="text-3xl font-title font-semibold text-darkCornflower mb-6">
-              About this website and me
+              {t("heading")}
             </h1>
 
             <div className="text-gray-700 text-lg font-body leading-relaxed space-y-6">
-              <p>
-                Hi, I'm <strong>Lynn</strong> — the person behind this blog. This site
-                combines two of my passions: <em>Crete</em> and <em>technology</em>.
-              </p>
-
-              <p>
-                My first trip to Crete was in <strong>1998</strong>. What started as a
-                family holiday grew into a lasting interest in the island, its people
-                and its history. As a teenager I preferred staying home ("who wants to
-                walk around with their parents in the heat?"), but these days Crete is a
-                place I keep coming back to.
-              </p>
-
-              <p>
-                The island has everything that fascinates me: from prehistory and
-                classical antiquity to Byzantine influences and stories from the two
-                world wars. Every trip feels like another step in discovering that rich
-                past.
-              </p>
-
-              <p>
-                Besides my love for Crete, I also have a soft spot for technology. I
-                build and maintain this website myself, learning about web design and
-                graphic design along the way.
-              </p>
-
-              <p>
-                The photos on this site are partly my own, partly carefully selected to
-                show the atmosphere of the island.
-              </p>
-
-              <p>
-                I don't write as a guide or an expert, but as someone who is simply
-                moved by Crete — by its history, hospitality, food and the rhythm of
-                life there.
-              </p>
-
-              <p>
-                Welcome to my blog, where I try to show the real Crete: honest, warm and
-                with a personal touch.
-              </p>
+              <p>{t("p1")}</p>
+              <p>{t("p2")}</p>
+              <p>{t("p3")}</p>
+              <p>{t("p4")}</p>
+              <p>{t("p5")}</p>
+              <p>{t("p6")}</p>
+              <p>{t("p7")}</p>
             </div>
           </div>
 
