@@ -1,0 +1,9 @@
+name = "opakreta-cms-auth"
+main = "src/index.js"
+compatibility_date = "2026-08-01"
+
+# GITHUB_CLIENT_ID and GITHUB_CLIENT_SECRET are set as Worker secrets, not here
+# (see README.md). ALLOWED_DOMAINS is a plain (non-secret) var restricting which
+# origins may use this worker to obtain a token.
+[vars]
+ALLOWED_DOMAINS = "www.opakreta.be"

@@ -1,0 +1,253 @@
+backend:
+  name: github
+  repo: befluidly/opa-kreta
+  branch: main
+  # Na het deployen van oauth-worker/ (zie oauth-worker/README.md), de
+  # placeholder hieronder vervangen door de echte worker-URL, bv.
+  # https://opakreta-cms-auth.<jouw-subdomein>.workers.dev
+  base_url: https://opakreta-cms-auth.example.workers.dev
+
+# Geen automatische AI-vertaalknop: Sveltia's optionele DeepL-integratie wordt
+# hier bewust niet geconfigureerd (er is geen config-vlag om ze hard uit te
+# zetten — ze activeert enkel als een editor zelf een persoonlijke DeepL-key
+# invoert in de CMS-accountinstellingen; simpelweg geen key uitdelen volstaat).
+i18n:
+  structure: multiple_folders
+  locales: [nl, en]
+  default_locale: nl
+  omit_default_locale_from_file_path: true
+
+media_folder: /public/images/uploads
+public_folder: /images/uploads
+
+collections:
+  - name: gidsen
+    label: "Gidsen"
+    folder: /content/gidsen
+    slug: "{{fields.subcategory}}/{{slug}}"
+    i18n: true
+    create: true
+    fields:
+      - { label: "Titel", name: title, widget: string }
+      - { label: "Samenvatting", name: excerpt, widget: text }
+      - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
+      - { label: "Coverfoto", name: coverImage, widget: image, required: false }
+      - { label: "Categorie", name: category, widget: hidden, default: gidsen }
+      - label: "Regio / onderwerp"
+        name: subcategory
+        widget: select
+        hint: "Bepaalt ook de submap waarin het artikel wordt opgeslagen."
+        options:
+          [chania, heraklion, rethymnon, lassithi, cultuur, geschiedenis,
+           eten-en-drinken, natuur-en-wandelen]
+      - label: "Extra regio's/onderwerpen (optioneel)"
+        name: subcategories
+        widget: select
+        multiple: true
+        required: false
+        hint: "Voor artikelen die in meerdere regio's/onderwerpen tonen."
+        options:
+          [chania, heraklion, rethymnon, lassithi, cultuur, geschiedenis,
+           eten-en-drinken, natuur-en-wandelen]
+      - label: "Tags"
+        name: tags
+        widget: list
+        required: false
+      - label: "Affiliates"
+        name: affiliates
+        widget: list
+        required: false
+        fields:
+          - { label: "Titel", name: title, widget: string, required: false }
+          - { label: "Tekst", name: text, widget: text, required: false }
+          - { label: "Link", name: link, widget: string, required: false }
+          - { label: "Knoptekst", name: button, widget: string, required: false }
+          - { label: "Afbeelding", name: image, widget: image, required: false }
+      - label: "Inhoud"
+        name: body
+        widget: markdown
+        default: |
+          ## Intro
+
+          ## Bezienswaardigheden
+
+          ## Praktische info
+
+          ## Tips
+
+  - name: praktisch
+    label: "Praktisch"
+    folder: /content/praktisch
+    i18n: true
+    create: true
+    fields:
+      - { label: "Titel", name: title, widget: string }
+      - { label: "Samenvatting", name: excerpt, widget: text }
+      - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
+      - { label: "Coverfoto", name: coverImage, widget: image, required: false }
+      - { label: "Categorie", name: category, widget: hidden, default: praktisch }
+      - label: "Tags"
+        name: tags
+        widget: list
+        required: false
+      - label: "Affiliates"
+        name: affiliates
+        widget: list
+        required: false
+        fields:
+          - { label: "Titel", name: title, widget: string, required: false }
+          - { label: "Tekst", name: text, widget: text, required: false }
+          - { label: "Link", name: link, widget: string, required: false }
+          - { label: "Knoptekst", name: button, widget: string, required: false }
+          - { label: "Afbeelding", name: image, widget: image, required: false }
+      - label: "Inhoud"
+        name: body
+        widget: markdown
+        default: |
+          ## Intro
+
+          ## Praktische info
+
+          ## Tips
+
+  - name: opas-blog
+    label: "Opa's Blog"
+    folder: /content/opas-blog
+    slug: "{{fields.subcategory}}/{{slug}}"
+    i18n: true
+    create: true
+    fields:
+      - { label: "Titel", name: title, widget: string }
+      - { label: "Samenvatting", name: excerpt, widget: text }
+      - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
+      - { label: "Coverfoto", name: coverImage, widget: image, required: false }
+      - { label: "Categorie", name: category, widget: hidden, default: opas-blog }
+      - label: "Onderwerp"
+        name: subcategory
+        widget: select
+        hint: "Bepaalt ook de submap waarin het artikel wordt opgeslagen."
+        options: [feestdagen-en-tradities, het-leven-op-kreta, verhalen-van-onderweg]
+      - label: "Tags"
+        name: tags
+        widget: list
+        required: false
+      - label: "Affiliates"
+        name: affiliates
+        widget: list
+        required: false
+        fields:
+          - { label: "Titel", name: title, widget: string, required: false }
+          - { label: "Tekst", name: text, widget: text, required: false }
+          - { label: "Link", name: link, widget: string, required: false }
+          - { label: "Knoptekst", name: button, widget: string, required: false }
+          - { label: "Afbeelding", name: image, widget: image, required: false }
+      - label: "Inhoud"
+        name: body
+        widget: markdown
+        default: |
+          ## Intro
+
+          ## Bezienswaardigheden
+
+          ## Praktische info
+
+          ## Tips
+
+  - name: tips-muziek
+    label: "Inspiratie — Muziek"
+    folder: /content/tips/muziek
+    i18n: true
+    create: true
+    fields:
+      - { label: "Titel", name: title, widget: string }
+      - { label: "Samenvatting", name: excerpt, widget: text }
+      - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
+      - { label: "Coverfoto", name: coverImage, widget: image, required: false }
+      - { label: "Hero-afbeelding (optioneel)", name: heroImage, widget: image, required: false }
+      # Bewust behouden quirk, geen bug: frontmatter-categorie is "inspiratie",
+      # ook al leeft dit artikel fysiek onder content/tips/ (matcht de 4
+      # bestaande bestanden en de bestaande app-logica).
+      - { label: "Categorie", name: category, widget: hidden, default: inspiratie }
+      - { label: "Onderwerp", name: subcategory, widget: hidden, default: muziek }
+      - label: "Tags"
+        name: tags
+        widget: list
+        required: false
+      - label: "Affiliates"
+        name: affiliates
+        widget: list
+        required: false
+        fields:
+          - { label: "Titel", name: title, widget: string, required: false }
+          - { label: "Tekst", name: text, widget: text, required: false }
+          - { label: "Link", name: link, widget: string, required: false }
+          - { label: "Knoptekst", name: button, widget: string, required: false }
+          - { label: "Afbeelding", name: image, widget: image, required: false }
+      - label: "Inhoud"
+        name: body
+        widget: markdown
+
+  - name: recepten
+    label: "Recepten"
+    folder: /content/recepten
+    i18n: true
+    create: true
+    fields:
+      - { label: "Titel", name: title, widget: string }
+      - label: "Intro"
+        name: intro
+        widget: text
+        required: false
+        hint: "Korte inleidende alinea, verschijnt cursief onder de titel."
+      - { label: "Samenvatting", name: excerpt, widget: text }
+      - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
+      - { label: "Coverfoto", name: coverImage, widget: image, required: false }
+      - { label: "Categorie", name: category, widget: hidden, default: recepten }
+      - label: "Voorbereidingstijd (optioneel)"
+        name: prepTime
+        widget: string
+        required: false
+        hint: "Bv. '20 minuten'."
+      - label: "Kooktijd (optioneel)"
+        name: cookTime
+        widget: string
+        required: false
+        hint: "Bv. '40 minuten'."
+      - label: "Aantal porties (optioneel)"
+        name: servings
+        widget: number
+        required: false
+        value_type: int
+      - label: "Ingrediënten (optioneel, gestructureerd)"
+        name: ingredients
+        widget: list
+        required: false
+        hint: >-
+          Optioneel: enkel invullen voor een nette, gestructureerde
+          ingrediëntenlijst. Zonder deze lijst kun je ingrediënten gewoon als
+          tekst in de body hieronder schrijven, zoals bij de bestaande recepten.
+        fields:
+          - { label: "Hoeveelheid", name: amount, widget: string, required: false }
+          - { label: "Eenheid", name: unit, widget: string, required: false }
+          - { label: "Naam", name: name, widget: string }
+      - label: "Tags"
+        name: tags
+        widget: list
+        required: false
+      - label: "Affiliates"
+        name: affiliates
+        widget: list
+        required: false
+        fields:
+          - { label: "Titel", name: title, widget: string, required: false }
+          - { label: "Tekst", name: text, widget: text, required: false }
+          - { label: "Link", name: link, widget: string, required: false }
+          - { label: "Knoptekst", name: button, widget: string, required: false }
+          - { label: "Afbeelding", name: image, widget: image, required: false }
+      - label: "Inhoud"
+        name: body
+        widget: markdown
+        default: |
+          ## Ingrediënten
+
+          ## Bereiding

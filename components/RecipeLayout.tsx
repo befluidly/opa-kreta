@@ -55,6 +55,44 @@ export default function RecipeLayout({ post }: RecipeLayoutProps) {
             </p>
           )}
 
+          {/* Gestructureerde receptinfo (optioneel, via CMS) — bestaande
+              recepten hebben deze velden niet en tonen dit blok dus niet;
+              "Bereiding" blijft in alle gevallen vrije tekst in de body. */}
+          {(post.prepTime || post.cookTime || post.servings) && (
+            <div className="flex flex-wrap gap-6 mb-6 text-gray-700 font-body">
+              {post.prepTime && (
+                <span>
+                  <strong>Voorbereiding:</strong> {post.prepTime}
+                </span>
+              )}
+              {post.cookTime && (
+                <span>
+                  <strong>Kooktijd:</strong> {post.cookTime}
+                </span>
+              )}
+              {post.servings && (
+                <span>
+                  <strong>Porties:</strong> {post.servings}
+                </span>
+              )}
+            </div>
+          )}
+
+          {post.ingredients && post.ingredients.length > 0 && (
+            <div className="mb-8">
+              <h2 className="text-2xl font-title font-semibold text-darkCornflower mb-3">
+                Ingrediënten
+              </h2>
+              <ul className="list-disc list-inside space-y-1 text-gray-800 font-body">
+                {post.ingredients.map((ing, index) => (
+                  <li key={index}>
+                    {[ing.amount, ing.unit, ing.name].filter(Boolean).join(" ")}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
           {/* Artikelinhoud */}
           <article className="recipe-content prose prose-sky lg:prose-lg xl:prose-xl font-body leading-relaxed text-gray-800 prose-img:rounded-xl max-w-full">
             {MdxContent && <MdxContent components={components} />}

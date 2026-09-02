@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Opa Kreta — Beheer</title>
+    <!--
+      Versie bewust vastgepind (niet @latest): Sveltia CMS verschijnt
+      regelmatig in nieuwe versies, en een onaangekondigde wijziging mag de
+      editor-ervaring van de site-eigenaar niet zomaar breken. Bij een
+      geplande upgrade: versie hier bewust ophogen, kort testen op /admin.
+    -->
+    <script
+      src="https://unpkg.com/@sveltia/cms@0.205.0/dist/sveltia-cms.js"
+      onerror="document.body.innerHTML = 'Kon Sveltia CMS niet laden. Controleer je internetverbinding en probeer het opnieuw.'"
+    ></script>
+  </head>
+  <body>
+    <link href="/admin/config.yml" type="application/yaml" rel="cms-config-url" />
+  </body>
+</html>
