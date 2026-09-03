@@ -84,11 +84,15 @@ volledig los van de hoofdsite (`opakreta`-worker) en wordt apart gedeployed.
    - De worker-projectnaam komt overeen met `name` in `wrangler.toml`
      (`opakreta-cms-auth`) — zie de "Domains & Routes"-tab na de eerste
      deploy voor de definitieve `workers.dev`-URL.
-   - **Handmatig opnieuw deployen** (bv. na een instelling wijzigen) kan via
-     de **Deployments**-tab: `...`-menu bij de laatste deployment. Staat daar
-     geen "Retry deployment"-optie, dan triggert een nieuwe push naar de
-     gekoppelde branch (van eender welk bestand in `oauth-worker/`) sowieso
-     een nieuwe build.
+   - **Handmatig opnieuw deployen** (bv. na een instelling wijzigen, zoals
+     de Deploy command of secrets) kan via de **Deployments**-tab:
+     `...`-menu bij de laatste deployment. "Retry deployment" staat daar
+     enkel bij **mislukte** builds — bij een geslaagde build zie je in dat
+     menu enkel "View logs", geen herdeploy-optie. Is de laatste build
+     geslaagd maar wil je toch een nieuwe deploy forceren (bv. om net
+     gewijzigde secrets in een nieuwe versie te laten meenemen), dan
+     triggert een nieuwe push naar de gekoppelde branch (van eender welk
+     bestand in `oauth-worker/`) sowieso een nieuwe build.
    - Secrets (`GITHUB_CLIENT_ID`/`GITHUB_CLIENT_SECRET`, zie stap 3) zet je
      in dat geval via **Settings → Variables and Secrets** i.p.v.
      `wrangler secret put`.
