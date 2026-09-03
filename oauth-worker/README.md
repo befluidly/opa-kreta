@@ -130,3 +130,12 @@ beveiligingsmaatregel: zonder deze restrictie zou eender wie een eigen
 Sveltia CMS-instantie op deze worker kunnen laten inloggen. Voeg een
 testdomein toe (kommagescheiden) als je de CMS ergens anders wil uittesten,
 bv. `www.opakreta.be, opakreta-preview.pages.dev`.
+
+Ondersteunt ook een `*`-wildcard (bv. `*-opa-kreta.gizzylynne.workers.dev`) —
+nodig omdat Cloudflare Workers Builds elke build op een niet-productie-
+branch een **eigen, aan die specifieke versie vastgepind** preview-URL geeft
+(`<versie-id>-opa-kreta.<subdomein>.workers.dev`); die URL verandert dus bij
+elke nieuwe push, ook bij pushes die enkel bestanden in `oauth-worker/`
+raken (want de git-integratie van de hoofdsite bouwt opnieuw bij elke push
+naar de branch, ongeacht welk pad gewijzigd is). Zonder wildcard zou je
+`ALLOWED_DOMAINS` na elke push opnieuw moeten bijwerken.
