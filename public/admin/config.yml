@@ -2,10 +2,7 @@ backend:
   name: github
   repo: befluidly/opa-kreta
   branch: main
-  # Na het deployen van oauth-worker/ (zie oauth-worker/README.md), de
-  # placeholder hieronder vervangen door de echte worker-URL, bv.
-  # https://opakreta-cms-auth.<jouw-subdomein>.workers.dev
-  base_url: https://opakreta-cms-auth.example.workers.dev
+  base_url: https://opakreta-cms-auth.gizzylynne.workers.dev
 
 # Geen automatische AI-vertaalknop: Sveltia's optionele DeepL-integratie wordt
 # hier bewust niet geconfigureerd (er is geen config-vlag om ze hard uit te
