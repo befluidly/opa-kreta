@@ -21,7 +21,7 @@ collections:
   - name: gidsen
     label: "Gidsen"
     folder: /content/gidsen
-    slug: "{{fields.subcategory}}/{{slug}}"
+    path: "{{fields.subcategory}}/{{slug}}"
     i18n: true
     create: true
     fields:
@@ -110,7 +110,7 @@ collections:
   - name: opas-blog
     label: "Opa's Blog"
     folder: /content/opas-blog
-    slug: "{{fields.subcategory}}/{{slug}}"
+    path: "{{fields.subcategory}}/{{slug}}"
     i18n: true
     create: true
     fields:
