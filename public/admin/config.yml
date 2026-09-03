@@ -21,6 +21,7 @@ collections:
   - name: gidsen
     label: "Gidsen"
     folder: /content/gidsen
+    extension: mdx
     path: "{{fields.subcategory}}/{{slug}}"
     i18n: true
     create: true
@@ -75,6 +76,7 @@ collections:
   - name: praktisch
     label: "Praktisch"
     folder: /content/praktisch
+    extension: mdx
     i18n: true
     create: true
     fields:
@@ -110,6 +112,7 @@ collections:
   - name: opas-blog
     label: "Opa's Blog"
     folder: /content/opas-blog
+    extension: mdx
     path: "{{fields.subcategory}}/{{slug}}"
     i18n: true
     create: true
@@ -153,6 +156,7 @@ collections:
   - name: tips-muziek
     label: "Inspiratie — Muziek"
     folder: /content/tips/muziek
+    extension: mdx
     i18n: true
     create: true
     fields:
@@ -187,6 +191,7 @@ collections:
   - name: recepten
     label: "Recepten"
     folder: /content/recepten
+    extension: mdx
     i18n: true
     create: true
     fields:
