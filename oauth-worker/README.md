@@ -18,12 +18,14 @@ volledig los van de hoofdsite (`opakreta`-worker) en wordt apart gedeployed.
    ```bash
    cd oauth-worker
    npm install
-   npx wrangler deploy --config wrangler.toml
+   npx wrangler deploy --config wrangler.toml --keep-vars
    ```
    De `--config wrangler.toml`-vlag is hier niet optioneel — zie de
-   toelichting bij Optie B hieronder voor waarom. Na deployen toont Wrangler
-   de worker-URL, iets als
-   `https://opakreta-cms-auth.<jouw-subdomein>.workers.dev`. Noteer die URL.
+   toelichting bij Optie B hieronder voor waarom. De `--keep-vars`-vlag is
+   dat evenmin zodra je stap 3 (secrets instellen) al hebt uitgevoerd —
+   zie de toelichting daar. Na deployen toont Wrangler de worker-URL, iets
+   als `https://opakreta-cms-auth.<jouw-subdomein>.workers.dev`. Noteer
+   die URL.
 
    **Optie B — via het Cloudflare-dashboard (geen terminal nodig):**
    Workers & Pages → **Create** → **Workers** → **Connect to Git**, kies deze
@@ -58,11 +60,27 @@ volledig los van de hoofdsite (`opakreta`-worker) en wordt apart gedeployed.
      `--config` gaf het exact dezelfde fout; met `--config wrangler.toml`
      verdween de fout volledig.
      **Fix**: zet de **Deploy command** in het dashboard expliciet op
-     `npx wrangler deploy --config wrangler.toml` (i.p.v. het kale
-     `npx wrangler deploy` dat Cloudflare standaard voorstelt). Dit lost het
-     op ongeacht Root directory/cache/project-instellingen — die waren in dit
-     geval geen van alle de echte oorzaak, al is een correcte Root directory
-     nog steeds nodig zodat de installatiestap in de juiste map draait.
+     `npx wrangler deploy --config wrangler.toml --keep-vars` (i.p.v. het
+     kale `npx wrangler deploy` dat Cloudflare standaard voorstelt). Dit
+     lost het op ongeacht Root directory/cache/project-instellingen — die
+     waren in dit geval geen van alle de echte oorzaak, al is een correcte
+     Root directory nog steeds nodig zodat de installatiestap in de juiste
+     map draait.
+   - **Waarschijnlijke oorzaak van verdwenen secrets na een volgende
+     deploy** (opgemerkt doordat de CMS na meerdere opeenvolgende
+     documentatie-only pushes plots weer "client-ID of secret niet
+     geconfigureerd" toonde, terwijl de secrets eerder al via het
+     dashboard waren ingesteld): zonder `--keep-vars` beschouwt Wrangler
+     `wrangler.toml` als de volledige waarheid over vars/secrets van deze
+     worker — alles wat via het dashboard is ingesteld (zoals
+     `GITHUB_CLIENT_ID`/`GITHUB_CLIENT_SECRET`, die bewust *niet* in
+     `wrangler.toml` staan, want dat bestand wordt gecommit) wordt bij de
+     eerstvolgende deploy zonder die vlag stilzwijgend gewist. Elke push
+     naar deze branch triggert een nieuwe deploy, dus ook pushes die enkel
+     documentatie wijzigden konden dit veroorzaken. **Fix**: `--keep-vars`
+     toevoegen aan de Deploy command (zie hierboven) — dit moet **vóór**
+     je de secrets in stap 3 instelt, anders wist de eerstvolgende push ze
+     opnieuw.
    - De worker-projectnaam komt overeen met `name` in `wrangler.toml`
      (`opakreta-cms-auth`) — zie de "Domains & Routes"-tab na de eerste
      deploy voor de definitieve `workers.dev`-URL.
