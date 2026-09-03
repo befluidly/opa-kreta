@@ -94,8 +94,16 @@ volledig los van de hoofdsite (`opakreta`-worker) en wordt apart gedeployed.
      triggert een nieuwe push naar de gekoppelde branch (van eender welk
      bestand in `oauth-worker/`) sowieso een nieuwe build.
    - Secrets (`GITHUB_CLIENT_ID`/`GITHUB_CLIENT_SECRET`, zie stap 3) zet je
-     in dat geval via **Settings → Variables and Secrets** i.p.v.
-     `wrangler secret put`.
+     in dat geval via het dashboard i.p.v. `wrangler secret put`. **Let op:
+     twee gelijkaardig genoemde secties** — de worker leest ze pas op
+     runtime als ze in **"Runtime variables and secrets"** staan (samen
+     met `ALLOWED_DOMAINS`, dat je daar al ziet staan). Een sectie die
+     enkel **"Variables and secrets"** heet (zonder "Runtime") is iets
+     anders — bevestigd dat secrets die daar per ongeluk ingevuld worden,
+     wél in de build-log als "Build variables" verschijnen (lijkt dus
+     geconfigureerd) maar nooit als `env.GITHUB_CLIENT_ID` in de worker
+     terechtkomen, met exact dezelfde "client-ID of secret niet
+     geconfigureerd"-melding tot gevolg als wanneer ze helemaal ontbreken.
 
    **Snel controleren dat de juiste worker is gedeployed**, vóór je verder
    gaat met de OAuth App (stap 2): open `<worker-URL>/auth` in de browser.
