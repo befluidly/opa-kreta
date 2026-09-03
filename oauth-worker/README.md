@@ -47,6 +47,19 @@ volledig los van de hoofdsite (`opakreta`-worker) en wordt apart gedeployed.
      zonder Next.js-stappen ervoor.
    - Build command mag leeg blijven: dit is een kale Worker zonder
      bundel-stap, Cloudflare leest `wrangler.toml` en deployt rechtstreeks.
+   - **Productie- vs. preview-branch hebben elk hun eigen commando**:
+     onder Settings → Builds staat naast de **Deploy command** (gebruikt
+     voor de **Production branch**) ook een apart **Version command**
+     (`npx wrangler versions upload` door Cloudflare voorgesteld — gebruikt
+     voor élke andere, niet-productie branch, incl. `main` als die daar
+     niet als Production branch staat ingesteld). Beide moeten dezelfde
+     `--config wrangler.toml --keep-vars`-vlaggen krijgen, anders faalt
+     enkel de ene kant met het hieronder beschreven ontbrekende-entrypoint-
+     probleem. **Controleer ook of "Production branch" effectief op `main`
+     staat** — bij het eerste keer verbinden van dit project (tijdens het
+     testen op een PR-branch) kan die nog op die PR-branch blijven staan,
+     waardoor een latere push naar `main` per ongeluk via het (mogelijk
+     nog ongefixte) Version command loopt in plaats van het Deploy command.
    - **Bevestigde oorzaak van een ontbrekend `.open-next/worker.js`-entrypoint
      bij deploy** (ook al draait de installatiestap al correct binnen
      `oauth-worker/`): Wrangler's automatische configuratie-detectie geeft
