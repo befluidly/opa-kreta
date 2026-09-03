@@ -6,4 +6,4 @@ compatibility_date = "2026-08-01"
 # (see README.md). ALLOWED_DOMAINS is a plain (non-secret) var restricting which
 # origins may use this worker to obtain a token.
 [vars]
-ALLOWED_DOMAINS = "www.opakreta.be, 794c8ecf-opa-kreta.gizzylynne.workers.dev"
+ALLOWED_DOMAINS = "www.opakreta.be, bea59256-opa-kreta.gizzylynne.workers.dev"
