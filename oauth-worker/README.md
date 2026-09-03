@@ -155,11 +155,20 @@ verder niets te maken met het renderen van de website zelf.
 
 ## ALLOWED_DOMAINS
 
-Staat vooraf op `www.opakreta.be` in `wrangler.toml` (`[vars]`). Dit is een
-beveiligingsmaatregel: zonder deze restrictie zou eender wie een eigen
-Sveltia CMS-instantie op deze worker kunnen laten inloggen. Voeg een
+Staat vooraf op `www.opakreta.be, opakreta.be` in `wrangler.toml` (`[vars]`).
+Dit is een beveiligingsmaatregel: zonder deze restrictie zou eender wie een
+eigen Sveltia CMS-instantie op deze worker kunnen laten inloggen. Voeg een
 testdomein toe (kommagescheiden) als je de CMS ergens anders wil uittesten,
 bv. `www.opakreta.be, opakreta-preview.pages.dev`.
+
+**Beide vormen (`www.` en kaal) zijn nodig**, ook al herleidt
+`middleware.ts` het kale apex-domein normaal naar `www.`: `/admin` is een
+statisch bestand (`public/admin/index.html`) dat Cloudflare's assets-laag
+rechtstreeks aflevert, vóór de Next.js-middleware ooit draait — die redirect
+wordt voor dit pad dus nooit uitgevoerd. Bevestigd doordat inloggen op
+`opakreta.be/admin` (zonder www) faalde met "Je domein mag de authenticator
+niet gebruiken" terwijl `www.opakreta.be/admin` wel werkte, tot het kale
+domein hier expliciet werd toegevoegd.
 
 Ondersteunt ook een `*`-wildcard (bv. `*-opa-kreta.gizzylynne.workers.dev`) —
 nodig omdat Cloudflare Workers Builds elke build op een niet-productie-
