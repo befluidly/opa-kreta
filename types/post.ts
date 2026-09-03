@@ -17,4 +17,15 @@ export interface Post {
     button?: string;
     image?: string; // ✅ nieuwe optionele afbeelding
   }[];
+  // Optionele, gestructureerde receptvelden (CMS). Bestaande recepten hebben
+  // deze niet en blijven werken via vrije tekst ("## Ingrediënten"/
+  // "## Bereiding") in de MDX-body — zie RecipeLayout.tsx.
+  prepTime?: string;
+  cookTime?: string;
+  servings?: number;
+  ingredients?: {
+    amount?: string;
+    unit?: string;
+    name: string;
+  }[];
 }

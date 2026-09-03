@@ -85,6 +85,12 @@ function buildPost(filePath) {
         : [],
     tags: Array.isArray(data.tags) ? data.tags : [],
     content: typeof content === "string" ? content : "",
+    // Optionele, gestructureerde receptvelden (CMS) — gewoon doorgegeven
+    // zoals ze zijn, geen normalisatie nodig zoals bij subcategories.
+    prepTime: safeString(data.prepTime) || undefined,
+    cookTime: safeString(data.cookTime) || undefined,
+    servings: typeof data.servings === "number" ? data.servings : undefined,
+    ingredients: Array.isArray(data.ingredients) ? data.ingredients : undefined,
   };
 }
 
