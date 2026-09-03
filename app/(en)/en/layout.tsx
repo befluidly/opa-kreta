@@ -1,8 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
-import "./globals.css";
+import "../../globals.css";
 import { Lexend, Hepta_Slab, Dancing_Script } from "next/font/google";
-import CookieConsent from "../components/CookieConsent";
+import CookieConsent from "../../../components/CookieConsent";
 
 const lexend = Lexend({
   subsets: ["latin"],
@@ -25,11 +25,12 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
+// Titel/beschrijving hier zijn tijdelijk letterlijk Engels — vervangen door
+// het i18n-woordenboek (messages/en.json) in een volgende stap.
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.opakreta.be"),
-  title: "Opa! Kreta | Jouw gids voor vakantie, tips & bezienswaardigheden",
-  description:
-    "Ontdek alles over Kreta: tips, gidsen en handige info voor jouw vakantie.",
+  title: "Opa! Kreta | Your guide to Crete: travel tips & highlights",
+  description: "Discover Crete: tips, guides and practical info for your holiday.",
   icons: {
     icon: [
       { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
@@ -42,22 +43,21 @@ export const metadata: Metadata = {
   manifest: "/manifest.json",
   openGraph: {
     type: "website",
-    locale: "nl_NL",
-    url: "https://www.opakreta.be/",
+    locale: "en_US",
+    url: "https://www.opakreta.be/en",
     siteName: "Opa! Kreta",
-    title: "Opa! Kreta | Jouw gids voor vakantie, tips & bezienswaardigheden",
-    description:
-      "Ontdek alles over Kreta: tips, gidsen en handige info voor jouw vakantie.",
+    title: "Opa! Kreta | Your guide to Crete: travel tips & highlights",
+    description: "Discover Crete: tips, guides and practical info for your holiday.",
   },
 };
 
-export default function RootLayout({
+export default function EnglishRootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="nl">
+    <html lang="en">
       <body className={`${lexend.variable} ${hepta.variable} ${dancing.variable}`}>
         {/* Google tag (gtag.js) */}
         <Script

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Layout from "../../components/Layout";
-import PageHero from "../../components/PageHero";
-import { getAllPosts } from "../../lib/api";
+import Layout from "../../../components/Layout";
+import PageHero from "../../../components/PageHero";
+import { getAllPosts } from "../../../lib/api";
 import Link from "next/link";
 import { FaSpotify, FaBroadcastTower, FaYoutube } from "react-icons/fa";
 
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 };
 
 export default function Tips() {
-  const posts = getAllPosts("tips/muziek");
+  const posts = getAllPosts("tips/muziek", "nl");
 
   return (
     <Layout>

@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Layout from "../../../components/Layout";
-import PageHero from "../../../components/PageHero";
-import PostCard from "../../../components/PostCard";
-import { getAllPosts } from "../../../lib/api";
+import Layout from "../../../../components/Layout";
+import PageHero from "../../../../components/PageHero";
+import PostCard from "../../../../components/PostCard";
+import { getAllPosts } from "../../../../lib/api";
 
 interface PageProps {
   params: Promise<{ tag: string }>;
@@ -21,7 +21,7 @@ const toSlug = (s: string) =>
 const toTitle = (slug: string) => slug.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
 
 export async function generateStaticParams() {
-  const posts = getAllPosts();
+  const posts = getAllPosts(undefined, "nl");
   const allTags = Array.from(new Set(posts.flatMap((p) => p.tags || []))).filter(
     Boolean
   ) as string[];
@@ -57,7 +57,7 @@ export default async function TagPage({ params }: PageProps) {
   const { tag: tagSlug } = await params;
   const formattedTag = toTitle(tagSlug);
 
-  const allPosts = getAllPosts();
+  const allPosts = getAllPosts(undefined, "nl");
   const posts = allPosts.filter((p) => (p.tags || []).some((pt) => toSlug(pt) === tagSlug));
 
   if (posts.length === 0) {

@@ -1,11 +1,11 @@
-import Layout from "../components/Layout";
-import Hero from "../components/Hero";
-import LatestPosts from "../components/LatestPosts";
-import IntroBox from "../components/IntroBox";
-import ClimateBox from "../components/ClimateBox";
-import { getAllPosts } from "../lib/api";
-import AffiliateRow from "../components/AffiliateRow";
-import GreekPhrases from "../components/GreekPhrases";
+import Layout from "../../components/Layout";
+import Hero from "../../components/Hero";
+import LatestPosts from "../../components/LatestPosts";
+import IntroBox from "../../components/IntroBox";
+import ClimateBox from "../../components/ClimateBox";
+import { getAllPosts } from "../../lib/api";
+import AffiliateRow from "../../components/AffiliateRow";
+import GreekPhrases from "../../components/GreekPhrases";
 
 function postDateToTimestamp(date?: string): number {
   if (!date) return 0;
@@ -14,7 +14,7 @@ function postDateToTimestamp(date?: string): number {
 }
 
 export default function Home() {
-  const posts = getAllPosts()
+  const posts = getAllPosts(undefined, "nl")
     .filter((post) => post.date)
     .sort((a, b) => postDateToTimestamp(b.date) - postDateToTimestamp(a.date))
     .slice(0, 4);

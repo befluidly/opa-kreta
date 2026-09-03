@@ -1,28 +1,28 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Layout from "../../components/Layout";
-import PageHero from "../../components/PageHero";
-import { getAllPosts, getPostBySlug } from "../../lib/api";
-import { getMdxComponent } from "../../lib/mdx";
+import Layout from "../../../components/Layout";
+import PageHero from "../../../components/PageHero";
+import { getAllPosts, getPostBySlug } from "../../../lib/api";
+import { getMdxComponent } from "../../../lib/mdx";
 import Link from "next/link";
-import BackButton from "../../components/BackButton";
-import TagList from "../../components/TagList";
+import BackButton from "../../../components/BackButton";
+import TagList from "../../../components/TagList";
 
 // 🔹 In-article componenten
-import AffiliateBox from "../../components/AffiliateBox";
-import ClimateBox from "../../components/ClimateBox";
-import GreekPhrases from "../../components/GreekPhrases";
-import InfoBox from "../../components/InfoBox";
-import IntroBox from "../../components/IntroBox";
+import AffiliateBox from "../../../components/AffiliateBox";
+import ClimateBox from "../../../components/ClimateBox";
+import GreekPhrases from "../../../components/GreekPhrases";
+import InfoBox from "../../../components/InfoBox";
+import IntroBox from "../../../components/IntroBox";
 
 // 🔹 Zijbalk
-import AffiliateSidebarBox from "../../components/AffiliateSidebarBox";
+import AffiliateSidebarBox from "../../../components/AffiliateSidebarBox";
 
 // 🔹 Layout voor recepten
-import RecipeLayout from "../../components/RecipeLayout";
+import RecipeLayout from "../../../components/RecipeLayout";
 
 // 🔹 Component met regio-links
-import PostRegions from "../../components/PostRegions";
+import PostRegions from "../../../components/PostRegions";
 
 interface PageProps {
   params: Promise<{ slug: string[] }>;
@@ -55,7 +55,7 @@ const categoryLabels: Record<string, string> = {
 };
 
 export async function generateStaticParams() {
-  const posts = getAllPosts();
+  const posts = getAllPosts(undefined, "nl");
   return posts.map((p) => ({ slug: p.slug.split("/") }));
 }
 
@@ -140,7 +140,7 @@ export default async function PostPage({ params }: PageProps) {
 
   const categoryLabel = categoryLabels[post.category || ""] || "Overzicht";
 
-  const allPosts = getAllPosts();
+  const allPosts = getAllPosts(undefined, "nl");
   const relatedPosts = allPosts
     .filter(
       (p) =>
