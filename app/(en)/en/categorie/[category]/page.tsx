@@ -4,6 +4,7 @@ import Layout from "../../../../../components/Layout";
 import PageHero from "../../../../../components/PageHero";
 import PostCard from "../../../../../components/PostCard";
 import { getAllPosts } from "../../../../../lib/api";
+import { CATEGORIES } from "../../../../../lib/categoryTaxonomy";
 
 interface PageProps {
   params: Promise<{ category: string }>;
@@ -34,11 +35,11 @@ const heroMap: Record<string, string> = {
 };
 
 export async function generateStaticParams() {
-  const posts = getAllPosts(undefined, "en");
-  const categories = Array.from(
-    new Set(posts.map((p) => p.category).filter(Boolean))
-  ) as string[];
-  return categories.map((c) => ({ category: c }));
+  // Vaste lijst i.p.v. afgeleid uit bestaande EN-posts: deze pagina's moeten
+  // bestaan (en de "nog geen artikelen"-melding tonen) zelfs vóór er een
+  // enkele EN-vertaling is, niet enkel zodra er toevallig al content in
+  // staat. Zie lib/categoryTaxonomy.ts voor de toelichting.
+  return CATEGORIES.map((c) => ({ category: c }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -64,11 +65,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function EnglishCategoryPage({ params }: PageProps) {
   const { category } = await params;
-  const allPosts = getAllPosts(undefined, "en");
-  const knownCategories = new Set(allPosts.map((p) => p.category).filter(Boolean));
-  if (!knownCategories.has(category)) {
+  if (!(CATEGORIES as readonly string[]).includes(category)) {
     notFound();
   }
+  const allPosts = getAllPosts(undefined, "en");
   const posts = allPosts.filter((p) => p.category === category);
 
   const pageTitle = titleMap[category] || category;

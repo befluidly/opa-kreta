@@ -4,6 +4,7 @@ import PageHero from "../../../../../../components/PageHero";
 import SubcategoryPosts from "../../../../../../components/SubcategoryPosts";
 import { getAllPosts } from "../../../../../../lib/api";
 import { regionInfo } from "../../../../../../lib/regionInfo";
+import { SUBCATEGORIES_BY_CATEGORY } from "../../../../../../lib/categoryTaxonomy";
 
 interface PageProps {
   params: Promise<{ category: string; subcategory: string }>;
@@ -36,17 +37,16 @@ const heroSubMap: Record<string, string> = {
 };
 
 export async function generateStaticParams() {
-  const posts = getAllPosts(undefined, "en");
+  // Vaste lijst i.p.v. afgeleid uit bestaande EN-posts — zie
+  // lib/categoryTaxonomy.ts en de gelijkaardige toelichting in
+  // ../page.tsx: zonder dit genereerde deze pagina nul paden zolang er
+  // geen EN-vertalingen bestaan, en 404'te elke /en/categorie/*/*-URL.
   const paths: { category: string; subcategory: string }[] = [];
-
-  for (const p of posts) {
-    if (p.category && Array.isArray(p.subcategories)) {
-      for (const sub of p.subcategories) {
-        paths.push({ category: p.category, subcategory: sub });
-      }
+  for (const [category, subcategories] of Object.entries(SUBCATEGORIES_BY_CATEGORY)) {
+    for (const subcategory of subcategories) {
+      paths.push({ category, subcategory });
     }
   }
-
   return paths;
 }
 
