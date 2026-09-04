@@ -4,6 +4,7 @@ import PageHero from "../../../../components/PageHero";
 import { getAllPosts } from "../../../../lib/api";
 import Link from "next/link";
 import { FaSpotify, FaBroadcastTower, FaYoutube } from "react-icons/fa";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
 export const metadata: Metadata = {
   title: "Inspiration",
@@ -20,15 +21,17 @@ export const metadata: Metadata = {
   },
 };
 
-export default function EnglishTips() {
+export default async function EnglishTips() {
+  setRequestLocale("en");
   const posts = getAllPosts("tips/muziek", "en");
+  const t = await getTranslations({ locale: "en", namespace: "inspiratie" });
 
   return (
     <Layout>
       {/* 🔹 Hero-afbeelding */}
       <PageHero
-        title="Inspiration"
-        subtitle="Listen, read and experience Greek life – radio, music, news & more"
+        title={t("heroTitle")}
+        subtitle={t("heroSubtitle")}
         imageUrl="/images/posts/voulisma.webp"
       />
 
@@ -37,11 +40,10 @@ export default function EnglishTips() {
         {/* 🔹 Titel & inleiding links uitgelijnd */}
         <div className="mb-12">
           <h1 className="text-3xl font-title font-semibold text-darkCornflower mb-4">
-            Inspiration from Greece
+            {t("heading")}
           </h1>
           <p className="text-gray-700 text-lg max-w-4xl font-body leading-relaxed">
-            Discover Opa's favourite spots online: Greek radio stations, music, news
-            sites, podcasts and videos that bring island life straight to you 🇬🇷✨
+            {t("intro")}
           </p>
         </div>
 
@@ -51,11 +53,9 @@ export default function EnglishTips() {
           <div className="bg-white border border-gray-200 rounded-lg shadow-md p-6 hover:shadow-lg transition">
             <div className="flex items-center mb-3 space-x-3">
               <FaBroadcastTower className="text-skyBlue text-3xl" />
-              <h3 className="text-xl font-semibold text-darkCornflower">Internet radio</h3>
+              <h3 className="text-xl font-semibold text-darkCornflower">{t("radioHeading")}</h3>
             </div>
-            <p className="text-gray-600 mb-4">
-              Listen live to Greek stations and bring Crete to life.
-            </p>
+            <p className="text-gray-600 mb-4">{t("radioText")}</p>
             <ul className="space-y-2">
               <li>
                 <a
@@ -97,11 +97,9 @@ export default function EnglishTips() {
           <div className="bg-white border border-gray-200 rounded-lg shadow-md p-6 hover:shadow-lg transition">
             <div className="flex items-center mb-3 space-x-3">
               <FaSpotify className="text-green-500 text-3xl" />
-              <h3 className="text-xl font-semibold text-darkCornflower">Spotify playlists</h3>
+              <h3 className="text-xl font-semibold text-darkCornflower">{t("spotifyHeading")}</h3>
             </div>
-            <p className="text-gray-600 mb-4">
-              Put your headphones on and drift away with Opa's favourite Greek playlists.
-            </p>
+            <p className="text-gray-600 mb-4">{t("spotifyText")}</p>
             <ul className="space-y-2">
               <li>
                 <a
@@ -132,11 +130,9 @@ export default function EnglishTips() {
           <div className="bg-white border border-gray-200 rounded-lg shadow-md p-6 hover:shadow-lg transition">
             <div className="flex items-center mb-3 space-x-3">
               <FaYoutube className="text-red-500 text-3xl" />
-              <h3 className="text-xl font-semibold text-darkCornflower">YouTube channels</h3>
+              <h3 className="text-xl font-semibold text-darkCornflower">{t("youtubeHeading")}</h3>
             </div>
-            <p className="text-gray-600 mb-4">
-              Discover beautiful footage of Greece and enjoy live music.
-            </p>
+            <p className="text-gray-600 mb-4">{t("youtubeText")}</p>
             <ul className="space-y-2">
               <li>
                 <a
@@ -168,7 +164,7 @@ export default function EnglishTips() {
         {Array.isArray(posts) && posts.length > 0 && (
           <div className="mt-20">
             <h2 className="text-3xl font-title font-semibold text-darkCornflower mb-6">
-              Articles about Greek Artists & Music
+              {t("articlesHeading")}
             </h2>
             <div className="grid md:grid-cols-3 gap-8">
               {posts.map((post) => (
@@ -196,9 +192,7 @@ export default function EnglishTips() {
 
         {/* Afsluiting */}
         <div className="mt-20 border-t border-sky-100 pt-8 text-center text-gray-600 font-body italic">
-          <p className="text-lg">
-            Turn on the music, close your eyes... and you can already hear the sea of Crete 🌊🎵
-          </p>
+          <p className="text-lg">{t("closingText")}</p>
         </div>
       </div>
     </Layout>

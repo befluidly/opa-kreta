@@ -3,14 +3,24 @@ import { Post } from "../types/post";
 
 interface LatestPostsProps {
   posts: Post[];
+  heading?: string;
+  publishedOnLabel?: string;
+  readMoreLabel?: string;
+  dateLocale?: string;
 }
 
-export default function LatestPosts({ posts }: LatestPostsProps) {
+export default function LatestPosts({
+  posts,
+  heading = "Laatste artikels",
+  publishedOnLabel = "gepubliceerd op",
+  readMoreLabel = "Lees meer →",
+  dateLocale = "nl-BE",
+}: LatestPostsProps) {
   return (
     <section className="max-w-screen-xl mx-auto px-4 mb-10">
 
       <h1 className="text-3xl font-title font-bold mb-8 text-darkCornflower">
-  Laatste artikels
+  {heading}
 </h1>
 
       <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-4 items-stretch">
@@ -46,8 +56,8 @@ export default function LatestPosts({ posts }: LatestPostsProps) {
               <div className="p-5 flex flex-col justify-between flex-grow">
                 {post.date && (
                   <p className="text-sm text-gray-400 mb-2">
-                      gepubliceerd op {" "}
-                    {new Date(post.date).toLocaleDateString("nl-BE", {
+                      {publishedOnLabel} {" "}
+                    {new Date(post.date).toLocaleDateString(dateLocale, {
                       day: "2-digit",
                       month: "long",
                       year: "numeric",
@@ -69,7 +79,7 @@ export default function LatestPosts({ posts }: LatestPostsProps) {
                     group-hover:underline transition-colors
                   "
                 >
-                  Lees meer →
+                  {readMoreLabel}
                 </span>
               </div>
             </article>

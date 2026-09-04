@@ -23,6 +23,7 @@ import RecipeLayout from "../../../../components/RecipeLayout";
 
 // 🔹 Component met regio-links
 import PostRegions from "../../../../components/PostRegions";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
 interface PageProps {
   params: Promise<{ slug: string[] }>;
@@ -106,6 +107,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function EnglishPostPage({ params }: PageProps) {
+  setRequestLocale("en");
   const { slug: slugParts } = await params;
   const post = getPostBySlug(`en/${slugParts.join("/")}`);
   if (!post) {
@@ -117,12 +119,53 @@ export default async function EnglishPostPage({ params }: PageProps) {
     return <RecipeLayout post={post} />;
   }
 
+  // Ook-in-MDX-ingebedde componenten krijgen hier vast-gebonden Engelse
+  // props mee, zodat een EN-artikel dat bv. <ClimateBox /> zonder props in
+  // zijn body gebruikt automatisch de Engelse tekst toont i.p.v. de
+  // Nederlandse standaardwaarden van het component zelf.
+  const climateT = await getTranslations({ locale: "en", namespace: "climateBox" });
+  const greekT = await getTranslations({ locale: "en", namespace: "greekPhrases" });
+  const introT = await getTranslations({ locale: "en", namespace: "introBox" });
+  const commonT = await getTranslations({ locale: "en", namespace: "common" });
+
   const components = {
-    AffiliateBox,
-    ClimateBox,
-    GreekPhrases,
-    IntroBox,
-    InfoBox,
+    AffiliateBox: (props: React.ComponentProps<typeof AffiliateBox>) => (
+      <AffiliateBox label={commonT("affiliateBoxDefaultLabel")} {...props} />
+    ),
+    ClimateBox: (props: React.ComponentProps<typeof ClimateBox>) => (
+      <ClimateBox
+        mapAlt={climateT("mapAlt")}
+        heading={climateT("heading")}
+        paragraph={climateT("paragraph")}
+        legendCold={climateT("legendCold")}
+        legendMild={climateT("legendMild")}
+        legendWarm={climateT("legendWarm")}
+        legendHot={climateT("legendHot")}
+        {...props}
+      />
+    ),
+    GreekPhrases: (props: React.ComponentProps<typeof GreekPhrases>) => (
+      <GreekPhrases
+        helloLabel={greekT("hello")}
+        thanksLabel={greekT("thanks")}
+        pleaseLabel={greekT("please")}
+        excuseLabel={greekT("excuse")}
+        {...props}
+      />
+    ),
+    IntroBox: (props: React.ComponentProps<typeof IntroBox>) => (
+      <IntroBox
+        heading={introT("heading")}
+        paragraph={introT("paragraph")}
+        cta={introT("cta")}
+        imageAlt={introT("imageAlt")}
+        hrefPrefix="/en"
+        {...props}
+      />
+    ),
+    InfoBox: (props: React.ComponentProps<typeof InfoBox>) => (
+      <InfoBox title={commonT("infoBoxDefaultTitle")} {...props} />
+    ),
   };
 
   const MdxContent = getMdxComponent(post.slug);
@@ -161,7 +204,7 @@ export default async function EnglishPostPage({ params }: PageProps) {
 
       {/* 🔹 Terugknoppen */}
       <div className="max-w-screen-xl mx-auto px-4 mt-8 flex flex-wrap gap-3">
-        <BackButton fallbackHref={fallbackHref} />
+        <BackButton fallbackHref={fallbackHref} label={commonT("back")} />
 
         <Link
           href={fallbackHref}
@@ -242,7 +285,7 @@ export default async function EnglishPostPage({ params }: PageProps) {
 
         {/* 🔹 Zijbalk */}
         <aside className="md:pl-4">
-          <TagList tags={post.tags} />
+          <TagList tags={post.tags} heading={commonT("tags")} hrefPrefix="/en" />
 
           {/* 🔹 Dynamische affiliateboxen */}
           {post.affiliates && post.affiliates.length > 0 ? (

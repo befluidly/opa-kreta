@@ -3,6 +3,7 @@ import Layout from "../../../../components/Layout";
 import PageHero from "../../../../components/PageHero";
 import { FaEnvelope, FaInstagram, FaFacebook } from "react-icons/fa";
 import ContactForm from "../../../../components/contact/ContactForm";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -16,26 +17,27 @@ export const metadata: Metadata = {
   },
 };
 
-export default function EnglishContact() {
+export default async function EnglishContact() {
+  setRequestLocale("en");
+  const t = await getTranslations({ locale: "en", namespace: "contact" });
+
   return (
     <Layout>
       {/* 🔹 Hero-afbeelding */}
       <PageHero
-        title="Contact"
-        subtitle="Send Opa Kreta a message, question or collaboration proposal"
+        title={t("heroTitle")}
+        subtitle={t("heroSubtitle")}
         imageUrl="https://images.pexels.com/photos/29399456/pexels-photo-29399456.jpeg"
       />
 
       {/* 🔹 Inhoud zonder box */}
       <div className="max-w-screen-xl mx-auto px-4 -mt-0 text-left relative z-30">
         <h1 className="text-3xl font-title font-semibold text-darkCornflower mb-4">
-          Get in touch
+          {t("heading")}
         </h1>
 
         <p className="text-gray-700 font-body leading-relaxed mb-8 max-w-2xl">
-          Got a question about Crete, a tip for the site, or want to collaborate? Opa
-          would love to hear from you! Fill in the form below or send a message via
-          social media.
+          {t("intro")}
         </p>
 
         {/* 🔹 Contactformulier */}
@@ -71,10 +73,7 @@ export default function EnglishContact() {
 
         {/* 🔹 Afsluitend tekstje */}
         <div className="text-center mt-16 text-gray-600 font-body italic">
-          <p>
-            Opa is usually found on a terrace in Heraklion — so a reply might come only
-            after the coffee ☕️😉
-          </p>
+          <p>{t("closingText")}</p>
         </div>
       </div>
     </Layout>

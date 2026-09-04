@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
 
 // ✅ TypeScript fix – voeg dataLayer toe aan window
 declare global {
@@ -12,6 +13,7 @@ declare global {
 export default function CookieConsent() {
   const [visible, setVisible] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const t = useTranslations("common");
 
   useEffect(() => {
     setMounted(true);
@@ -58,21 +60,20 @@ export default function CookieConsent() {
   return (
     <div className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-6 sm:bottom-6 max-w-xl mx-auto bg-[#fffbf2] text-[#11456d] text-sm p-4 sm:p-5 shadow-xl rounded-lg border border-[#83CEEC]/30 flex flex-col sm:flex-row items-center justify-between z-50 transition-all duration-300 ease-in-out animate-fade-in">
       <p className="mb-3 sm:mb-0 sm:mr-4 text-center sm:text-left leading-relaxed">
-        Deze website gebruikt cookies voor statistieken (Google Analytics).{" "}
-        Je kunt kiezen of je dat toestaat.
+        {t("cookieText")}
       </p>
       <div className="flex gap-3">
         <button
           onClick={handleAccept}
           className="bg-[#11456d] hover:bg-[#256395] text-[#fffbf2] font-semibold px-4 py-1.5 rounded transition-colors duration-200"
         >
-          Accepteren
+          {t("cookieAccept")}
         </button>
         <button
           onClick={handleDecline}
           className="bg-[#83CEEC] hover:bg-[#256395] text-[#11456d] font-semibold px-4 py-1.5 rounded transition-colors duration-200"
         >
-          Weigeren
+          {t("cookieDecline")}
         </button>
       </div>
     </div>

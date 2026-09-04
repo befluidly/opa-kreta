@@ -2,7 +2,10 @@ import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import "../../globals.css";
 import { Lexend, Hepta_Slab, Dancing_Script } from "next/font/google";
+import { NextIntlClientProvider } from "next-intl";
+import { setRequestLocale } from "next-intl/server";
 import CookieConsent from "../../../components/CookieConsent";
+import enMessages from "../../../messages/en.json";
 
 const lexend = Lexend({
   subsets: ["latin"],
@@ -25,8 +28,6 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-// Titel/beschrijving hier zijn tijdelijk letterlijk Engels — vervangen door
-// het i18n-woordenboek (messages/en.json) in een volgende stap.
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.opakreta.be"),
   title: "Opa! Kreta | Your guide to Crete: travel tips & highlights",
@@ -56,6 +57,11 @@ export default function EnglishRootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // Zet de locale synchroon vast vóór enige next-intl-aanroep verderop in de
+  // renderboom (zie i18n/request.ts) — dit is wat statische generatie
+  // mogelijk maakt ondanks het gebruik van getTranslations/useTranslations.
+  setRequestLocale("en");
+
   return (
     <html lang="en">
       <body className={`${lexend.variable} ${hepta.variable} ${dancing.variable}`}>
@@ -75,8 +81,10 @@ export default function EnglishRootLayout({
         </Script>
 
         <main className="font-title">
-          {children}
-          <CookieConsent />
+          <NextIntlClientProvider locale="en" messages={enMessages}>
+            {children}
+            <CookieConsent />
+          </NextIntlClientProvider>
         </main>
       </body>
     </html>

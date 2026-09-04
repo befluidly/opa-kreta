@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Layout from "../../../components/Layout";
 import PageHero from "../../../components/PageHero";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
 export const metadata: Metadata = {
   title: "Over Opa Kreta",
@@ -17,13 +18,16 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Over() {
+export default async function Over() {
+  setRequestLocale("nl");
+  const t = await getTranslations({ locale: "nl", namespace: "over" });
+
   return (
     <Layout>
       {/* 🔹 Hero-afbeelding */}
       <PageHero
-        title="Over Opa Kreta"
-        subtitle="Leer het verhaal achter deze website kennen"
+        title={t("heroTitle")}
+        subtitle={t("heroSubtitle")}
         imageUrl="/images/hero/voulisma-beach.jpg"
       />
 
@@ -33,50 +37,17 @@ export default function Over() {
           {/* 🔹 Tekstblok */}
           <div>
             <h1 className="text-3xl font-title font-semibold text-darkCornflower mb-6">
-              Over deze website en mezelf
+              {t("heading")}
             </h1>
 
             <div className="text-gray-700 text-lg font-body leading-relaxed space-y-6">
-              <p>
-                Hallo, ik ben <strong>Lynn</strong> — de persoon achter deze blog.
-                Deze site combineert twee van mijn passies: <em>Kreta</em> en <em>techniek</em>.
-              </p>
-
-              <p>
-                Mijn eerste reis naar Kreta was in <strong>1998</strong>. Wat begon als een
-                gezinsvakantie, groeide uit tot een blijvende interesse in het eiland, zijn mensen
-                en zijn geschiedenis. Tijdens mijn tienerjaren bleef ik liever thuis (“wie wil nu
-                met zijn ouders rondwandelen in de hitte?”), maar intussen is Kreta een plek
-                geworden waar ik steeds naar terugkeer.
-              </p>
-
-              <p>
-                Het eiland heeft alles wat me boeit: van prehistorie en klassieke oudheid tot
-                Byzantijnse invloeden en verhalen uit de twee wereldoorlogen. Elke reis voelt als
-                een stap verder in het ontdekken van dat rijke verleden.
-              </p>
-
-              <p>
-                Naast mijn liefde voor Kreta heb ik ook een zwak voor technologie. Ik bouw en
-                onderhoud deze website zelf en leer onderweg bij over webdesign en grafische
-                vormgeving.
-              </p>
-
-              <p>
-                De foto’s op deze site zijn deels van mijzelf, deels zorgvuldig geselecteerd om de
-                sfeer van het eiland te tonen.
-              </p>
-
-              <p>
-                Ik schrijf niet als gids of expert, maar als iemand die simpelweg geraakt is door
-                Kreta — door de geschiedenis, de gastvrijheid, het eten en het ritme van het leven
-                daar.
-              </p>
-
-              <p>
-                Welkom op mijn blog, waar ik het echte Kreta probeer te tonen: eerlijk, warm en met
-                een persoonlijke blik.
-              </p>
+              <p>{t("p1")}</p>
+              <p>{t("p2")}</p>
+              <p>{t("p3")}</p>
+              <p>{t("p4")}</p>
+              <p>{t("p5")}</p>
+              <p>{t("p6")}</p>
+              <p>{t("p7")}</p>
             </div>
           </div>
 

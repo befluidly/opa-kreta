@@ -2,7 +2,10 @@ import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import "../globals.css";
 import { Lexend, Hepta_Slab, Dancing_Script } from "next/font/google";
+import { NextIntlClientProvider } from "next-intl";
+import { setRequestLocale } from "next-intl/server";
 import CookieConsent from "../../components/CookieConsent";
+import nlMessages from "../../messages/nl.json";
 
 const lexend = Lexend({
   subsets: ["latin"],
@@ -56,6 +59,11 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // Zet de locale synchroon vast vóór enige next-intl-aanroep verderop in de
+  // renderboom (zie i18n/request.ts) — dit is wat statische generatie
+  // mogelijk maakt ondanks het gebruik van getTranslations/useTranslations.
+  setRequestLocale("nl");
+
   return (
     <html lang="nl">
       <body className={`${lexend.variable} ${hepta.variable} ${dancing.variable}`}>
@@ -75,8 +83,10 @@ export default function RootLayout({
         </Script>
 
         <main className="font-title">
-          {children}
-          <CookieConsent />
+          <NextIntlClientProvider locale="nl" messages={nlMessages}>
+            {children}
+            <CookieConsent />
+          </NextIntlClientProvider>
         </main>
       </body>
     </html>
