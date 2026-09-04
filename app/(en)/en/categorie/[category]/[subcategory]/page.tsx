@@ -3,7 +3,6 @@ import Layout from "../../../../../../components/Layout";
 import PageHero from "../../../../../../components/PageHero";
 import SubcategoryPosts from "../../../../../../components/SubcategoryPosts";
 import { getAllPosts } from "../../../../../../lib/api";
-import { regionInfo } from "../../../../../../lib/regionInfo";
 
 interface PageProps {
   params: Promise<{ category: string; subcategory: string }>;
@@ -119,37 +118,21 @@ export default async function EnglishSubCategoryPage({ params }: PageProps) {
       <div className="max-w-screen-xl mx-auto px-4 flex flex-col lg:flex-row gap-12 mb-20">
         {/* 🔹 Artikels links (incl. tag-filters, client-side) */}
         <main className="lg:w-2/3 w-full order-1">
-          <SubcategoryPosts posts={posts} />
+          <SubcategoryPosts
+            posts={posts}
+            emptyMessage="No articles found in this subcategory yet."
+            showAllLabel="Show all"
+          />
         </main>
 
         {/* 🔹 Sidebar rechts */}
         <aside className="lg:w-1/3 w-full order-2">
           <div className="bg-white rounded-lg shadow-md p-6 text-gray-700 leading-relaxed space-y-5">
-            {regionInfo[subcategory] ? (
-              <>
-                <h3 className="text-xl font-semibold text-darkCornflower mb-3">
-                  {regionInfo[subcategory].title}
-                </h3>
-                {regionInfo[subcategory].description.map((p, i) => (
-                  <p key={i} className="mb-5">
-                    {p}
-                  </p>
-                ))}
-                <h4 className="text-base font-semibold text-skyBlue mb-2">Info</h4>
-                <ul className="space-y-1 text-gray-700">
-                  {regionInfo[subcategory].info.map((item, i) => (
-                    <li key={i}>
-                      <span className="font-medium text-darkCornflower">
-                        {item.label}:
-                      </span>{" "}
-                      {item.value}
-                    </li>
-                  ))}
-                </ul>
-              </>
-            ) : (
-              <p>No additional information available for this region yet.</p>
-            )}
+            {/* regionInfo (lib/regionInfo.ts) is nog volledig Nederlandstalig
+                content — bewust niet gebruikt op de EN-pagina i.p.v. de
+                Nederlandse tekst rechtstreeks te tonen. Toont hier altijd de
+                placeholder tot regionInfo zelf ooit apart vertaald wordt. */}
+            <p>No additional information available for this region yet.</p>
           </div>
         </aside>
       </div>
