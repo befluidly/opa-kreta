@@ -4,6 +4,7 @@ import Layout from "../../../components/Layout";
 import PageHero from "../../../components/PageHero";
 import { getAllPosts, getPostBySlug } from "../../../lib/api";
 import { getMdxComponent } from "../../../lib/mdx";
+import { getArticleAlternates } from "../../../lib/i18n-alternates";
 import Link from "next/link";
 import BackButton from "../../../components/BackButton";
 import TagList from "../../../components/TagList";
@@ -66,6 +67,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!post) return {};
 
   const canonicalUrl = `https://www.opakreta.be/${post.slug}`;
+  const alternates = getArticleAlternates(post.canonicalSlug);
+  const languages: Record<string, string> = {};
+  if (alternates.nl) languages.nl = `https://www.opakreta.be${alternates.nl}`;
+  if (alternates.en) languages.en = `https://www.opakreta.be${alternates.en}`;
 
   if (post.category === "recepten") {
     const title = `${post.title} | Griekse Recepten`;
@@ -73,7 +78,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return {
       title,
       description,
-      alternates: { canonical: canonicalUrl },
+      alternates: { canonical: canonicalUrl, languages },
       openGraph: {
         title: post.title,
         description,
@@ -87,7 +92,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: post.title,
     description: post.excerpt || "",
-    alternates: { canonical: canonicalUrl },
+    alternates: { canonical: canonicalUrl, languages },
     openGraph: {
       url: canonicalUrl,
       title: post.title,
@@ -150,8 +155,10 @@ export default async function PostPage({ params }: PageProps) {
     )
     .slice(0, 3);
 
+  const alternates = getArticleAlternates(post.canonicalSlug);
+
   return (
-    <Layout>
+    <Layout articleAlternates={alternates}>
       {/* ✅ Hero */}
       <PageHero
         title={post.title}
