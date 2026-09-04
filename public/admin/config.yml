@@ -2,10 +2,7 @@ backend:
   name: github
   repo: befluidly/opa-kreta
   branch: main
-  # Na het deployen van oauth-worker/ (zie oauth-worker/README.md), de
-  # placeholder hieronder vervangen door de echte worker-URL, bv.
-  # https://opakreta-cms-auth.<jouw-subdomein>.workers.dev
-  base_url: https://opakreta-cms-auth.example.workers.dev
+  base_url: https://opakreta-cms-auth.gizzylynne.workers.dev
 
 # Geen automatische AI-vertaalknop: Sveltia's optionele DeepL-integratie wordt
 # hier bewust niet geconfigureerd (er is geen config-vlag om ze hard uit te
@@ -21,10 +18,26 @@ media_folder: /public/images/uploads
 public_folder: /images/uploads
 
 collections:
-  - name: gidsen
-    label: "Gidsen"
-    folder: /content/gidsen
-    slug: "{{fields.subcategory}}/{{slug}}"
+  # Gidsen: één collectie per submap i.p.v. één met een custom
+  # path-template. Bevestigd (via een live test met echte content) dat een
+  # collectie met i18n: true + structure: multiple_folders + een custom
+  # path-template (bv. "{{fields.subcategory}}/{{slug}}") bestaande
+  # entries niet correct inleest — het bewerkingsscherm toont dan alle
+  # velden leeg (ook velden die wél overeenkomen met de frontmatter),
+  # terwijl platte collecties zonder path-template (zoals Praktisch en
+  # Recepten hieronder) altijd correct werkten. Dit is de fallback die het
+  # oorspronkelijke plan al voorzag voor precies dit scenario.
+  #
+  # Elke submap-collectie hieronder heeft een gewone `folder` (geen
+  # `path` nodig, want elke submap = exact één collectie) en een
+  # `subcategories`-veld (meervoud, multi-select) dat overeenkomt met hoe
+  # de bestaande 27 artikelen hun regio/onderwerp écht opslaan in
+  # frontmatter — niet het enkelvoudige `subcategory` van de vorige versie
+  # van deze config, dat met geen enkel bestaand bestand overeenkwam.
+  - name: gidsen-chania
+    label: "Gidsen: Chania"
+    folder: /content/gidsen/chania
+    extension: mdx
     i18n: true
     create: true
     fields:
@@ -33,19 +46,341 @@ collections:
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
       - { label: "Categorie", name: category, widget: hidden, default: gidsen }
-      - label: "Regio / onderwerp"
-        name: subcategory
-        widget: select
-        hint: "Bepaalt ook de submap waarin het artikel wordt opgeslagen."
-        options:
-          [chania, heraklion, rethymnon, lassithi, cultuur, geschiedenis,
-           eten-en-drinken, natuur-en-wandelen]
-      - label: "Extra regio's/onderwerpen (optioneel)"
+      - label: "Regio's/onderwerpen"
         name: subcategories
         widget: select
         multiple: true
+        default: [chania]
+        hint: "Het artikel toont in elke geselecteerde regio/onderwerp — staat al op Chania ingesteld, voeg toe als het artikel ook elders moet tonen."
+        options:
+          [chania, heraklion, rethymnon, lassithi, cultuur, geschiedenis,
+           eten-en-drinken, natuur-en-wandelen]
+      - label: "Tags"
+        name: tags
+        widget: list
         required: false
-        hint: "Voor artikelen die in meerdere regio's/onderwerpen tonen."
+      - label: "Affiliates"
+        name: affiliates
+        widget: list
+        required: false
+        fields:
+          - { label: "Titel", name: title, widget: string, required: false }
+          - { label: "Tekst", name: text, widget: text, required: false }
+          - { label: "Link", name: link, widget: string, required: false }
+          - { label: "Knoptekst", name: button, widget: string, required: false }
+          - { label: "Afbeelding", name: image, widget: image, required: false }
+      - label: "Inhoud"
+        name: body
+        widget: markdown
+        default: |
+          ## Intro
+
+          ## Bezienswaardigheden
+
+          ## Praktische info
+
+          ## Tips
+
+  - name: gidsen-heraklion
+    label: "Gidsen: Heraklion"
+    folder: /content/gidsen/heraklion
+    extension: mdx
+    i18n: true
+    create: true
+    fields:
+      - { label: "Titel", name: title, widget: string }
+      - { label: "Samenvatting", name: excerpt, widget: text }
+      - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
+      - { label: "Coverfoto", name: coverImage, widget: image, required: false }
+      - { label: "Categorie", name: category, widget: hidden, default: gidsen }
+      - label: "Regio's/onderwerpen"
+        name: subcategories
+        widget: select
+        multiple: true
+        default: [heraklion]
+        hint: "Het artikel toont in elke geselecteerde regio/onderwerp — staat al op Heraklion ingesteld, voeg toe als het artikel ook elders moet tonen."
+        options:
+          [chania, heraklion, rethymnon, lassithi, cultuur, geschiedenis,
+           eten-en-drinken, natuur-en-wandelen]
+      - label: "Tags"
+        name: tags
+        widget: list
+        required: false
+      - label: "Affiliates"
+        name: affiliates
+        widget: list
+        required: false
+        fields:
+          - { label: "Titel", name: title, widget: string, required: false }
+          - { label: "Tekst", name: text, widget: text, required: false }
+          - { label: "Link", name: link, widget: string, required: false }
+          - { label: "Knoptekst", name: button, widget: string, required: false }
+          - { label: "Afbeelding", name: image, widget: image, required: false }
+      - label: "Inhoud"
+        name: body
+        widget: markdown
+        default: |
+          ## Intro
+
+          ## Bezienswaardigheden
+
+          ## Praktische info
+
+          ## Tips
+
+  - name: gidsen-rethymnon
+    label: "Gidsen: Rethymnon"
+    folder: /content/gidsen/rethymnon
+    extension: mdx
+    i18n: true
+    create: true
+    fields:
+      - { label: "Titel", name: title, widget: string }
+      - { label: "Samenvatting", name: excerpt, widget: text }
+      - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
+      - { label: "Coverfoto", name: coverImage, widget: image, required: false }
+      - { label: "Categorie", name: category, widget: hidden, default: gidsen }
+      - label: "Regio's/onderwerpen"
+        name: subcategories
+        widget: select
+        multiple: true
+        default: [rethymnon]
+        hint: "Het artikel toont in elke geselecteerde regio/onderwerp — staat al op Rethymnon ingesteld, voeg toe als het artikel ook elders moet tonen."
+        options:
+          [chania, heraklion, rethymnon, lassithi, cultuur, geschiedenis,
+           eten-en-drinken, natuur-en-wandelen]
+      - label: "Tags"
+        name: tags
+        widget: list
+        required: false
+      - label: "Affiliates"
+        name: affiliates
+        widget: list
+        required: false
+        fields:
+          - { label: "Titel", name: title, widget: string, required: false }
+          - { label: "Tekst", name: text, widget: text, required: false }
+          - { label: "Link", name: link, widget: string, required: false }
+          - { label: "Knoptekst", name: button, widget: string, required: false }
+          - { label: "Afbeelding", name: image, widget: image, required: false }
+      - label: "Inhoud"
+        name: body
+        widget: markdown
+        default: |
+          ## Intro
+
+          ## Bezienswaardigheden
+
+          ## Praktische info
+
+          ## Tips
+
+  - name: gidsen-lassithi
+    label: "Gidsen: Lassithi"
+    folder: /content/gidsen/lassithi
+    extension: mdx
+    i18n: true
+    create: true
+    fields:
+      - { label: "Titel", name: title, widget: string }
+      - { label: "Samenvatting", name: excerpt, widget: text }
+      - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
+      - { label: "Coverfoto", name: coverImage, widget: image, required: false }
+      - { label: "Categorie", name: category, widget: hidden, default: gidsen }
+      - label: "Regio's/onderwerpen"
+        name: subcategories
+        widget: select
+        multiple: true
+        default: [lassithi]
+        hint: "Het artikel toont in elke geselecteerde regio/onderwerp — staat al op Lassithi ingesteld, voeg toe als het artikel ook elders moet tonen."
+        options:
+          [chania, heraklion, rethymnon, lassithi, cultuur, geschiedenis,
+           eten-en-drinken, natuur-en-wandelen]
+      - label: "Tags"
+        name: tags
+        widget: list
+        required: false
+      - label: "Affiliates"
+        name: affiliates
+        widget: list
+        required: false
+        fields:
+          - { label: "Titel", name: title, widget: string, required: false }
+          - { label: "Tekst", name: text, widget: text, required: false }
+          - { label: "Link", name: link, widget: string, required: false }
+          - { label: "Knoptekst", name: button, widget: string, required: false }
+          - { label: "Afbeelding", name: image, widget: image, required: false }
+      - label: "Inhoud"
+        name: body
+        widget: markdown
+        default: |
+          ## Intro
+
+          ## Bezienswaardigheden
+
+          ## Praktische info
+
+          ## Tips
+
+  - name: gidsen-cultuur
+    label: "Gidsen: Cultuur"
+    folder: /content/gidsen/cultuur
+    extension: mdx
+    i18n: true
+    create: true
+    fields:
+      - { label: "Titel", name: title, widget: string }
+      - { label: "Samenvatting", name: excerpt, widget: text }
+      - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
+      - { label: "Coverfoto", name: coverImage, widget: image, required: false }
+      - { label: "Categorie", name: category, widget: hidden, default: gidsen }
+      - label: "Regio's/onderwerpen"
+        name: subcategories
+        widget: select
+        multiple: true
+        default: [cultuur]
+        hint: "Het artikel toont in elke geselecteerde regio/onderwerp — staat al op Cultuur ingesteld, voeg toe als het artikel ook elders moet tonen."
+        options:
+          [chania, heraklion, rethymnon, lassithi, cultuur, geschiedenis,
+           eten-en-drinken, natuur-en-wandelen]
+      - label: "Tags"
+        name: tags
+        widget: list
+        required: false
+      - label: "Affiliates"
+        name: affiliates
+        widget: list
+        required: false
+        fields:
+          - { label: "Titel", name: title, widget: string, required: false }
+          - { label: "Tekst", name: text, widget: text, required: false }
+          - { label: "Link", name: link, widget: string, required: false }
+          - { label: "Knoptekst", name: button, widget: string, required: false }
+          - { label: "Afbeelding", name: image, widget: image, required: false }
+      - label: "Inhoud"
+        name: body
+        widget: markdown
+        default: |
+          ## Intro
+
+          ## Bezienswaardigheden
+
+          ## Praktische info
+
+          ## Tips
+
+  - name: gidsen-geschiedenis
+    label: "Gidsen: Geschiedenis"
+    folder: /content/gidsen/geschiedenis
+    extension: mdx
+    i18n: true
+    create: true
+    fields:
+      - { label: "Titel", name: title, widget: string }
+      - { label: "Samenvatting", name: excerpt, widget: text }
+      - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
+      - { label: "Coverfoto", name: coverImage, widget: image, required: false }
+      - { label: "Categorie", name: category, widget: hidden, default: gidsen }
+      - label: "Regio's/onderwerpen"
+        name: subcategories
+        widget: select
+        multiple: true
+        default: [geschiedenis]
+        hint: "Het artikel toont in elke geselecteerde regio/onderwerp — staat al op Geschiedenis ingesteld, voeg toe als het artikel ook elders moet tonen."
+        options:
+          [chania, heraklion, rethymnon, lassithi, cultuur, geschiedenis,
+           eten-en-drinken, natuur-en-wandelen]
+      - label: "Tags"
+        name: tags
+        widget: list
+        required: false
+      - label: "Affiliates"
+        name: affiliates
+        widget: list
+        required: false
+        fields:
+          - { label: "Titel", name: title, widget: string, required: false }
+          - { label: "Tekst", name: text, widget: text, required: false }
+          - { label: "Link", name: link, widget: string, required: false }
+          - { label: "Knoptekst", name: button, widget: string, required: false }
+          - { label: "Afbeelding", name: image, widget: image, required: false }
+      - label: "Inhoud"
+        name: body
+        widget: markdown
+        default: |
+          ## Intro
+
+          ## Bezienswaardigheden
+
+          ## Praktische info
+
+          ## Tips
+
+  - name: gidsen-eten-en-drinken
+    label: "Gidsen: Eten & drinken"
+    folder: /content/gidsen/eten-en-drinken
+    extension: mdx
+    i18n: true
+    create: true
+    fields:
+      - { label: "Titel", name: title, widget: string }
+      - { label: "Samenvatting", name: excerpt, widget: text }
+      - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
+      - { label: "Coverfoto", name: coverImage, widget: image, required: false }
+      - { label: "Categorie", name: category, widget: hidden, default: gidsen }
+      - label: "Regio's/onderwerpen"
+        name: subcategories
+        widget: select
+        multiple: true
+        default: [eten-en-drinken]
+        hint: "Het artikel toont in elke geselecteerde regio/onderwerp — staat al op Eten & drinken ingesteld, voeg toe als het artikel ook elders moet tonen."
+        options:
+          [chania, heraklion, rethymnon, lassithi, cultuur, geschiedenis,
+           eten-en-drinken, natuur-en-wandelen]
+      - label: "Tags"
+        name: tags
+        widget: list
+        required: false
+      - label: "Affiliates"
+        name: affiliates
+        widget: list
+        required: false
+        fields:
+          - { label: "Titel", name: title, widget: string, required: false }
+          - { label: "Tekst", name: text, widget: text, required: false }
+          - { label: "Link", name: link, widget: string, required: false }
+          - { label: "Knoptekst", name: button, widget: string, required: false }
+          - { label: "Afbeelding", name: image, widget: image, required: false }
+      - label: "Inhoud"
+        name: body
+        widget: markdown
+        default: |
+          ## Intro
+
+          ## Bezienswaardigheden
+
+          ## Praktische info
+
+          ## Tips
+
+  - name: gidsen-natuur-en-wandelen
+    label: "Gidsen: Natuur & wandelen"
+    folder: /content/gidsen/natuur-en-wandelen
+    extension: mdx
+    i18n: true
+    create: true
+    fields:
+      - { label: "Titel", name: title, widget: string }
+      - { label: "Samenvatting", name: excerpt, widget: text }
+      - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
+      - { label: "Coverfoto", name: coverImage, widget: image, required: false }
+      - { label: "Categorie", name: category, widget: hidden, default: gidsen }
+      - label: "Regio's/onderwerpen"
+        name: subcategories
+        widget: select
+        multiple: true
+        default: [natuur-en-wandelen]
+        hint: "Het artikel toont in elke geselecteerde regio/onderwerp — staat al op Natuur & wandelen ingesteld, voeg toe als het artikel ook elders moet tonen."
         options:
           [chania, heraklion, rethymnon, lassithi, cultuur, geschiedenis,
            eten-en-drinken, natuur-en-wandelen]
@@ -78,6 +413,7 @@ collections:
   - name: praktisch
     label: "Praktisch"
     folder: /content/praktisch
+    extension: mdx
     i18n: true
     create: true
     fields:
@@ -110,10 +446,11 @@ collections:
 
           ## Tips
 
-  - name: opas-blog
-    label: "Opa's Blog"
-    folder: /content/opas-blog
-    slug: "{{fields.subcategory}}/{{slug}}"
+  # Opa's Blog: zelfde fallback als Gidsen hierboven, om dezelfde reden.
+  - name: opas-blog-feestdagen-en-tradities
+    label: "Opa's Blog: Feestdagen & tradities"
+    folder: /content/opas-blog/feestdagen-en-tradities
+    extension: mdx
     i18n: true
     create: true
     fields:
@@ -122,10 +459,102 @@ collections:
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
       - { label: "Categorie", name: category, widget: hidden, default: opas-blog }
-      - label: "Onderwerp"
-        name: subcategory
+      - label: "Onderwerpen"
+        name: subcategories
         widget: select
-        hint: "Bepaalt ook de submap waarin het artikel wordt opgeslagen."
+        multiple: true
+        default: [feestdagen-en-tradities]
+        hint: "Het artikel toont in elk geselecteerd onderwerp — staat al op Feestdagen & tradities ingesteld, voeg toe als het artikel ook elders moet tonen."
+        options: [feestdagen-en-tradities, het-leven-op-kreta, verhalen-van-onderweg]
+      - label: "Tags"
+        name: tags
+        widget: list
+        required: false
+      - label: "Affiliates"
+        name: affiliates
+        widget: list
+        required: false
+        fields:
+          - { label: "Titel", name: title, widget: string, required: false }
+          - { label: "Tekst", name: text, widget: text, required: false }
+          - { label: "Link", name: link, widget: string, required: false }
+          - { label: "Knoptekst", name: button, widget: string, required: false }
+          - { label: "Afbeelding", name: image, widget: image, required: false }
+      - label: "Inhoud"
+        name: body
+        widget: markdown
+        default: |
+          ## Intro
+
+          ## Bezienswaardigheden
+
+          ## Praktische info
+
+          ## Tips
+
+  - name: opas-blog-het-leven-op-kreta
+    label: "Opa's Blog: Het leven op Kreta"
+    folder: /content/opas-blog/het-leven-op-kreta
+    extension: mdx
+    i18n: true
+    create: true
+    fields:
+      - { label: "Titel", name: title, widget: string }
+      - { label: "Samenvatting", name: excerpt, widget: text }
+      - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
+      - { label: "Coverfoto", name: coverImage, widget: image, required: false }
+      - { label: "Categorie", name: category, widget: hidden, default: opas-blog }
+      - label: "Onderwerpen"
+        name: subcategories
+        widget: select
+        multiple: true
+        default: [het-leven-op-kreta]
+        hint: "Het artikel toont in elk geselecteerd onderwerp — staat al op Het leven op Kreta ingesteld, voeg toe als het artikel ook elders moet tonen."
+        options: [feestdagen-en-tradities, het-leven-op-kreta, verhalen-van-onderweg]
+      - label: "Tags"
+        name: tags
+        widget: list
+        required: false
+      - label: "Affiliates"
+        name: affiliates
+        widget: list
+        required: false
+        fields:
+          - { label: "Titel", name: title, widget: string, required: false }
+          - { label: "Tekst", name: text, widget: text, required: false }
+          - { label: "Link", name: link, widget: string, required: false }
+          - { label: "Knoptekst", name: button, widget: string, required: false }
+          - { label: "Afbeelding", name: image, widget: image, required: false }
+      - label: "Inhoud"
+        name: body
+        widget: markdown
+        default: |
+          ## Intro
+
+          ## Bezienswaardigheden
+
+          ## Praktische info
+
+          ## Tips
+
+  - name: opas-blog-verhalen-van-onderweg
+    label: "Opa's Blog: Verhalen van onderweg"
+    folder: /content/opas-blog/verhalen-van-onderweg
+    extension: mdx
+    i18n: true
+    create: true
+    fields:
+      - { label: "Titel", name: title, widget: string }
+      - { label: "Samenvatting", name: excerpt, widget: text }
+      - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
+      - { label: "Coverfoto", name: coverImage, widget: image, required: false }
+      - { label: "Categorie", name: category, widget: hidden, default: opas-blog }
+      - label: "Onderwerpen"
+        name: subcategories
+        widget: select
+        multiple: true
+        default: [verhalen-van-onderweg]
+        hint: "Het artikel toont in elk geselecteerd onderwerp — staat al op Verhalen van onderweg ingesteld, voeg toe als het artikel ook elders moet tonen."
         options: [feestdagen-en-tradities, het-leven-op-kreta, verhalen-van-onderweg]
       - label: "Tags"
         name: tags
@@ -156,6 +585,7 @@ collections:
   - name: tips-muziek
     label: "Inspiratie — Muziek"
     folder: /content/tips/muziek
+    extension: mdx
     i18n: true
     create: true
     fields:
@@ -190,6 +620,7 @@ collections:
   - name: recepten
     label: "Recepten"
     folder: /content/recepten
+    extension: mdx
     i18n: true
     create: true
     fields:
