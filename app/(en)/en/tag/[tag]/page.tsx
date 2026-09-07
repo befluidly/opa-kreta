@@ -4,19 +4,11 @@ import Layout from "../../../../../components/Layout";
 import PageHero from "../../../../../components/PageHero";
 import PostCard from "../../../../../components/PostCard";
 import { getAllPosts } from "../../../../../lib/api";
-import { getTagLabelEn } from "../../../../../lib/tagLabels";
+import { getTagLabelEn, tagToSlug as toSlug } from "../../../../../lib/tagLabels";
 
 interface PageProps {
   params: Promise<{ tag: string }>;
 }
-
-/** Zet een tag om naar een URL-veilige slug */
-const toSlug = (s: string) =>
-  s
-    .toLowerCase()
-    .trim()
-    .replace(/[^\w\s-]/g, "") // verwijder rare tekens
-    .replace(/\s+/g, "-"); // spaties -> -
 
 export async function generateStaticParams() {
   const posts = getAllPosts(undefined, "en");

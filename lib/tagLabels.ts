@@ -101,3 +101,16 @@ export function getTagLabelEn(tag: string): string {
     TAG_LABELS_EN[key] ?? tag.replace(/-/g, " ").replace(/\b\w/g, (char) => char.toUpperCase())
   );
 }
+
+// Zet een tag om naar een URL-veilige slug — dezelfde regel die
+// app/(nl)/tag/[tag]/page.tsx en app/(en)/en/tag/[tag]/page.tsx gebruiken om
+// generateStaticParams en de gefilterde posts-lijst op te bouwen. TagList.tsx
+// moet exact diezelfde slug in de href zetten, anders klikt een tag met
+// spaties (bv. "auto huren kreta") door naar een niet-bestaande URL.
+export function tagToSlug(tag: string): string {
+  return tag
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/\s+/g, "-");
+}
