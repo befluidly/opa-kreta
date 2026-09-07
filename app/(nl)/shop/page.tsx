@@ -7,7 +7,10 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 export const metadata: Metadata = {
   title: "Shop | Opa Kreta",
   description: "Binnenkort verkrijgbaar: Kreta e-books, gidsen en digitale producten.",
-  alternates: { canonical: "https://www.opakreta.be/shop" },
+  alternates: {
+    canonical: "https://www.opakreta.be/shop",
+    languages: { nl: "https://www.opakreta.be/shop", en: "https://www.opakreta.be/en/shop" },
+  },
   openGraph: {
     title: "Shop | Opa Kreta",
     description: "Binnenkort verkrijgbaar: Kreta e-books, gidsen en digitale producten.",

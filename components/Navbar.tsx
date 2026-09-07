@@ -2,9 +2,16 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { useTranslations, useLocale } from "next-intl";
+import type { ArticleAlternates } from "../lib/i18n-alternates";
 
-const NavBar = () => {
+interface NavBarProps {
+  // Enkel meegegeven op artikelpagina's — zie components/Layout.tsx.
+  articleAlternates?: ArticleAlternates;
+}
+
+const NavBar = ({ articleAlternates }: NavBarProps) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const t = useTranslations("nav");
   // Navbar is een gedeeld component (components/Layout.tsx) dat in zowel de
@@ -13,6 +20,23 @@ const NavBar = () => {
   // naar de Nederlandse versie van die pagina.
   const locale = useLocale();
   const prefix = locale === "en" ? "/en" : "";
+  const pathname = usePathname();
+
+  // Taal-toggle: op een artikelpagina (articleAlternates meegegeven door
+  // Layout) tonen we enkel wat er ook echt vertaald is, zodat er nooit naar
+  // een niet-bestaande EN-versie gelinkt wordt. Op elke andere ("chrome")
+  // pagina bestaat de EN-tegenhanger altijd op hetzelfde pad met een
+  // /en-prefix, dus volstaat het om dat prefix te wisselen op het huidige pad.
+  const nlHref = articleAlternates
+    ? articleAlternates.nl
+    : locale === "en"
+      ? pathname.replace(/^\/en/, "") || "/"
+      : pathname;
+  const enHref = articleAlternates
+    ? articleAlternates.en
+    : locale === "en"
+      ? pathname
+      : `/en${pathname === "/" ? "" : pathname}`;
 
   return (
     <>
@@ -82,13 +106,42 @@ const NavBar = () => {
               </Link>
             </div>
 
-            <div className="ml-auto">
+            <div className="ml-auto flex items-center gap-4">
               <Link
                 href={`${prefix}/shop`}
                 className="hover:text-spanishBlue font-semibold transition-colors text-[18px]"
               >
                 {t("shop")}
               </Link>
+
+              {/* 🌐 Taal-toggle: enkel EN tonen als er een vertaling bestaat */}
+              <div className="flex items-center gap-1 text-sm font-semibold">
+                {nlHref && (
+                  <Link
+                    href={nlHref}
+                    className={
+                      locale === "nl"
+                        ? "text-darkCornflower"
+                        : "text-gray-400 hover:text-spanishBlue transition-colors"
+                    }
+                  >
+                    NL
+                  </Link>
+                )}
+                {nlHref && enHref && <span className="text-gray-300">|</span>}
+                {enHref && (
+                  <Link
+                    href={enHref}
+                    className={
+                      locale === "en"
+                        ? "text-darkCornflower"
+                        : "text-gray-400 hover:text-spanishBlue transition-colors"
+                    }
+                  >
+                    EN
+                  </Link>
+                )}
+              </div>
             </div>
           </div>
 
@@ -139,6 +192,29 @@ const NavBar = () => {
           >
             {t("shop")}
           </Link>
+
+          {/* 🌐 Taal-toggle */}
+          <div className="flex items-center gap-2 pt-2">
+            {nlHref && (
+              <Link
+                href={nlHref}
+                onClick={() => setMenuOpen(false)}
+                className={locale === "nl" ? "text-darkCornflower" : "text-gray-400"}
+              >
+                NL
+              </Link>
+            )}
+            {nlHref && enHref && <span className="text-gray-300">|</span>}
+            {enHref && (
+              <Link
+                href={enHref}
+                onClick={() => setMenuOpen(false)}
+                className={locale === "en" ? "text-darkCornflower" : "text-gray-400"}
+              >
+                EN
+              </Link>
+            )}
+          </div>
         </div>
       </div>
     </>

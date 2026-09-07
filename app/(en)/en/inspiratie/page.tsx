@@ -10,7 +10,13 @@ export const metadata: Metadata = {
   title: "Inspiration",
   description:
     "Discover Opa's favourite spots online: Greek radio stations, music, news sites, podcasts and videos that bring island life straight to you.",
-  alternates: { canonical: "https://www.opakreta.be/en/inspiratie" },
+  alternates: {
+    canonical: "https://www.opakreta.be/en/inspiratie",
+    languages: {
+      nl: "https://www.opakreta.be/inspiratie",
+      en: "https://www.opakreta.be/en/inspiratie",
+    },
+  },
   openGraph: {
     title: "Inspiration",
     description:

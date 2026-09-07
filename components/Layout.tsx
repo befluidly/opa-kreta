@@ -2,8 +2,18 @@ import Script from "next/script";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import ScrollToTopButton from "./ScrollToTopButton";
+import type { ArticleAlternates } from "../lib/i18n-alternates";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+interface LayoutProps {
+  children: React.ReactNode;
+  // Enkel meegegeven door artikelpagina's ([...slug]/page.tsx, RecipeLayout)
+  // — laat de taal-toggle in Navbar weten welke vertaalde versie van dít
+  // specifieke artikel bestaat, i.p.v. enkel het /en-prefix op het huidige
+  // pad te wisselen (dat zou op een nog-niet-vertaald artikel een 404 geven).
+  articleAlternates?: ArticleAlternates;
+}
+
+export default function Layout({ children, articleAlternates }: LayoutProps) {
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       {/* Travelpayouts verificatie */}
@@ -18,7 +28,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         `}
       </Script>
 
-      <Navbar />
+      <Navbar articleAlternates={articleAlternates} />
       <main className="flex-grow mb-20">{children}<ScrollToTopButton /></main>
       <Footer />
     </div>
