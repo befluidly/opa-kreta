@@ -114,8 +114,10 @@ const NavBar = ({ articleAlternates }: NavBarProps) => {
                 {t("shop")}
               </Link>
 
-              {/* 🌐 Taal-toggle: enkel EN tonen als er een vertaling bestaat */}
-              <div className="flex items-center gap-1 text-sm font-semibold">
+              {/* 🌐 Taal-toggle: enkel EN tonen als er een vertaling bestaat.
+                  Extra marge + scheidingslijn t.o.v. "Shop" zodat de toggle
+                  zelf beter opvalt i.p.v. te verdwijnen naast Shop. */}
+              <div className="flex items-center gap-1 text-sm font-semibold ml-2 pl-4 border-l border-gray-200">
                 {nlHref && (
                   <Link
                     href={nlHref}
