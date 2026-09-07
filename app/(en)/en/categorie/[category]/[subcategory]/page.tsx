@@ -3,7 +3,7 @@ import Layout from "../../../../../../components/Layout";
 import PageHero from "../../../../../../components/PageHero";
 import SubcategoryPosts from "../../../../../../components/SubcategoryPosts";
 import { getAllPosts } from "../../../../../../lib/api";
-import { regionInfo } from "../../../../../../lib/regionInfo";
+import { SUBCATEGORIES_BY_CATEGORY } from "../../../../../../lib/categoryTaxonomy";
 
 interface PageProps {
   params: Promise<{ category: string; subcategory: string }>;
@@ -36,17 +36,16 @@ const heroSubMap: Record<string, string> = {
 };
 
 export async function generateStaticParams() {
-  const posts = getAllPosts(undefined, "en");
+  // Vaste lijst i.p.v. afgeleid uit bestaande EN-posts — zie
+  // lib/categoryTaxonomy.ts en de gelijkaardige toelichting in
+  // ../page.tsx: zonder dit genereerde deze pagina nul paden zolang er
+  // geen EN-vertalingen bestaan, en 404'te elke /en/categorie/*/*-URL.
   const paths: { category: string; subcategory: string }[] = [];
-
-  for (const p of posts) {
-    if (p.category && Array.isArray(p.subcategories)) {
-      for (const sub of p.subcategories) {
-        paths.push({ category: p.category, subcategory: sub });
-      }
+  for (const [category, subcategories] of Object.entries(SUBCATEGORIES_BY_CATEGORY)) {
+    for (const subcategory of subcategories) {
+      paths.push({ category, subcategory });
     }
   }
-
   return paths;
 }
 
@@ -119,37 +118,21 @@ export default async function EnglishSubCategoryPage({ params }: PageProps) {
       <div className="max-w-screen-xl mx-auto px-4 flex flex-col lg:flex-row gap-12 mb-20">
         {/* 🔹 Artikels links (incl. tag-filters, client-side) */}
         <main className="lg:w-2/3 w-full order-1">
-          <SubcategoryPosts posts={posts} />
+          <SubcategoryPosts
+            posts={posts}
+            emptyMessage="No articles found in this subcategory yet."
+            showAllLabel="Show all"
+          />
         </main>
 
         {/* 🔹 Sidebar rechts */}
         <aside className="lg:w-1/3 w-full order-2">
           <div className="bg-white rounded-lg shadow-md p-6 text-gray-700 leading-relaxed space-y-5">
-            {regionInfo[subcategory] ? (
-              <>
-                <h3 className="text-xl font-semibold text-darkCornflower mb-3">
-                  {regionInfo[subcategory].title}
-                </h3>
-                {regionInfo[subcategory].description.map((p, i) => (
-                  <p key={i} className="mb-5">
-                    {p}
-                  </p>
-                ))}
-                <h4 className="text-base font-semibold text-skyBlue mb-2">Info</h4>
-                <ul className="space-y-1 text-gray-700">
-                  {regionInfo[subcategory].info.map((item, i) => (
-                    <li key={i}>
-                      <span className="font-medium text-darkCornflower">
-                        {item.label}:
-                      </span>{" "}
-                      {item.value}
-                    </li>
-                  ))}
-                </ul>
-              </>
-            ) : (
-              <p>No additional information available for this region yet.</p>
-            )}
+            {/* regionInfo (lib/regionInfo.ts) is nog volledig Nederlandstalig
+                content — bewust niet gebruikt op de EN-pagina i.p.v. de
+                Nederlandse tekst rechtstreeks te tonen. Toont hier altijd de
+                placeholder tot regionInfo zelf ooit apart vertaald wordt. */}
+            <p>No additional information available for this region yet.</p>
           </div>
         </aside>
       </div>
