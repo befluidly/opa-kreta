@@ -126,6 +126,51 @@ function buildPost(filePath) {
   };
 }
 
+// Velden die in public/admin/config.yml bewust NIET op i18n: true staan —
+// "gedeeld tussen talen", géén eigen vertaling per locale (zie PR #13).
+// Onder Sveltia's structure: multiple_folders leven nl en en als volledig
+// aparte fysieke bestanden; een veld zonder i18n: true wordt bij het
+// opslaan van een vertaling NIET automatisch in het en-bestand geschreven
+// (bevestigd: een net aangemaakte EN-vertaling had geen category/
+// subcategories in de frontmatter, enkel title/excerpt/tags/body) — het
+// NL-bestand blijft dus de facto de enige plek waar deze velden staan.
+// Zonder deze stap kreeg elke EN-vertaling category: "" en
+// subcategories: [], waardoor die nooit meer op een categorie- of
+// subcategoriepagina verscheen, ook al bestond het artikel wel degelijk.
+const SHARED_FIELD_NAMES = [
+  "date",
+  "coverImage",
+  "heroImage",
+  "category",
+  "subcategories",
+  "tags",
+  "affiliates",
+  "prepTime",
+  "cookTime",
+  "servings",
+  "ingredients",
+];
+
+// Laat elke EN-post de gedeelde velden overnemen van haar NL-tegenhanger
+// (gekoppeld via canonicalSlug), zodat de NL-versie de enige bron van
+// waarheid is voor deze velden — ongeacht wat Sveltia toevallig wel of
+// niet in het EN-bestand zelf heeft geschreven.
+function inheritSharedFieldsFromDefaultLocale(posts) {
+  const nlBySlug = new Map(
+    posts.filter((post) => post.locale === "nl").map((post) => [post.canonicalSlug, post])
+  );
+
+  for (const post of posts) {
+    if (post.locale !== "en") continue;
+    const nlPost = nlBySlug.get(post.canonicalSlug);
+    if (!nlPost) continue;
+
+    for (const field of SHARED_FIELD_NAMES) {
+      post[field] = nlPost[field];
+    }
+  }
+}
+
 // Verwijdert top-level import/export-statements uit de MDX-AST, net zoals
 // next-mdx-remote's removeImportsExportsPlugin (unist-util-remove op
 // 'mdxjsEsm'-nodes) — puur zodat een los `import X from "..."`-regeltje in
@@ -161,6 +206,7 @@ async function main() {
 
   const filePaths = getAllContentFiles(contentDirectory);
   const posts = filePaths.map(buildPost);
+  inheritSharedFieldsFromDefaultLocale(posts);
 
   fs.writeFileSync(dataOutputPath, JSON.stringify(posts, null, 2) + "\n");
 
