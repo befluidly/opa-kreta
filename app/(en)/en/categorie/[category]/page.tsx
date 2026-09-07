@@ -4,7 +4,7 @@ import Layout from "../../../../../components/Layout";
 import PageHero from "../../../../../components/PageHero";
 import PostCard from "../../../../../components/PostCard";
 import { getAllPosts } from "../../../../../lib/api";
-import { CATEGORIES } from "../../../../../lib/categoryTaxonomy";
+import { CATEGORIES, getSubcategoryLabelEn } from "../../../../../lib/categoryTaxonomy";
 
 interface PageProps {
   params: Promise<{ category: string }>;
@@ -113,9 +113,7 @@ export default async function EnglishCategoryPage({ params }: PageProps) {
           {/* 🔹 Filterknoppen */}
           <div className="max-w-screen-xl mx-auto px-4 mt-10 flex flex-wrap gap-3">
             {subcategories.map((sub) => {
-              const label = sub
-                .replace(/-/g, " ")
-                .replace(/\b\w/g, (char) => char.toUpperCase());
+              const label = getSubcategoryLabelEn(sub);
               return (
                 <a
                   key={sub}
@@ -143,8 +141,8 @@ export default async function EnglishCategoryPage({ params }: PageProps) {
               >
                 {/* Titel + link */}
                 <div className="flex items-center gap-4 mb-4">
-                  <h2 className="text-2xl font-semibold capitalize text-darkCornflower">
-                    {sub.replace(/-/g, " ")}
+                  <h2 className="text-2xl font-semibold text-darkCornflower">
+                    {getSubcategoryLabelEn(sub)}
                   </h2>
                   <a
                     href={`/en/categorie/${category}/${sub}`}
@@ -174,11 +172,7 @@ export default async function EnglishCategoryPage({ params }: PageProps) {
                     href={`/en/categorie/${category}/${sub}`}
                     className="inline-block bg-skyBlue text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-sky-600 transition"
                   >
-                    View all articles about{" "}
-                    {sub
-                      .replace(/-/g, " ")
-                      .replace(/\b\w/g, (char) => char.toUpperCase())}{" "}
-                    →
+                    View all articles about {getSubcategoryLabelEn(sub)} →
                   </a>
                 </div>
               </section>
