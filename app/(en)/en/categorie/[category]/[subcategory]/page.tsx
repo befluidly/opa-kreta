@@ -3,7 +3,10 @@ import Layout from "../../../../../../components/Layout";
 import PageHero from "../../../../../../components/PageHero";
 import SubcategoryPosts from "../../../../../../components/SubcategoryPosts";
 import { getAllPosts } from "../../../../../../lib/api";
-import { SUBCATEGORIES_BY_CATEGORY } from "../../../../../../lib/categoryTaxonomy";
+import {
+  SUBCATEGORIES_BY_CATEGORY,
+  getSubcategoryLabelEn,
+} from "../../../../../../lib/categoryTaxonomy";
 
 interface PageProps {
   params: Promise<{ category: string; subcategory: string }>;
@@ -52,9 +55,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { category, subcategory } = await params;
   const pageTitle = titleMap[category] || category;
-  const formattedSubcategory = subcategory
-    .replace(/-/g, " ")
-    .replace(/\b\w/g, (l) => l.toUpperCase());
+  const formattedSubcategory = getSubcategoryLabelEn(subcategory);
   const canonicalUrl = `https://www.opakreta.be/en/categorie/${category}/${subcategory}`;
   const title = `${pageTitle}: ${formattedSubcategory}`;
   const description = `All articles about ${formattedSubcategory}`;
@@ -77,9 +78,7 @@ export default async function EnglishSubCategoryPage({ params }: PageProps) {
   const { category, subcategory } = await params;
 
   const pageTitle = titleMap[category] || category;
-  const formattedSubcategory = subcategory
-    .replace(/-/g, " ")
-    .replace(/\b\w/g, (l) => l.toUpperCase());
+  const formattedSubcategory = getSubcategoryLabelEn(subcategory);
 
   const allPosts = getAllPosts(undefined, "en");
   const posts = allPosts.filter(
