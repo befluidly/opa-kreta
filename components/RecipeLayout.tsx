@@ -7,6 +7,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getArticleAlternates } from "../lib/i18n-alternates";
 
 import TagList from "./TagList";
+import { getTagLabelEn } from "../lib/tagLabels";
 import AffiliateSidebarBox from "./AffiliateSidebarBox";
 import AffiliateBox from "./AffiliateBox";
 import ClimateBox from "./ClimateBox";
@@ -160,7 +161,12 @@ export default async function RecipeLayout({ post }: RecipeLayoutProps) {
         <aside className="md:pl-4 self-start">
           {/* Tags */}
           <div className="mb-4">
-            <TagList tags={post.tags} heading={common("tags")} hrefPrefix={hrefPrefix} />
+            <TagList
+              tags={post.tags}
+              heading={common("tags")}
+              hrefPrefix={hrefPrefix}
+              labelFor={locale === "en" ? getTagLabelEn : undefined}
+            />
           </div>
 
           {/* Affiliate-boxen */}

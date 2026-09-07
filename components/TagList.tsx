@@ -4,9 +4,19 @@ interface TagListProps {
   tags?: string[];
   heading?: string;
   hrefPrefix?: string;
+  // Optioneel: vertaalt de weergegeven tekst van een tag (bv. naar het
+  // Engels via lib/tagLabels.ts). De href blijft altijd op de ruwe
+  // (Nederlandse) tag-waarde gebaseerd, want dat is ook wat de
+  // /tag/[tag]-paginas als slug-bron gebruiken.
+  labelFor?: (tag: string) => string;
 }
 
-export default function TagList({ tags = [], heading = "Tags", hrefPrefix = "" }: TagListProps) {
+export default function TagList({
+  tags = [],
+  heading = "Tags",
+  hrefPrefix = "",
+  labelFor = (tag) => tag,
+}: TagListProps) {
   if (tags.length === 0) return null;
 
   return (
@@ -19,7 +29,7 @@ export default function TagList({ tags = [], heading = "Tags", hrefPrefix = "" }
             href={`${hrefPrefix}/tag/${tag}`}
             className="bg-gray-100 hover:bg-skyBlue hover:text-white transition px-3 py-1 rounded-full text-sm text-darkCornflower font-medium"
           >
-            #{tag}
+            #{labelFor(tag)}
           </Link>
         ))}
       </div>

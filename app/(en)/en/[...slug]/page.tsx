@@ -8,6 +8,7 @@ import { getMdxComponent } from "../../../../lib/mdx";
 import Link from "next/link";
 import BackButton from "../../../../components/BackButton";
 import TagList from "../../../../components/TagList";
+import { getTagLabelEn } from "../../../../lib/tagLabels";
 
 // 🔹 In-article componenten
 import AffiliateBox from "../../../../components/AffiliateBox";
@@ -292,7 +293,12 @@ export default async function EnglishPostPage({ params }: PageProps) {
 
         {/* 🔹 Zijbalk */}
         <aside className="md:pl-4">
-          <TagList tags={post.tags} heading={commonT("tags")} hrefPrefix="/en" />
+          <TagList
+            tags={post.tags}
+            heading={commonT("tags")}
+            hrefPrefix="/en"
+            labelFor={getTagLabelEn}
+          />
 
           {/* 🔹 Dynamische affiliateboxen */}
           {post.affiliates && post.affiliates.length > 0 ? (
