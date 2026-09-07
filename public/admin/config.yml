@@ -41,8 +41,8 @@ collections:
     i18n: true
     create: true
     fields:
-      - { label: "Titel", name: title, widget: string }
-      - { label: "Samenvatting", name: excerpt, widget: text }
+      - { label: "Titel", name: title, widget: string, i18n: true }
+      - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
       - { label: "Categorie", name: category, widget: hidden, default: gidsen }
@@ -72,6 +72,7 @@ collections:
       - label: "Inhoud"
         name: body
         widget: markdown
+        i18n: true
         default: |
           ## Intro
 
@@ -88,8 +89,8 @@ collections:
     i18n: true
     create: true
     fields:
-      - { label: "Titel", name: title, widget: string }
-      - { label: "Samenvatting", name: excerpt, widget: text }
+      - { label: "Titel", name: title, widget: string, i18n: true }
+      - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
       - { label: "Categorie", name: category, widget: hidden, default: gidsen }
@@ -119,6 +120,7 @@ collections:
       - label: "Inhoud"
         name: body
         widget: markdown
+        i18n: true
         default: |
           ## Intro
 
@@ -135,8 +137,8 @@ collections:
     i18n: true
     create: true
     fields:
-      - { label: "Titel", name: title, widget: string }
-      - { label: "Samenvatting", name: excerpt, widget: text }
+      - { label: "Titel", name: title, widget: string, i18n: true }
+      - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
       - { label: "Categorie", name: category, widget: hidden, default: gidsen }
@@ -166,6 +168,7 @@ collections:
       - label: "Inhoud"
         name: body
         widget: markdown
+        i18n: true
         default: |
           ## Intro
 
@@ -182,8 +185,8 @@ collections:
     i18n: true
     create: true
     fields:
-      - { label: "Titel", name: title, widget: string }
-      - { label: "Samenvatting", name: excerpt, widget: text }
+      - { label: "Titel", name: title, widget: string, i18n: true }
+      - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
       - { label: "Categorie", name: category, widget: hidden, default: gidsen }
@@ -213,6 +216,7 @@ collections:
       - label: "Inhoud"
         name: body
         widget: markdown
+        i18n: true
         default: |
           ## Intro
 
@@ -229,8 +233,8 @@ collections:
     i18n: true
     create: true
     fields:
-      - { label: "Titel", name: title, widget: string }
-      - { label: "Samenvatting", name: excerpt, widget: text }
+      - { label: "Titel", name: title, widget: string, i18n: true }
+      - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
       - { label: "Categorie", name: category, widget: hidden, default: gidsen }
@@ -260,6 +264,7 @@ collections:
       - label: "Inhoud"
         name: body
         widget: markdown
+        i18n: true
         default: |
           ## Intro
 
@@ -276,8 +281,8 @@ collections:
     i18n: true
     create: true
     fields:
-      - { label: "Titel", name: title, widget: string }
-      - { label: "Samenvatting", name: excerpt, widget: text }
+      - { label: "Titel", name: title, widget: string, i18n: true }
+      - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
       - { label: "Categorie", name: category, widget: hidden, default: gidsen }
@@ -307,6 +312,7 @@ collections:
       - label: "Inhoud"
         name: body
         widget: markdown
+        i18n: true
         default: |
           ## Intro
 
@@ -323,8 +329,8 @@ collections:
     i18n: true
     create: true
     fields:
-      - { label: "Titel", name: title, widget: string }
-      - { label: "Samenvatting", name: excerpt, widget: text }
+      - { label: "Titel", name: title, widget: string, i18n: true }
+      - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
       - { label: "Categorie", name: category, widget: hidden, default: gidsen }
@@ -354,6 +360,7 @@ collections:
       - label: "Inhoud"
         name: body
         widget: markdown
+        i18n: true
         default: |
           ## Intro
 
@@ -370,8 +377,8 @@ collections:
     i18n: true
     create: true
     fields:
-      - { label: "Titel", name: title, widget: string }
-      - { label: "Samenvatting", name: excerpt, widget: text }
+      - { label: "Titel", name: title, widget: string, i18n: true }
+      - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
       - { label: "Categorie", name: category, widget: hidden, default: gidsen }
@@ -401,6 +408,7 @@ collections:
       - label: "Inhoud"
         name: body
         widget: markdown
+        i18n: true
         default: |
           ## Intro
 
@@ -417,8 +425,8 @@ collections:
     i18n: true
     create: true
     fields:
-      - { label: "Titel", name: title, widget: string }
-      - { label: "Samenvatting", name: excerpt, widget: text }
+      - { label: "Titel", name: title, widget: string, i18n: true }
+      - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
       - { label: "Categorie", name: category, widget: hidden, default: praktisch }
@@ -439,6 +447,7 @@ collections:
       - label: "Inhoud"
         name: body
         widget: markdown
+        i18n: true
         default: |
           ## Intro
 
@@ -454,8 +463,8 @@ collections:
     i18n: true
     create: true
     fields:
-      - { label: "Titel", name: title, widget: string }
-      - { label: "Samenvatting", name: excerpt, widget: text }
+      - { label: "Titel", name: title, widget: string, i18n: true }
+      - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
       - { label: "Categorie", name: category, widget: hidden, default: opas-blog }
@@ -483,6 +492,7 @@ collections:
       - label: "Inhoud"
         name: body
         widget: markdown
+        i18n: true
         default: |
           ## Intro
 
@@ -499,8 +509,8 @@ collections:
     i18n: true
     create: true
     fields:
-      - { label: "Titel", name: title, widget: string }
-      - { label: "Samenvatting", name: excerpt, widget: text }
+      - { label: "Titel", name: title, widget: string, i18n: true }
+      - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
       - { label: "Categorie", name: category, widget: hidden, default: opas-blog }
@@ -528,6 +538,7 @@ collections:
       - label: "Inhoud"
         name: body
         widget: markdown
+        i18n: true
         default: |
           ## Intro
 
@@ -544,8 +555,8 @@ collections:
     i18n: true
     create: true
     fields:
-      - { label: "Titel", name: title, widget: string }
-      - { label: "Samenvatting", name: excerpt, widget: text }
+      - { label: "Titel", name: title, widget: string, i18n: true }
+      - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
       - { label: "Categorie", name: category, widget: hidden, default: opas-blog }
@@ -573,6 +584,7 @@ collections:
       - label: "Inhoud"
         name: body
         widget: markdown
+        i18n: true
         default: |
           ## Intro
 
@@ -589,8 +601,8 @@ collections:
     i18n: true
     create: true
     fields:
-      - { label: "Titel", name: title, widget: string }
-      - { label: "Samenvatting", name: excerpt, widget: text }
+      - { label: "Titel", name: title, widget: string, i18n: true }
+      - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
       - { label: "Hero-afbeelding (optioneel)", name: heroImage, widget: image, required: false }
@@ -616,6 +628,7 @@ collections:
       - label: "Inhoud"
         name: body
         widget: markdown
+        i18n: true
 
   - name: recepten
     label: "Recepten"
@@ -624,13 +637,14 @@ collections:
     i18n: true
     create: true
     fields:
-      - { label: "Titel", name: title, widget: string }
+      - { label: "Titel", name: title, widget: string, i18n: true }
       - label: "Intro"
         name: intro
         widget: text
         required: false
+        i18n: true
         hint: "Korte inleidende alinea, verschijnt cursief onder de titel."
-      - { label: "Samenvatting", name: excerpt, widget: text }
+      - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
       - { label: "Categorie", name: category, widget: hidden, default: recepten }
@@ -678,6 +692,7 @@ collections:
       - label: "Inhoud"
         name: body
         widget: markdown
+        i18n: true
         default: |
           ## Ingrediënten
 
