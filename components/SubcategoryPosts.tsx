@@ -6,9 +6,15 @@ import { Post } from "../types/post";
 
 interface SubcategoryPostsProps {
   posts: Post[];
+  emptyMessage?: string;
+  showAllLabel?: string;
 }
 
-export default function SubcategoryPosts({ posts }: SubcategoryPostsProps) {
+export default function SubcategoryPosts({
+  posts,
+  emptyMessage = "Geen artikels gevonden in deze subcategorie.",
+  showAllLabel = "Alles tonen",
+}: SubcategoryPostsProps) {
   const [selectedTag, setSelectedTag] = useState<string>("");
 
   const allTags = Array.from(new Set(posts.flatMap((p) => p.tags || []))).sort();
@@ -40,7 +46,7 @@ export default function SubcategoryPosts({ posts }: SubcategoryPostsProps) {
               onClick={() => setSelectedTag("")}
               className="px-4 py-2 rounded-full text-sm font-medium bg-gray-200 text-gray-600 hover:bg-gray-300"
             >
-              Alles tonen ✕
+              {showAllLabel} ✕
             </button>
           )}
         </div>
@@ -59,9 +65,7 @@ export default function SubcategoryPosts({ posts }: SubcategoryPostsProps) {
             />
           ))
         ) : (
-          <p className="text-gray-600 text-center col-span-full">
-            Geen artikels gevonden in deze subcategorie.
-          </p>
+          <p className="text-gray-600 text-center col-span-full">{emptyMessage}</p>
         )}
       </div>
     </>
