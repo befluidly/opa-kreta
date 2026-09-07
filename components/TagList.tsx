@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { tagToSlug } from "../lib/tagLabels";
 
 interface TagListProps {
   tags?: string[];
@@ -26,7 +27,7 @@ export default function TagList({
         {tags.map((tag) => (
           <Link
             key={tag}
-            href={`${hrefPrefix}/tag/${tag}`}
+            href={`${hrefPrefix}/tag/${tagToSlug(tag)}`}
             className="bg-gray-100 hover:bg-skyBlue hover:text-white transition px-3 py-1 rounded-full text-sm text-darkCornflower font-medium"
           >
             #{labelFor(tag)}

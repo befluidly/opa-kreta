@@ -4,18 +4,11 @@ import Layout from "../../../../components/Layout";
 import PageHero from "../../../../components/PageHero";
 import PostCard from "../../../../components/PostCard";
 import { getAllPosts } from "../../../../lib/api";
+import { tagToSlug as toSlug } from "../../../../lib/tagLabels";
 
 interface PageProps {
   params: Promise<{ tag: string }>;
 }
-
-/** Zet een tag om naar een URL-veilige slug */
-const toSlug = (s: string) =>
-  s
-    .toLowerCase()
-    .trim()
-    .replace(/[^\w\s-]/g, "") // verwijder rare tekens
-    .replace(/\s+/g, "-"); // spaties -> -
 
 /** Maak een slug terug leesbaar (voor titel/hero) */
 const toTitle = (slug: string) => slug.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());

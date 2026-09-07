@@ -32,6 +32,10 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://www.opakreta.be"),
   title: "Opa! Kreta | Your guide to Crete: travel tips & highlights",
   description: "Discover Crete: tips, guides and practical info for your holiday.",
+  alternates: {
+    canonical: "https://www.opakreta.be/en",
+    languages: { nl: "https://www.opakreta.be/", en: "https://www.opakreta.be/en" },
+  },
   icons: {
     icon: [
       { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
