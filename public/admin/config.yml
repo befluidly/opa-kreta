@@ -652,11 +652,13 @@ collections:
         name: prepTime
         widget: string
         required: false
+        i18n: true
         hint: "Bv. '20 minuten'."
       - label: "Kooktijd (optioneel)"
         name: cookTime
         widget: string
         required: false
+        i18n: true
         hint: "Bv. '40 minuten'."
       - label: "Aantal porties (optioneel)"
         name: servings
@@ -667,6 +669,7 @@ collections:
         name: ingredients
         widget: list
         required: false
+        i18n: true
         hint: >-
           Optioneel: enkel invullen voor een nette, gestructureerde
           ingrediëntenlijst. Zonder deze lijst kun je ingrediënten gewoon als
