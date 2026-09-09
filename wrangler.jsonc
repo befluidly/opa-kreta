@@ -12,5 +12,18 @@
     // Enable next/image optimization on Cloudflare Workers
     // see https://opennext.js.org/cloudflare/howtos/image
     "binding": "IMAGES"
+  },
+  // Aangezet via het dashboard (Workers & Pages > opa-kreta > Settings >
+  // Observability) om de exacte oorzaak van de "Error 1102: Worker exceeded
+  // resource limits"-meldingen te kunnen zien. Hier ook vastgelegd zodat het
+  // niet verloren gaat bij een volgende deploy (het dashboard waarschuwde
+  // daar zelf voor).
+  "observability": {
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 1,
+      "invocation_logs": true,
+      "persist": true
+    }
   }
 }
