@@ -145,10 +145,7 @@ const SHARED_FIELD_NAMES = [
   "subcategories",
   "tags",
   "affiliates",
-  "prepTime",
-  "cookTime",
   "servings",
-  "ingredients",
 ];
 
 // Laat elke EN-post de gedeelde velden overnemen van haar NL-tegenhanger
