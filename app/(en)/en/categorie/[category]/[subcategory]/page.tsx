@@ -63,7 +63,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title,
     description,
-    alternates: { canonical: canonicalUrl },
+    alternates: {
+      canonical: canonicalUrl,
+      languages: {
+        nl: `https://www.opakreta.be/categorie/${category}/${subcategory}`,
+        en: `https://www.opakreta.be/en/categorie/${category}/${subcategory}`,
+        "x-default": `https://www.opakreta.be/categorie/${category}/${subcategory}`,
+      },
+    },
     openGraph: {
       title,
       description,
