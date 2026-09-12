@@ -66,6 +66,23 @@ function getChromeAlternateRefs(path, siteUrl) {
   ];
 }
 
+// Categorie-/subcategoriepagina's (/categorie/<cat>[/<sub>] en hun en/-
+// tegenhanger) volgen een vast, voorspelbaar patroon — geen opzoek in de
+// content-data nodig zoals bij artikelen.
+function getCategoryAlternateRefs(path, siteUrl) {
+  const match = path.match(/^(\/en)?\/categorie\/(.+)$/);
+  if (!match) return null;
+  const rest = match[2];
+  const nl = `/categorie/${rest}`;
+  const en = `/en/categorie/${rest}`;
+  return [
+    { href: `${siteUrl}${nl}`, hreflang: "nl", hrefIsAbsolute: true },
+    { href: `${siteUrl}${en}`, hreflang: "en", hrefIsAbsolute: true },
+    // x-default: nl is de standaardtaal (zie Sveltia's i18n.default_locale).
+    { href: `${siteUrl}${nl}`, hreflang: "x-default", hrefIsAbsolute: true },
+  ];
+}
+
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
   // 🌍 Juiste domein voor canonical links
@@ -116,7 +133,9 @@ module.exports = {
     else if (depth >= 3) priority = 0.6; // /categorie/gidsen/chania
 
     const alternateRefs =
-      getArticleAlternateRefs(path, config.siteUrl) || getChromeAlternateRefs(path, config.siteUrl);
+      getArticleAlternateRefs(path, config.siteUrl) ||
+      getChromeAlternateRefs(path, config.siteUrl) ||
+      getCategoryAlternateRefs(path, config.siteUrl);
 
     return {
       loc: path.replace("/categorie/category", "/categorie"), // corrigeer hier ook
