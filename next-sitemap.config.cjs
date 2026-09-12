@@ -35,7 +35,13 @@ function getArticleAlternateRefs(path, siteUrl) {
 
   // Enkel zinvol als er ook echt een vertaald paar is (niet bij een
   // eenzame NL- of EN-versie).
-  return refs.length > 1 ? refs : null;
+  if (refs.length <= 1) return null;
+
+  // x-default: nl is de standaardtaal (zie Sveltia's i18n.default_locale).
+  if (nlPost)
+    refs.push({ href: `${siteUrl}/${nlPost.slug}`, hreflang: "x-default", hrefIsAbsolute: true });
+
+  return refs;
 }
 
 // Vaste NL/EN-paren voor de niet-content-pagina's (chrome) — klein genoeg
@@ -55,6 +61,8 @@ function getChromeAlternateRefs(path, siteUrl) {
   return [
     { href: `${siteUrl}${nl}`, hreflang: "nl", hrefIsAbsolute: true },
     { href: `${siteUrl}${en}`, hreflang: "en", hrefIsAbsolute: true },
+    // x-default: nl is de standaardtaal (zie Sveltia's i18n.default_locale).
+    { href: `${siteUrl}${nl}`, hreflang: "x-default", hrefIsAbsolute: true },
   ];
 }
 
@@ -79,6 +87,7 @@ module.exports = {
 
     // ✅ NIEUW: tagpagina’s uit sitemap houden
     "/tag/*",
+    "/en/tag/*",
   ],
 
   // 🧱 Dynamische parameters zoals [category] en [subcategory] automatisch invullen
@@ -93,7 +102,8 @@ module.exports = {
       path.startsWith("/components") ||
       path.startsWith("/posts") ||
       path.startsWith("/categorie/category") ||
-      path.startsWith("/tag") // ✅ NIEUW: extra zekerheid
+      path.startsWith("/tag") || // ✅ NIEUW: extra zekerheid
+      path.startsWith("/en/tag") // tagpagina's staan ook op de EN-site op noindex
     ) {
       return null;
     }

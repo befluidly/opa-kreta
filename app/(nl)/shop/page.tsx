@@ -9,13 +9,18 @@ export const metadata: Metadata = {
   description: "Binnenkort verkrijgbaar: Kreta e-books, gidsen en digitale producten.",
   alternates: {
     canonical: "https://www.opakreta.be/shop",
-    languages: { nl: "https://www.opakreta.be/shop", en: "https://www.opakreta.be/en/shop" },
+    languages: {
+      nl: "https://www.opakreta.be/shop",
+      en: "https://www.opakreta.be/en/shop",
+      "x-default": "https://www.opakreta.be/shop",
+    },
   },
   openGraph: {
     title: "Shop | Opa Kreta",
     description: "Binnenkort verkrijgbaar: Kreta e-books, gidsen en digitale producten.",
     url: "https://www.opakreta.be/shop",
     siteName: "Opa Kreta",
+    images: [{ url: "/images/hero/voulisma-beach.jpg", width: 1200, height: 630 }],
   },
 };
 

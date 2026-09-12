@@ -34,7 +34,11 @@ export const metadata: Metadata = {
   description: "Discover Crete: tips, guides and practical info for your holiday.",
   alternates: {
     canonical: "https://www.opakreta.be/en",
-    languages: { nl: "https://www.opakreta.be/", en: "https://www.opakreta.be/en" },
+    languages: {
+      nl: "https://www.opakreta.be/",
+      en: "https://www.opakreta.be/en",
+      "x-default": "https://www.opakreta.be/",
+    },
   },
   icons: {
     icon: [
