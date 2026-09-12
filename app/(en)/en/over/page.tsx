@@ -9,7 +9,11 @@ export const metadata: Metadata = {
     "Meet Lynn, the person behind Opa Kreta, and the story behind this website about the island of Crete.",
   alternates: {
     canonical: "https://www.opakreta.be/en/over",
-    languages: { nl: "https://www.opakreta.be/over", en: "https://www.opakreta.be/en/over" },
+    languages: {
+      nl: "https://www.opakreta.be/over",
+      en: "https://www.opakreta.be/en/over",
+      "x-default": "https://www.opakreta.be/over",
+    },
   },
   openGraph: {
     title: "About Opa Kreta",

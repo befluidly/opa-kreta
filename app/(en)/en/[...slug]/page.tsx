@@ -69,7 +69,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const canonicalUrl = `https://www.opakreta.be/${post.slug}`;
   const alternates = getArticleAlternates(post.canonicalSlug);
   const languages: Record<string, string> = {};
-  if (alternates.nl) languages.nl = `https://www.opakreta.be${alternates.nl}`;
+  if (alternates.nl) {
+    languages.nl = `https://www.opakreta.be${alternates.nl}`;
+    languages["x-default"] = languages.nl;
+  }
   if (alternates.en) languages.en = `https://www.opakreta.be${alternates.en}`;
 
   if (post.category === "recepten") {

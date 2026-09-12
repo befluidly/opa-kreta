@@ -68,6 +68,9 @@ export default async function TagPage({ params }: PageProps) {
 
       {/* ✅ Inhoud */}
       <div className="max-w-screen-xl mx-auto px-4 mt-10 mb-20">
+        <h1 className="text-3xl font-title font-semibold text-darkCornflower mb-6">
+          #{formattedTag}
+        </h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {posts.map((p) => (
             <PostCard

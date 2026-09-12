@@ -35,7 +35,11 @@ export const metadata: Metadata = {
     "Ontdek alles over Kreta: tips, gidsen en handige info voor jouw vakantie.",
   alternates: {
     canonical: "https://www.opakreta.be/",
-    languages: { nl: "https://www.opakreta.be/", en: "https://www.opakreta.be/en" },
+    languages: {
+      nl: "https://www.opakreta.be/",
+      en: "https://www.opakreta.be/en",
+      "x-default": "https://www.opakreta.be/",
+    },
   },
   icons: {
     icon: [

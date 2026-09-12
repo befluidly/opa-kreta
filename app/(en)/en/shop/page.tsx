@@ -9,7 +9,11 @@ export const metadata: Metadata = {
   description: "Coming soon: Crete e-books, guides and digital products.",
   alternates: {
     canonical: "https://www.opakreta.be/en/shop",
-    languages: { nl: "https://www.opakreta.be/shop", en: "https://www.opakreta.be/en/shop" },
+    languages: {
+      nl: "https://www.opakreta.be/shop",
+      en: "https://www.opakreta.be/en/shop",
+      "x-default": "https://www.opakreta.be/shop",
+    },
   },
   openGraph: {
     title: "Shop | Opa Kreta",

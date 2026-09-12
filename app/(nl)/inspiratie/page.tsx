@@ -15,6 +15,7 @@ export const metadata: Metadata = {
     languages: {
       nl: "https://www.opakreta.be/inspiratie",
       en: "https://www.opakreta.be/en/inspiratie",
+      "x-default": "https://www.opakreta.be/inspiratie",
     },
   },
   openGraph: {

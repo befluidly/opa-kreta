@@ -11,7 +11,11 @@ export const metadata: Metadata = {
     "Neem contact op met Opa Kreta voor vragen, tips of samenwerkingen rond Kreta.",
   alternates: {
     canonical: "https://www.opakreta.be/contact",
-    languages: { nl: "https://www.opakreta.be/contact", en: "https://www.opakreta.be/en/contact" },
+    languages: {
+      nl: "https://www.opakreta.be/contact",
+      en: "https://www.opakreta.be/en/contact",
+      "x-default": "https://www.opakreta.be/contact",
+    },
   },
   openGraph: {
     title: "Contact",
