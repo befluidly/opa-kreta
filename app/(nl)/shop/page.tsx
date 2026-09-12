@@ -16,6 +16,7 @@ export const metadata: Metadata = {
     description: "Binnenkort verkrijgbaar: Kreta e-books, gidsen en digitale producten.",
     url: "https://www.opakreta.be/shop",
     siteName: "Opa Kreta",
+    images: [{ url: "/images/hero/voulisma-beach.jpg", width: 1200, height: 630 }],
   },
 };
 

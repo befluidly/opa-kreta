@@ -79,6 +79,7 @@ module.exports = {
 
     // ✅ NIEUW: tagpagina’s uit sitemap houden
     "/tag/*",
+    "/en/tag/*",
   ],
 
   // 🧱 Dynamische parameters zoals [category] en [subcategory] automatisch invullen
@@ -93,7 +94,8 @@ module.exports = {
       path.startsWith("/components") ||
       path.startsWith("/posts") ||
       path.startsWith("/categorie/category") ||
-      path.startsWith("/tag") // ✅ NIEUW: extra zekerheid
+      path.startsWith("/tag") || // ✅ NIEUW: extra zekerheid
+      path.startsWith("/en/tag") // tagpagina's staan ook op de EN-site op noindex
     ) {
       return null;
     }

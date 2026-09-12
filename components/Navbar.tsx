@@ -188,7 +188,7 @@ const NavBar = ({ articleAlternates }: NavBarProps) => {
             {t("contact")}
           </Link>
           <Link
-            href={`${prefix}/categorie/shop`}
+            href={`${prefix}/shop`}
             className="font-semibold"
             onClick={() => setMenuOpen(false)}
           >

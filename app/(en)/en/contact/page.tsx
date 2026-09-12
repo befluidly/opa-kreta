@@ -17,6 +17,7 @@ export const metadata: Metadata = {
     description: "Get in touch with Opa Kreta for questions, tips or collaborations about Crete.",
     url: "https://www.opakreta.be/en/contact",
     siteName: "Opa Kreta",
+    images: [{ url: "/images/hero/voulisma-beach.jpg", width: 1200, height: 630 }],
   },
 };
 
