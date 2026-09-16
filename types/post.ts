@@ -17,7 +17,6 @@ export interface Post {
   // de en-versie van eenzelfde artikel, gebruikt om vertaalde tegenhangers
   // aan elkaar te koppelen (taal-toggle, hreflang).
   canonicalSlug: string;
-  content: string;
   affiliates?: {
     title?: string;
     text?: string;
