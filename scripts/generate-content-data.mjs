@@ -205,8 +205,6 @@ async function main() {
   const posts = filePaths.map(buildPost);
   inheritSharedFieldsFromDefaultLocale(posts);
 
-  fs.writeFileSync(dataOutputPath, JSON.stringify(posts, null, 2) + "\n");
-
   fs.rmSync(generatedContentDir, { recursive: true, force: true });
   fs.mkdirSync(generatedContentDir, { recursive: true });
 
@@ -232,6 +230,18 @@ async function main() {
     "\n};\n";
 
   fs.writeFileSync(path.join(generatedContentDir, "index.js"), indexSource);
+
+  // De ruwe MDX-body (`content`) is hierboven al gecompileerd naar
+  // lib/generated-content/*.mdx.js en wordt nergens anders in de app
+  // gebruikt (enkel hier, tijdens de build) — toch stond hij ook
+  // volledig gedupliceerd in content-data.generated.json, goed voor 62%
+  // van de bestandsgrootte (~500KB van ~820KB bij 95 posts). Omdat
+  // lib/api.ts (en dus elke pagina) dit bestand rechtstreeks importeert,
+  // telde die dode gewicht mee in het Cloudflare Workers-script dat bij
+  // élke request geladen wordt — gevonden bij het uitzoeken van
+  // structureel trage TTFB's (Ahrefs "Slow page"). Hier weggelaten.
+  const postsWithoutRawContent = posts.map(({ content, ...rest }) => rest);
+  fs.writeFileSync(dataOutputPath, JSON.stringify(postsWithoutRawContent, null, 2) + "\n");
 
   console.log(
     `✅ ${posts.length} content-bestanden ingelezen en gecompileerd naar lib/generated-content/`
