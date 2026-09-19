@@ -700,3 +700,39 @@ collections:
           ## Ingrediënten
 
           ## Bereiding
+
+  - name: audiogidsen
+    label: "Audiogidsen"
+    folder: /content/audiogidsen
+    extension: mdx
+    create: true
+    i18n: true
+    # Bepaalt de bestandsnaam (en dus de route-URL) rechtstreeks vanuit het
+    # "Slug"-veld hieronder, i.p.v. Sveltia's standaard titel-afgeleide slug —
+    # zodat "heraklion" ook echt content/audiogidsen/heraklion.mdx oplevert.
+    slug: "{{fields.slug}}"
+    fields:
+      - { label: "Stad (titel)", name: title, widget: string, i18n: true }
+      - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
+      - { label: "Slug (bv. heraklion)", name: slug, widget: string }
+      - { label: "Coverfoto", name: coverImage, widget: image }
+      - { label: "Prijs (leeg = Gratis)", name: price, widget: string, required: false }
+      - label: "Stops"
+        name: stops
+        widget: list
+        required: false
+        i18n: true
+        fields:
+          - { label: "Titel", name: title, widget: string, i18n: true }
+          # value_type expliciet op "float": Sveltia's number-widget valt
+          # anders terug op "int" en kapt decimalen af (bv. 35.343 -> 35),
+          # te onnauwkeurig voor GPS-coördinaten.
+          - { label: "GPS breedtegraad (lat)", name: lat, widget: number, value_type: "float" }
+          - { label: "GPS lengtegraad (lng)", name: lng, widget: number, value_type: "float" }
+          - label: "Audiobestand-URL"
+            name: audioUrl
+            widget: string
+            hint: >-
+              Geen upload hier: de mp3 zelf gaat apart naar Cloudflare R2 (buiten
+              Sveltia om) — plak hier enkel de publieke URL van dat bestand.
+          - { label: "Duur (bv. '2:45')", name: duration, widget: string, required: false }
