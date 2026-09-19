@@ -74,12 +74,12 @@ export default function Footer() {
             <li>
               🚗{" "}
               <a
-                href="https://www.sunnycars.nl"
+                href="https://localrent.tp.st/FLdyQE61"
                 target="_blank"
                 rel="nofollow sponsored noopener"
                 className="hover:text-skyBlue underline"
               >
-                {t("sunnyCars")}
+                {t("localrent")}
               </a>
             </li>
             <li>
