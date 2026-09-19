@@ -58,6 +58,7 @@ export default async function EnglishHome() {
         activityLabel={home("activityLabel")}
         ticketsLabel={home("ticketsLabel")}
         flightLabel={home("flightLabel")}
+        flightUrl="https://kiwi.tp.st/0twh3s5V"
       />
 
       {/* Klimaat & cultuur sectie */}
