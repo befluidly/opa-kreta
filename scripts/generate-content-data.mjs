@@ -98,7 +98,6 @@ function buildPost(filePath) {
   const slug = locale === "nl" ? canonicalSlug : `en/${canonicalSlug}`;
 
   return {
-    slug,
     ...data,
     title: safeString(data.title) || "Untitled",
     excerpt:
@@ -115,6 +114,11 @@ function buildPost(filePath) {
         : [],
     tags: Array.isArray(data.tags) ? data.tags : [],
     content: typeof content === "string" ? content : "",
+    // Deze drie staan bewust ná de ...data-spread: een frontmatterveld dat
+    // toevallig dezelfde naam draagt (bv. het "slug"-veld van de
+    // audiogidsen-collectie) mag de berekende route-identiteit nooit
+    // overschrijven.
+    slug,
     locale,
     canonicalSlug,
     // Optionele, gestructureerde receptvelden (CMS) — gewoon doorgegeven
@@ -123,6 +127,9 @@ function buildPost(filePath) {
     cookTime: safeString(data.cookTime) || undefined,
     servings: typeof data.servings === "number" ? data.servings : undefined,
     ingredients: Array.isArray(data.ingredients) ? data.ingredients : undefined,
+    // Optionele, gestructureerde audiogidsvelden (CMS).
+    price: safeString(data.price) || undefined,
+    stops: Array.isArray(data.stops) ? data.stops : [],
   };
 }
 
@@ -146,6 +153,7 @@ const SHARED_FIELD_NAMES = [
   "tags",
   "affiliates",
   "servings",
+  "price",
 ];
 
 // Laat elke EN-post de gedeelde velden overnemen van haar NL-tegenhanger

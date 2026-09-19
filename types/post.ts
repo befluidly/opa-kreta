@@ -35,4 +35,14 @@ export interface Post {
     unit?: string;
     name: string;
   }[];
+  // Optionele, gestructureerde audiogidsvelden (CMS). Bestaande collecties
+  // hebben deze niet.
+  price?: string;
+  stops?: {
+    title: string;
+    lat: number;
+    lng: number;
+    audioUrl: string;
+    duration?: string;
+  }[];
 }
