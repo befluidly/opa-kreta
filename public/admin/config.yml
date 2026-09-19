@@ -724,8 +724,11 @@ collections:
         i18n: true
         fields:
           - { label: "Titel", name: title, widget: string, i18n: true }
-          - { label: "GPS breedtegraad (lat)", name: lat, widget: number }
-          - { label: "GPS lengtegraad (lng)", name: lng, widget: number }
+          # value_type expliciet op "float": Sveltia's number-widget valt
+          # anders terug op "int" en kapt decimalen af (bv. 35.343 -> 35),
+          # te onnauwkeurig voor GPS-coördinaten.
+          - { label: "GPS breedtegraad (lat)", name: lat, widget: number, value_type: "float" }
+          - { label: "GPS lengtegraad (lng)", name: lng, widget: number, value_type: "float" }
           - label: "Audiobestand-URL"
             name: audioUrl
             widget: string
