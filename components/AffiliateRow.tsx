@@ -5,6 +5,10 @@ interface AffiliateRowProps {
   activityLabel?: string;
   ticketsLabel?: string;
   flightLabel?: string;
+  // Travelpayouts-link (Kiwi.com) — per taalversie een eigen gegenereerde
+  // link (NL/UK), zie messages/*.json's "footer.kiwi"-toelichting voor
+  // dezelfde reden. Default is de NL-link.
+  flightUrl?: string;
 }
 
 const AffiliateRow: React.FC<AffiliateRowProps> = ({
@@ -12,6 +16,7 @@ const AffiliateRow: React.FC<AffiliateRowProps> = ({
   activityLabel = "Vind een activiteit",
   ticketsLabel = "Reserveer tickets",
   flightLabel = "Boek een vlucht",
+  flightUrl = "https://kiwi.tp.st/LLLKc1Yj",
 }) => {
   const links = [
     {
@@ -28,7 +33,7 @@ const AffiliateRow: React.FC<AffiliateRowProps> = ({
     },
     {
       title: flightLabel,
-      url: "https://www.skyscanner.net/be/nl-nl/eur/",
+      url: flightUrl,
     },
   ];
 

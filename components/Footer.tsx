@@ -96,12 +96,12 @@ export default function Footer() {
             <li>
               ✈️{" "}
               <a
-                href="https://www.skyscanner.nl"
+                href={locale === "en" ? "https://kiwi.tp.st/0twh3s5V" : "https://kiwi.tp.st/LLLKc1Yj"}
                 target="_blank"
                 rel="nofollow sponsored noopener"
                 className="hover:text-skyBlue underline"
               >
-                {t("skyscanner")}
+                {t("kiwi")}
               </a>
             </li>
           </ul>
