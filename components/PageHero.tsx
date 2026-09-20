@@ -1,4 +1,6 @@
 import React from "react";
+import Image from "next/image";
+import { isLocalImagePath } from "../lib/site";
 
 interface PageHeroProps {
   title?: string; // 👈 optioneel gemaakt
@@ -15,12 +17,33 @@ const PageHero: React.FC<PageHeroProps> = ({
 }) => {
   return (
     <section className="relative w-full h-[45vh] min-h-[300px] md:h-[40vh] overflow-hidden animate-fade-in">
-      {/* Achtergrondafbeelding */}
-      <img
-        src={imageUrl}
-        alt={title || "Hero image"} // ✅ fallback alt-tekst
-        className="absolute inset-0 w-full h-full object-cover"
-      />
+      {/* Achtergrondafbeelding. Site-eigen paden ("/images/...") gaan via
+          next/image: automatische AVIF/WebP + resizing (Cloudflare Images-
+          binding, zie wrangler.jsonc) en priority, want dit is vrijwel altijd
+          de LCP-kandidaat. Externe URL's (coverImage van een derde partij)
+          blijven bewust een gewone <img> — next/image zou die eerst
+          server-side moeten ophalen om te optimaliseren, en niet elke
+          externe bron staat dat toe (hotlink-/botbescherming), terwijl een
+          gewone <img> ze gewoon rechtstreeks in de browser laadt zoals
+          voorheen. Zie lib/site.ts (isLocalImagePath) voor de afweging. */}
+      {isLocalImagePath(imageUrl) ? (
+        <Image
+          src={imageUrl}
+          alt={title || "Hero image"} // ✅ fallback alt-tekst
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
+      ) : (
+        <img
+          src={imageUrl}
+          alt={title || "Hero image"} // ✅ fallback alt-tekst
+          fetchPriority="high"
+          loading="eager"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+      )}
 
       {/* 🌊 Wave onderaan */}
       <div className="absolute bottom-0 left-0 w-screen overflow-hidden leading-none z-20">

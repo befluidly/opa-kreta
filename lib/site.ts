@@ -15,3 +15,15 @@ export function absoluteUrl(path: string): string {
   const normalized = path.startsWith("/") ? path : `/${path}`;
   return `${SITE_URL}${normalized}`;
 }
+
+// True voor een site-eigen pad ("/images/..."), false voor een externe URL
+// (coverImage/heroImage van een derde partij, bv. een WordPress-blog of
+// stockfoto-CDN). Gebruikt door PageHero/PostCard om enkel site-eigen
+// afbeeldingen via next/image te optimaliseren: die optimalisatie vereist
+// een server-side fetch van de bron, en sommige kleinere externe sites
+// blokkeren dat soort verkeer (hotlink-/botbescherming) ook al laadt de
+// afbeelding prima rechtstreeks in de browser. Externe URL's blijven daarom
+// een gewone <img> — geen nieuwe afhankelijkheid van derden toevoegen.
+export function isLocalImagePath(url: string): boolean {
+  return url.startsWith("/");
+}
