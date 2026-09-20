@@ -6,6 +6,8 @@ import ClimateBox from "../../components/ClimateBox";
 import { getAllPosts } from "../../lib/api";
 import AffiliateRow from "../../components/AffiliateRow";
 import GreekPhrases from "../../components/GreekPhrases";
+import JsonLd from "../../components/JsonLd";
+import { buildHomeJsonLd } from "../../lib/structuredData";
 
 function postDateToTimestamp(date?: string): number {
   if (!date) return 0;
@@ -21,6 +23,8 @@ export default function Home() {
 
   return (
     <Layout>
+      <JsonLd data={buildHomeJsonLd("nl")} />
+
       {/* Hero sectie */}
       <Hero />
 

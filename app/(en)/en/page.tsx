@@ -7,6 +7,8 @@ import { getAllPosts } from "../../../lib/api";
 import AffiliateRow from "../../../components/AffiliateRow";
 import GreekPhrases from "../../../components/GreekPhrases";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import JsonLd from "../../../components/JsonLd";
+import { buildHomeJsonLd } from "../../../lib/structuredData";
 
 function postDateToTimestamp(date?: string): number {
   if (!date) return 0;
@@ -29,6 +31,8 @@ export default async function EnglishHome() {
 
   return (
     <Layout>
+      <JsonLd data={buildHomeJsonLd("en")} />
+
       {/* Hero sectie */}
       <Hero
         imageAlt="View over Crete with mountains and sea"

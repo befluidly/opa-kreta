@@ -4,6 +4,11 @@ import Layout from "../../../../components/Layout";
 import PageHero from "../../../../components/PageHero";
 import PostCard from "../../../../components/PostCard";
 import { getAllPosts } from "../../../../lib/api";
+import JsonLd from "../../../../components/JsonLd";
+import {
+  buildBreadcrumbListJsonLd,
+  buildCategoryBreadcrumbItems,
+} from "../../../../lib/structuredData";
 
 interface PageProps {
   params: Promise<{ category: string }>;
@@ -87,8 +92,14 @@ export default async function CategoryPage({ params }: PageProps) {
     new Set(posts.flatMap((p) => p.subcategories || []).filter(Boolean))
   ).sort();
 
+  const breadcrumbJsonLd = buildBreadcrumbListJsonLd(
+    buildCategoryBreadcrumbItems(category, pageTitle, "nl")
+  );
+
   return (
     <Layout>
+      <JsonLd data={breadcrumbJsonLd} />
+
       {/* ✅ Hero */}
       <PageHero imageUrl={heroImage} />
 

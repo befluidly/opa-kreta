@@ -7,6 +7,11 @@ import {
   SUBCATEGORIES_BY_CATEGORY,
   getSubcategoryLabelEn,
 } from "../../../../../../lib/categoryTaxonomy";
+import JsonLd from "../../../../../../components/JsonLd";
+import {
+  buildBreadcrumbListJsonLd,
+  buildSubcategoryBreadcrumbItems,
+} from "../../../../../../lib/structuredData";
 
 interface PageProps {
   params: Promise<{ category: string; subcategory: string }>;
@@ -92,8 +97,20 @@ export default async function EnglishSubCategoryPage({ params }: PageProps) {
     (p) => p.category === category && p.subcategories?.includes(subcategory)
   );
 
+  const breadcrumbJsonLd = buildBreadcrumbListJsonLd(
+    buildSubcategoryBreadcrumbItems(
+      category,
+      pageTitle,
+      subcategory,
+      formattedSubcategory,
+      "en"
+    )
+  );
+
   return (
     <Layout>
+      <JsonLd data={breadcrumbJsonLd} />
+
       {/* ✅ Hero */}
       <PageHero
         title={`${pageTitle}: ${formattedSubcategory}`}

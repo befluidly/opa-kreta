@@ -14,6 +14,12 @@ import ClimateBox from "./ClimateBox";
 import GreekPhrases from "./GreekPhrases";
 import InfoBox from "./InfoBox";
 import IntroBox from "./IntroBox";
+import JsonLd from "./JsonLd";
+import {
+  buildBreadcrumbItemsForPost,
+  buildBreadcrumbListJsonLd,
+  buildRecipeJsonLd,
+} from "../lib/structuredData";
 
 interface RecipeLayoutProps {
   post: Post;
@@ -78,8 +84,14 @@ export default async function RecipeLayout({ post }: RecipeLayoutProps) {
   };
   const MdxContent = getMdxComponent(post.slug);
 
+  const recipeJsonLd = buildRecipeJsonLd(post);
+  const breadcrumbJsonLd = buildBreadcrumbListJsonLd(buildBreadcrumbItemsForPost(post));
+
   return (
     <Layout articleAlternates={alternates}>
+      {recipeJsonLd && <JsonLd data={recipeJsonLd} />}
+      <JsonLd data={breadcrumbJsonLd} />
+
       {/* Hero */}
       <PageHero
         imageUrl={
