@@ -8,6 +8,7 @@
     "dev": "next dev --webpack",
     "prebuild": "npm run generate-content-data",
     "build": "next build --webpack && next-sitemap --config next-sitemap.config.cjs",
+    "validate:jsonld": "node scripts/validate-jsonld.mjs",
     "start": "next start",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy -- --keep-vars",

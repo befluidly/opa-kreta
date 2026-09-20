@@ -25,6 +25,19 @@ import RecipeLayout from "../../../components/RecipeLayout";
 // 🔹 Component met regio-links
 import PostRegions from "../../../components/PostRegions";
 
+// 🔹 Structured data (JSON-LD)
+import JsonLd from "../../../components/JsonLd";
+import {
+  buildArticleJsonLd,
+  buildBreadcrumbItemsForPost,
+  buildBreadcrumbListJsonLd,
+} from "../../../lib/structuredData";
+
+// Categorieën die met BlogPosting i.p.v. Article getagd worden — persoonlijke,
+// dagboekachtige content. "inspiratie" is de echte category-veldwaarde van de
+// tips/muziek-artikelen (de foldernaam "tips" komt nergens in frontmatter voor).
+const BLOG_POSTING_CATEGORIES = new Set(["opas-blog", "inspiratie"]);
+
 interface PageProps {
   params: Promise<{ slug: string[] }>;
 }
@@ -165,8 +178,17 @@ export default async function PostPage({ params }: PageProps) {
 
   const alternates = getArticleAlternates(post.canonicalSlug);
 
+  const articleType = BLOG_POSTING_CATEGORIES.has(post.category || "")
+    ? "BlogPosting"
+    : "Article";
+  const articleJsonLd = buildArticleJsonLd(post, articleType);
+  const breadcrumbJsonLd = buildBreadcrumbListJsonLd(buildBreadcrumbItemsForPost(post));
+
   return (
     <Layout articleAlternates={alternates}>
+      {articleJsonLd && <JsonLd data={articleJsonLd} />}
+      <JsonLd data={breadcrumbJsonLd} />
+
       {/* ✅ Hero */}
       <PageHero
         title={post.title}

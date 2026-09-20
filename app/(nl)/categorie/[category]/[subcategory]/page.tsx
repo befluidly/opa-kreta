@@ -4,6 +4,11 @@ import PageHero from "../../../../../components/PageHero";
 import SubcategoryPosts from "../../../../../components/SubcategoryPosts";
 import { getAllPosts } from "../../../../../lib/api";
 import { regionInfo } from "../../../../../lib/regionInfo";
+import JsonLd from "../../../../../components/JsonLd";
+import {
+  buildBreadcrumbListJsonLd,
+  buildSubcategoryBreadcrumbItems,
+} from "../../../../../lib/structuredData";
 
 interface PageProps {
   params: Promise<{ category: string; subcategory: string }>;
@@ -94,8 +99,20 @@ export default async function SubCategoryPage({ params }: PageProps) {
     (p) => p.category === category && p.subcategories?.includes(subcategory)
   );
 
+  const breadcrumbJsonLd = buildBreadcrumbListJsonLd(
+    buildSubcategoryBreadcrumbItems(
+      category,
+      pageTitle,
+      subcategory,
+      formattedSubcategory,
+      "nl"
+    )
+  );
+
   return (
     <Layout>
+      <JsonLd data={breadcrumbJsonLd} />
+
       {/* ✅ Hero */}
       <PageHero
         title={`${pageTitle}: ${formattedSubcategory}`}
