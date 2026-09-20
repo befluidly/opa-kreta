@@ -76,14 +76,19 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (alternates.en) languages.en = `https://www.opakreta.be${alternates.en}`;
 
   if (post.category === "recepten") {
-    const title = `${post.title} | Greek Recipes`;
-    const description = post.intro || post.excerpt?.slice(0, 160) || "";
+    // Zonder seoTitle wordt de merknaam als suffix toegevoegd; met seoTitle
+    // bepaalt de auteur zelf de volledige <title>-tekst (budget: ~60 tekens).
+    const title = post.seoTitle || `${post.title} | Greek Recipes`;
+    // `intro` is de zichtbaar getoonde inleidende alinea op de paginazelf
+    // (RecipeLayout.tsx) — die mag daarom, net als de H1, geen voorrang
+    // krijgen op de bewust voor zoekresultaten geschreven `excerpt`.
+    const description = post.excerpt || post.intro?.slice(0, 160) || "";
     return {
       title,
       description,
       alternates: { canonical: canonicalUrl, languages },
       openGraph: {
-        title: post.title,
+        title: post.seoTitle || post.title,
         description,
         url: canonicalUrl,
         siteName: "Opa Kreta",
@@ -93,12 +98,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   return {
-    title: post.title,
+    title: post.seoTitle || post.title,
     description: post.excerpt || "",
     alternates: { canonical: canonicalUrl, languages },
     openGraph: {
       url: canonicalUrl,
-      title: post.title,
+      title: post.seoTitle || post.title,
       description: post.excerpt || "",
       images: post.coverImage
         ? [{ url: post.coverImage }]

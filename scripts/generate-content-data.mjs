@@ -100,6 +100,7 @@ function buildPost(filePath) {
   return {
     ...data,
     title: safeString(data.title) || "Untitled",
+    seoTitle: safeString(data.seoTitle) || undefined,
     excerpt:
       safeString(data.excerpt) ||
       (typeof content === "string" ? content.slice(0, 160) + "..." : ""),

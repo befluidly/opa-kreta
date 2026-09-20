@@ -42,6 +42,15 @@ collections:
     create: true
     fields:
       - { label: "Titel", name: title, widget: string, i18n: true }
+      - label: "SEO-titel (optioneel)"
+        name: seoTitle
+        widget: string
+        required: false
+        i18n: true
+        hint: >-
+          Overschrijft enkel de <title>-tag in zoekresultaten (max. ~60
+          tekens) — de zichtbare paginatitel (H1) blijft altijd de gewone
+          Titel hierboven. Laat leeg om gewoon de Titel te gebruiken.
       - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
@@ -90,6 +99,15 @@ collections:
     create: true
     fields:
       - { label: "Titel", name: title, widget: string, i18n: true }
+      - label: "SEO-titel (optioneel)"
+        name: seoTitle
+        widget: string
+        required: false
+        i18n: true
+        hint: >-
+          Overschrijft enkel de <title>-tag in zoekresultaten (max. ~60
+          tekens) — de zichtbare paginatitel (H1) blijft altijd de gewone
+          Titel hierboven. Laat leeg om gewoon de Titel te gebruiken.
       - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
@@ -138,6 +156,15 @@ collections:
     create: true
     fields:
       - { label: "Titel", name: title, widget: string, i18n: true }
+      - label: "SEO-titel (optioneel)"
+        name: seoTitle
+        widget: string
+        required: false
+        i18n: true
+        hint: >-
+          Overschrijft enkel de <title>-tag in zoekresultaten (max. ~60
+          tekens) — de zichtbare paginatitel (H1) blijft altijd de gewone
+          Titel hierboven. Laat leeg om gewoon de Titel te gebruiken.
       - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
@@ -186,6 +213,15 @@ collections:
     create: true
     fields:
       - { label: "Titel", name: title, widget: string, i18n: true }
+      - label: "SEO-titel (optioneel)"
+        name: seoTitle
+        widget: string
+        required: false
+        i18n: true
+        hint: >-
+          Overschrijft enkel de <title>-tag in zoekresultaten (max. ~60
+          tekens) — de zichtbare paginatitel (H1) blijft altijd de gewone
+          Titel hierboven. Laat leeg om gewoon de Titel te gebruiken.
       - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
@@ -234,6 +270,15 @@ collections:
     create: true
     fields:
       - { label: "Titel", name: title, widget: string, i18n: true }
+      - label: "SEO-titel (optioneel)"
+        name: seoTitle
+        widget: string
+        required: false
+        i18n: true
+        hint: >-
+          Overschrijft enkel de <title>-tag in zoekresultaten (max. ~60
+          tekens) — de zichtbare paginatitel (H1) blijft altijd de gewone
+          Titel hierboven. Laat leeg om gewoon de Titel te gebruiken.
       - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
@@ -282,6 +327,15 @@ collections:
     create: true
     fields:
       - { label: "Titel", name: title, widget: string, i18n: true }
+      - label: "SEO-titel (optioneel)"
+        name: seoTitle
+        widget: string
+        required: false
+        i18n: true
+        hint: >-
+          Overschrijft enkel de <title>-tag in zoekresultaten (max. ~60
+          tekens) — de zichtbare paginatitel (H1) blijft altijd de gewone
+          Titel hierboven. Laat leeg om gewoon de Titel te gebruiken.
       - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
@@ -330,6 +384,15 @@ collections:
     create: true
     fields:
       - { label: "Titel", name: title, widget: string, i18n: true }
+      - label: "SEO-titel (optioneel)"
+        name: seoTitle
+        widget: string
+        required: false
+        i18n: true
+        hint: >-
+          Overschrijft enkel de <title>-tag in zoekresultaten (max. ~60
+          tekens) — de zichtbare paginatitel (H1) blijft altijd de gewone
+          Titel hierboven. Laat leeg om gewoon de Titel te gebruiken.
       - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
@@ -378,6 +441,15 @@ collections:
     create: true
     fields:
       - { label: "Titel", name: title, widget: string, i18n: true }
+      - label: "SEO-titel (optioneel)"
+        name: seoTitle
+        widget: string
+        required: false
+        i18n: true
+        hint: >-
+          Overschrijft enkel de <title>-tag in zoekresultaten (max. ~60
+          tekens) — de zichtbare paginatitel (H1) blijft altijd de gewone
+          Titel hierboven. Laat leeg om gewoon de Titel te gebruiken.
       - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
@@ -426,6 +498,15 @@ collections:
     create: true
     fields:
       - { label: "Titel", name: title, widget: string, i18n: true }
+      - label: "SEO-titel (optioneel)"
+        name: seoTitle
+        widget: string
+        required: false
+        i18n: true
+        hint: >-
+          Overschrijft enkel de <title>-tag in zoekresultaten (max. ~60
+          tekens) — de zichtbare paginatitel (H1) blijft altijd de gewone
+          Titel hierboven. Laat leeg om gewoon de Titel te gebruiken.
       - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
@@ -464,6 +545,15 @@ collections:
     create: true
     fields:
       - { label: "Titel", name: title, widget: string, i18n: true }
+      - label: "SEO-titel (optioneel)"
+        name: seoTitle
+        widget: string
+        required: false
+        i18n: true
+        hint: >-
+          Overschrijft enkel de <title>-tag in zoekresultaten (max. ~60
+          tekens) — de zichtbare paginatitel (H1) blijft altijd de gewone
+          Titel hierboven. Laat leeg om gewoon de Titel te gebruiken.
       - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
@@ -510,6 +600,15 @@ collections:
     create: true
     fields:
       - { label: "Titel", name: title, widget: string, i18n: true }
+      - label: "SEO-titel (optioneel)"
+        name: seoTitle
+        widget: string
+        required: false
+        i18n: true
+        hint: >-
+          Overschrijft enkel de <title>-tag in zoekresultaten (max. ~60
+          tekens) — de zichtbare paginatitel (H1) blijft altijd de gewone
+          Titel hierboven. Laat leeg om gewoon de Titel te gebruiken.
       - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
@@ -556,6 +655,15 @@ collections:
     create: true
     fields:
       - { label: "Titel", name: title, widget: string, i18n: true }
+      - label: "SEO-titel (optioneel)"
+        name: seoTitle
+        widget: string
+        required: false
+        i18n: true
+        hint: >-
+          Overschrijft enkel de <title>-tag in zoekresultaten (max. ~60
+          tekens) — de zichtbare paginatitel (H1) blijft altijd de gewone
+          Titel hierboven. Laat leeg om gewoon de Titel te gebruiken.
       - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
@@ -602,6 +710,15 @@ collections:
     create: true
     fields:
       - { label: "Titel", name: title, widget: string, i18n: true }
+      - label: "SEO-titel (optioneel)"
+        name: seoTitle
+        widget: string
+        required: false
+        i18n: true
+        hint: >-
+          Overschrijft enkel de <title>-tag in zoekresultaten (max. ~60
+          tekens) — de zichtbare paginatitel (H1) blijft altijd de gewone
+          Titel hierboven. Laat leeg om gewoon de Titel te gebruiken.
       - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
@@ -638,6 +755,15 @@ collections:
     create: true
     fields:
       - { label: "Titel", name: title, widget: string, i18n: true }
+      - label: "SEO-titel (optioneel)"
+        name: seoTitle
+        widget: string
+        required: false
+        i18n: true
+        hint: >-
+          Overschrijft enkel de <title>-tag in zoekresultaten (max. ~60
+          tekens) — de zichtbare paginatitel (H1) blijft altijd de gewone
+          Titel hierboven. Laat leeg om gewoon de Titel te gebruiken.
       - label: "Intro"
         name: intro
         widget: text
