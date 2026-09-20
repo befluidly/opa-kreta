@@ -258,6 +258,17 @@ export default async function EnglishPostPage({ params }: PageProps) {
             {post.title}
           </h1>
 
+          {post.dateModified && (
+            <p className="text-sm text-gray-500 mb-4">
+              {commonT("lastUpdated")}{" "}
+              {new Date(post.dateModified).toLocaleDateString("en-GB", {
+                day: "2-digit",
+                month: "long",
+                year: "numeric",
+              })}
+            </p>
+          )}
+
           <article
             className={`
               prose prose-sky lg:prose-lg xl:prose-xl

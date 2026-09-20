@@ -119,6 +119,16 @@ export default async function RecipeLayout({ post }: RecipeLayoutProps) {
             {post.title}
           </h1>
 
+          {post.dateModified && (
+            <p className="text-sm text-gray-500 mb-4">
+              {common("lastUpdated")}{" "}
+              {new Date(post.dateModified).toLocaleDateString(
+                locale === "en" ? "en-GB" : "nl-BE",
+                { day: "2-digit", month: "long", year: "numeric" }
+              )}
+            </p>
+          )}
+
           {post.intro && (
             <p className="text-gray-700 font-body italic leading-relaxed mb-6 max-w-none">
               {post.intro}

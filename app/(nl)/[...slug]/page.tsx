@@ -220,6 +220,17 @@ export default async function PostPage({ params }: PageProps) {
             {post.title}
           </h1>
 
+          {post.dateModified && (
+            <p className="text-sm text-gray-500 mb-4">
+              Laatst bijgewerkt op{" "}
+              {new Date(post.dateModified).toLocaleDateString("nl-BE", {
+                day: "2-digit",
+                month: "long",
+                year: "numeric",
+              })}
+            </p>
+          )}
+
           <article
             className={`
               prose prose-sky lg:prose-lg xl:prose-xl
