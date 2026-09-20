@@ -147,13 +147,60 @@ const NavBar = ({ articleAlternates }: NavBarProps) => {
             </div>
           </div>
 
-          {/* Hamburger / Close button (mobile) */}
-          <button
-            className="md:hidden text-3xl focus:outline-none z-[110] text-darkCornflower"
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            {menuOpen ? "✕" : "☰"}
-          </button>
+          {/* 📱 Taal-toggle + hamburger (mobiel). Zelfde "NL | EN"-teksstijl
+              als de desktop-toggle verderop (bewust niet hernaar
+              gerefactored — desktop blijft ongewijzigd), maar met een groter
+              tikoppervlak (min. 44×44px via min-w/min-h, niet via grotere
+              tekst) en taal-metadata (lang/aria-label/aria-current) voor
+              screenreaders. Toggle en hamburger delen één flex-groep zodat
+              de hamburger niet verspringt wanneer er maar 1 taal te tonen
+              is (niet-vertaald artikel) — enkel de toggle zelf krimpt dan,
+              logo (links) en hamburger (uiterst rechts) blijven op hun
+              plek. */}
+          <div className="flex items-center gap-2 md:hidden">
+            {(nlHref || enHref) && (
+              <div className="flex items-center text-sm font-semibold">
+                {nlHref && (
+                  <Link
+                    href={nlHref}
+                    lang="nl"
+                    aria-label="Nederlands"
+                    aria-current={locale === "nl" ? "page" : undefined}
+                    className={`inline-flex items-center justify-center min-w-[44px] min-h-[44px] ${
+                      locale === "nl" ? "text-darkCornflower" : "text-gray-400"
+                    }`}
+                  >
+                    NL
+                  </Link>
+                )}
+                {nlHref && enHref && (
+                  <span className="text-gray-300" aria-hidden="true">
+                    |
+                  </span>
+                )}
+                {enHref && (
+                  <Link
+                    href={enHref}
+                    lang="en"
+                    aria-label="English"
+                    aria-current={locale === "en" ? "page" : undefined}
+                    className={`inline-flex items-center justify-center min-w-[44px] min-h-[44px] ${
+                      locale === "en" ? "text-darkCornflower" : "text-gray-400"
+                    }`}
+                  >
+                    EN
+                  </Link>
+                )}
+              </div>
+            )}
+
+            <button
+              className="text-3xl focus:outline-none z-[110] text-darkCornflower"
+              onClick={() => setMenuOpen(!menuOpen)}
+            >
+              {menuOpen ? "✕" : "☰"}
+            </button>
+          </div>
         </div>
       </nav>
 
@@ -194,29 +241,6 @@ const NavBar = ({ articleAlternates }: NavBarProps) => {
           >
             {t("shop")}
           </Link>
-
-          {/* 🌐 Taal-toggle */}
-          <div className="flex items-center gap-2 pt-2">
-            {nlHref && (
-              <Link
-                href={nlHref}
-                onClick={() => setMenuOpen(false)}
-                className={locale === "nl" ? "text-darkCornflower" : "text-gray-400"}
-              >
-                NL
-              </Link>
-            )}
-            {nlHref && enHref && <span className="text-gray-300">|</span>}
-            {enHref && (
-              <Link
-                href={enHref}
-                onClick={() => setMenuOpen(false)}
-                className={locale === "en" ? "text-darkCornflower" : "text-gray-400"}
-              >
-                EN
-              </Link>
-            )}
-          </div>
         </div>
       </div>
     </>
