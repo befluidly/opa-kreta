@@ -1,5 +1,7 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Post } from "../types/post";
+import { isLocalImagePath } from "../lib/site";
 
 interface LatestPostsProps {
   posts: Post[];
@@ -38,15 +40,35 @@ export default function LatestPosts({
               "
             >
               {post.coverImage && (
-                <div className="relative overflow-hidden">
-                  <img
-                    src={post.coverImage}
-                    alt={post.title}
-                    className="
-                      h-52 w-full object-cover transition-transform duration-700 
-                      group-hover:scale-105
-                    "
-                  />
+                // h-52 staat op deze wrapper i.p.v. op de afbeelding zelf —
+                // next/image's fill-modus vereist een ouder met een vaste
+                // hoogte en position: relative (beide al aanwezig hier). Zie
+                // PostCard.tsx voor waarom externe coverImage-URL's een
+                // gewone <img> blijven i.p.v. next/image (lib/site.ts,
+                // isLocalImagePath).
+                <div className="relative overflow-hidden h-52 w-full">
+                  {isLocalImagePath(post.coverImage) ? (
+                    <Image
+                      src={post.coverImage}
+                      alt={post.title}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 25vw"
+                      className="
+                        object-cover transition-transform duration-700
+                        group-hover:scale-105
+                      "
+                    />
+                  ) : (
+                    <img
+                      src={post.coverImage}
+                      alt={post.title}
+                      loading="lazy"
+                      className="
+                        absolute inset-0 h-full w-full object-cover transition-transform duration-700
+                        group-hover:scale-105
+                      "
+                    />
+                  )}
                   <div
                     className="absolute inset-0 bg-spanishBlue bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-500 pointer-events-none"
                   ></div>
