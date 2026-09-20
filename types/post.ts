@@ -1,5 +1,10 @@
 export interface Post {
   title: string;
+  // Optioneel: overschrijft enkel de <title>-tag/OpenGraph-titel in
+  // generateMetadata. De zichtbare H1 (PageHero, artikelpagina's,
+  // RecipeLayout) gebruikt altijd `title`, nooit dit veld — zie de
+  // SEO-audit-PR-beschrijving voor de reden waarom deze scheiding nodig was.
+  seoTitle?: string;
   excerpt: string;
   intro?: string;
   date: string;
