@@ -157,6 +157,7 @@ module.exports = {
           "/api/",
           "/categorie/category/",
           "/tag/", // ✅ NIEUW: tagpagina’s niet laten crawlen
+          "/en/tag/", // consistent met /tag/ — EN-tagpagina's staan ook al op noindex,follow
         ],
       },
     ],

@@ -47,6 +47,42 @@ const nextConfig = {
         destination: "/shop",
         permanent: true,
       },
+
+      // 404's uit Search Console (SEO-audit) — foutieve/verouderde slugs
+      // die naar hun echte artikel of, bij gebrek daaraan, de dichtstbijzijnde
+      // categoriepagina verwijzen.
+      {
+        source: "/opas-blog/het-leven-op-kreta/heraklion-in-the-winter",
+        destination: "/opas-blog/het-leven-op-kreta/heraklion-in-de-winter",
+        permanent: true,
+      },
+      {
+        source: "/opas-blog/het-leven-op-kreta/heraklion-in-heraklion-in-de-winter",
+        destination: "/opas-blog/het-leven-op-kreta/heraklion-in-de-winter",
+        permanent: true,
+      },
+      // Let op trailing slash-variant: trailingSlash: false (hierboven)
+      // redirect "/het-leven-op-kreta/" al sitewide naar "/het-leven-op-kreta"
+      // vóórdat deze redirects() gematcht worden — dus een aparte entry met
+      // een trailing slash in de source zou hier nooit geraakt worden. De
+      // slash-variant volgt gewoon 2 hops (net als elke andere URL op deze
+      // site met een trailing slash), zonder lus, en komt op dezelfde
+      // bestemming uit.
+      {
+        source: "/opas-blog/het-leven-op-kreta/het-leven-op-kreta",
+        destination: "/categorie/opas-blog/het-leven-op-kreta",
+        permanent: true,
+      },
+      {
+        source: "/gidsen/heraklion/knossos-hoe-lang-je-nodig",
+        destination: "/gidsen/heraklion/knossos-hoe-lang-heb-je-nodig",
+        permanent: true,
+      },
+      {
+        source: "/praktisch/auto-huren-kreta",
+        destination: "/praktisch/auto-huren-op-kreta",
+        permanent: true,
+      },
     ];
   },
 };

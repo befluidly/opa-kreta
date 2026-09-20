@@ -8,6 +8,7 @@ Disallow: /_next/
 Disallow: /api/
 Disallow: /categorie/category/
 Disallow: /tag/
+Disallow: /en/tag/
 
 # Host
 Host: https://www.opakreta.be
