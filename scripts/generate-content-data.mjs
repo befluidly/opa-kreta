@@ -105,6 +105,7 @@ function buildPost(filePath) {
       safeString(data.excerpt) ||
       (typeof content === "string" ? content.slice(0, 160) + "..." : ""),
     date: data.date ? new Date(data.date).toISOString() : "",
+    dateModified: data.dateModified ? new Date(data.dateModified).toISOString() : undefined,
     coverImage: safeString(data.coverImage),
     heroImage: safeString(data.heroImage),
     category: safeString(data.category),
@@ -147,6 +148,7 @@ function buildPost(filePath) {
 // subcategoriepagina verscheen, ook al bestond het artikel wel degelijk.
 const SHARED_FIELD_NAMES = [
   "date",
+  "dateModified",
   "coverImage",
   "heroImage",
   "category",

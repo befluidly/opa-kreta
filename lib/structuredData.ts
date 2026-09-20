@@ -201,6 +201,7 @@ export function buildRecipeJsonLd(post: Post) {
 
   if (post.excerpt) recipe.description = post.excerpt;
   if (post.date) recipe.datePublished = post.date;
+  if (post.dateModified) recipe.dateModified = post.dateModified;
   recipe.author = { "@type": "Person", name: AUTHOR_NAME };
   if (post.prepTime) recipe.prepTime = post.prepTime;
   if (post.cookTime) recipe.cookTime = post.cookTime;
@@ -244,9 +245,10 @@ export function buildArticleJsonLd(
     },
   };
 
-  // Geen dateModified-veld bestaat vandaag in de frontmatter (zie Deel 2,
-  // audit-punt j) — nooit terugvallen op de build-timestamp, dus dit veld
-  // blijft weg totdat dat veld er echt is.
+  // dateModified is optioneel (post.dateModified) — enkel gezet wanneer een
+  // redacteur het echt heeft ingevuld, nooit een terugval op de
+  // build-timestamp (zie Deel 2, audit-punt j).
+  if (post.dateModified) article.dateModified = post.dateModified;
 
   return article;
 }

@@ -8,6 +8,13 @@ export interface Post {
   excerpt: string;
   intro?: string;
   date: string;
+  // Optioneel — enkel invullen wanneer de inhoud van het artikel echt is
+  // bijgewerkt (bv. actuele prijzen/info). Gedeeld met de EN-vertaling
+  // zoals `date` (zie SHARED_FIELD_NAMES in generate-content-data.mjs).
+  // Toont dan "Laatst bijgewerkt op ..." op de pagina en vult
+  // dateModified in de JSON-LD (lib/structuredData.ts) — valt nooit terug
+  // op een build-timestamp.
+  dateModified?: string;
   coverImage?: string;
   heroImage?: string; // ✅ nieuw veld
   category?: string;

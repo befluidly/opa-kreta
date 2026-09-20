@@ -36,6 +36,7 @@ const RECOMMENDED_FIELDS = {
     "description",
     "author",
     "datePublished",
+    "dateModified",
     "prepTime",
     "cookTime",
     "recipeYield",

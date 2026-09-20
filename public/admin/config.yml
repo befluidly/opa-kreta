@@ -53,6 +53,16 @@ collections:
           Titel hierboven. Laat leeg om gewoon de Titel te gebruiken.
       - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
+      - label: "Laatst bijgewerkt (optioneel)"
+        name: dateModified
+        widget: datetime
+        format: "YYYY-MM-DD"
+        required: false
+        hint: >-
+          Vul dit enkel in wanneer je de inhoud van dit artikel echt hebt
+          bijgewerkt (bv. nieuwe prijzen, actuele info) — toont dan
+          "Laatst bijgewerkt op ..." op de pagina. Leeg laten als er niets
+          te melden valt.
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
       - { label: "Categorie", name: category, widget: hidden, default: gidsen }
       - label: "Regio's/onderwerpen"
@@ -110,6 +120,16 @@ collections:
           Titel hierboven. Laat leeg om gewoon de Titel te gebruiken.
       - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
+      - label: "Laatst bijgewerkt (optioneel)"
+        name: dateModified
+        widget: datetime
+        format: "YYYY-MM-DD"
+        required: false
+        hint: >-
+          Vul dit enkel in wanneer je de inhoud van dit artikel echt hebt
+          bijgewerkt (bv. nieuwe prijzen, actuele info) — toont dan
+          "Laatst bijgewerkt op ..." op de pagina. Leeg laten als er niets
+          te melden valt.
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
       - { label: "Categorie", name: category, widget: hidden, default: gidsen }
       - label: "Regio's/onderwerpen"
@@ -167,6 +187,16 @@ collections:
           Titel hierboven. Laat leeg om gewoon de Titel te gebruiken.
       - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
+      - label: "Laatst bijgewerkt (optioneel)"
+        name: dateModified
+        widget: datetime
+        format: "YYYY-MM-DD"
+        required: false
+        hint: >-
+          Vul dit enkel in wanneer je de inhoud van dit artikel echt hebt
+          bijgewerkt (bv. nieuwe prijzen, actuele info) — toont dan
+          "Laatst bijgewerkt op ..." op de pagina. Leeg laten als er niets
+          te melden valt.
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
       - { label: "Categorie", name: category, widget: hidden, default: gidsen }
       - label: "Regio's/onderwerpen"
@@ -224,6 +254,16 @@ collections:
           Titel hierboven. Laat leeg om gewoon de Titel te gebruiken.
       - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
+      - label: "Laatst bijgewerkt (optioneel)"
+        name: dateModified
+        widget: datetime
+        format: "YYYY-MM-DD"
+        required: false
+        hint: >-
+          Vul dit enkel in wanneer je de inhoud van dit artikel echt hebt
+          bijgewerkt (bv. nieuwe prijzen, actuele info) — toont dan
+          "Laatst bijgewerkt op ..." op de pagina. Leeg laten als er niets
+          te melden valt.
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
       - { label: "Categorie", name: category, widget: hidden, default: gidsen }
       - label: "Regio's/onderwerpen"
@@ -281,6 +321,16 @@ collections:
           Titel hierboven. Laat leeg om gewoon de Titel te gebruiken.
       - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
+      - label: "Laatst bijgewerkt (optioneel)"
+        name: dateModified
+        widget: datetime
+        format: "YYYY-MM-DD"
+        required: false
+        hint: >-
+          Vul dit enkel in wanneer je de inhoud van dit artikel echt hebt
+          bijgewerkt (bv. nieuwe prijzen, actuele info) — toont dan
+          "Laatst bijgewerkt op ..." op de pagina. Leeg laten als er niets
+          te melden valt.
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
       - { label: "Categorie", name: category, widget: hidden, default: gidsen }
       - label: "Regio's/onderwerpen"
@@ -338,6 +388,16 @@ collections:
           Titel hierboven. Laat leeg om gewoon de Titel te gebruiken.
       - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
+      - label: "Laatst bijgewerkt (optioneel)"
+        name: dateModified
+        widget: datetime
+        format: "YYYY-MM-DD"
+        required: false
+        hint: >-
+          Vul dit enkel in wanneer je de inhoud van dit artikel echt hebt
+          bijgewerkt (bv. nieuwe prijzen, actuele info) — toont dan
+          "Laatst bijgewerkt op ..." op de pagina. Leeg laten als er niets
+          te melden valt.
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
       - { label: "Categorie", name: category, widget: hidden, default: gidsen }
       - label: "Regio's/onderwerpen"
@@ -395,6 +455,16 @@ collections:
           Titel hierboven. Laat leeg om gewoon de Titel te gebruiken.
       - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
+      - label: "Laatst bijgewerkt (optioneel)"
+        name: dateModified
+        widget: datetime
+        format: "YYYY-MM-DD"
+        required: false
+        hint: >-
+          Vul dit enkel in wanneer je de inhoud van dit artikel echt hebt
+          bijgewerkt (bv. nieuwe prijzen, actuele info) — toont dan
+          "Laatst bijgewerkt op ..." op de pagina. Leeg laten als er niets
+          te melden valt.
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
       - { label: "Categorie", name: category, widget: hidden, default: gidsen }
       - label: "Regio's/onderwerpen"
@@ -452,6 +522,16 @@ collections:
           Titel hierboven. Laat leeg om gewoon de Titel te gebruiken.
       - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
+      - label: "Laatst bijgewerkt (optioneel)"
+        name: dateModified
+        widget: datetime
+        format: "YYYY-MM-DD"
+        required: false
+        hint: >-
+          Vul dit enkel in wanneer je de inhoud van dit artikel echt hebt
+          bijgewerkt (bv. nieuwe prijzen, actuele info) — toont dan
+          "Laatst bijgewerkt op ..." op de pagina. Leeg laten als er niets
+          te melden valt.
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
       - { label: "Categorie", name: category, widget: hidden, default: gidsen }
       - label: "Regio's/onderwerpen"
@@ -509,6 +589,16 @@ collections:
           Titel hierboven. Laat leeg om gewoon de Titel te gebruiken.
       - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
+      - label: "Laatst bijgewerkt (optioneel)"
+        name: dateModified
+        widget: datetime
+        format: "YYYY-MM-DD"
+        required: false
+        hint: >-
+          Vul dit enkel in wanneer je de inhoud van dit artikel echt hebt
+          bijgewerkt (bv. nieuwe prijzen, actuele info) — toont dan
+          "Laatst bijgewerkt op ..." op de pagina. Leeg laten als er niets
+          te melden valt.
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
       - { label: "Categorie", name: category, widget: hidden, default: praktisch }
       - label: "Tags"
@@ -556,6 +646,16 @@ collections:
           Titel hierboven. Laat leeg om gewoon de Titel te gebruiken.
       - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
+      - label: "Laatst bijgewerkt (optioneel)"
+        name: dateModified
+        widget: datetime
+        format: "YYYY-MM-DD"
+        required: false
+        hint: >-
+          Vul dit enkel in wanneer je de inhoud van dit artikel echt hebt
+          bijgewerkt (bv. nieuwe prijzen, actuele info) — toont dan
+          "Laatst bijgewerkt op ..." op de pagina. Leeg laten als er niets
+          te melden valt.
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
       - { label: "Categorie", name: category, widget: hidden, default: opas-blog }
       - label: "Onderwerpen"
@@ -611,6 +711,16 @@ collections:
           Titel hierboven. Laat leeg om gewoon de Titel te gebruiken.
       - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
+      - label: "Laatst bijgewerkt (optioneel)"
+        name: dateModified
+        widget: datetime
+        format: "YYYY-MM-DD"
+        required: false
+        hint: >-
+          Vul dit enkel in wanneer je de inhoud van dit artikel echt hebt
+          bijgewerkt (bv. nieuwe prijzen, actuele info) — toont dan
+          "Laatst bijgewerkt op ..." op de pagina. Leeg laten als er niets
+          te melden valt.
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
       - { label: "Categorie", name: category, widget: hidden, default: opas-blog }
       - label: "Onderwerpen"
@@ -666,6 +776,16 @@ collections:
           Titel hierboven. Laat leeg om gewoon de Titel te gebruiken.
       - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
+      - label: "Laatst bijgewerkt (optioneel)"
+        name: dateModified
+        widget: datetime
+        format: "YYYY-MM-DD"
+        required: false
+        hint: >-
+          Vul dit enkel in wanneer je de inhoud van dit artikel echt hebt
+          bijgewerkt (bv. nieuwe prijzen, actuele info) — toont dan
+          "Laatst bijgewerkt op ..." op de pagina. Leeg laten als er niets
+          te melden valt.
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
       - { label: "Categorie", name: category, widget: hidden, default: opas-blog }
       - label: "Onderwerpen"
@@ -721,6 +841,16 @@ collections:
           Titel hierboven. Laat leeg om gewoon de Titel te gebruiken.
       - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
+      - label: "Laatst bijgewerkt (optioneel)"
+        name: dateModified
+        widget: datetime
+        format: "YYYY-MM-DD"
+        required: false
+        hint: >-
+          Vul dit enkel in wanneer je de inhoud van dit artikel echt hebt
+          bijgewerkt (bv. nieuwe prijzen, actuele info) — toont dan
+          "Laatst bijgewerkt op ..." op de pagina. Leeg laten als er niets
+          te melden valt.
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
       - { label: "Hero-afbeelding (optioneel)", name: heroImage, widget: image, required: false }
       # Bewust behouden quirk, geen bug: frontmatter-categorie is "inspiratie",
@@ -772,6 +902,16 @@ collections:
         hint: "Korte inleidende alinea, verschijnt cursief onder de titel."
       - { label: "Samenvatting", name: excerpt, widget: text, i18n: true }
       - { label: "Datum", name: date, widget: datetime, format: "YYYY-MM-DD" }
+      - label: "Laatst bijgewerkt (optioneel)"
+        name: dateModified
+        widget: datetime
+        format: "YYYY-MM-DD"
+        required: false
+        hint: >-
+          Vul dit enkel in wanneer je de inhoud van dit artikel echt hebt
+          bijgewerkt (bv. nieuwe prijzen, actuele info) — toont dan
+          "Laatst bijgewerkt op ..." op de pagina. Leeg laten als er niets
+          te melden valt.
       - { label: "Coverfoto", name: coverImage, widget: image, required: false }
       - { label: "Categorie", name: category, widget: hidden, default: recepten }
       - label: "Voorbereidingstijd (optioneel)"
