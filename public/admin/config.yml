@@ -14,6 +14,19 @@ i18n:
   default_locale: nl
   omit_default_locale_from_file_path: true
 
+# Sveltia's standaard titel-afgeleide slug behoudt unicode-tekens (bv. een
+# lang streepje "–" in "Fasolakia Ladera – Griekse ..." werd letterlijk
+# overgenomen in de bestandsnaam/route-slug). Dat gaf op Cloudflare een
+# 404 op de live artikelpagina zelf (de kaart met titel/foto op de
+# overzichtspagina werkte wel — enkel de routing/asset-matching voor het
+# exacte pad met dat UTF-8-teken faalde), terwijl alle 102 andere,
+# ASCII-only slugs altijd probleemloos werkten. `encoding: ascii` +
+# `clean_accents` dwingen een plat ASCII-bestandsnaam af voor nieuwe
+# content, ongeacht wat er in de titel staat.
+slug:
+  encoding: ascii
+  clean_accents: true
+
 media_folder: /public/images/uploads
 public_folder: /images/uploads
 
