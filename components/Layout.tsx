@@ -1,8 +1,10 @@
 import Script from "next/script";
+import { getLocale } from "next-intl/server";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import ScrollToTopButton from "./ScrollToTopButton";
 import type { ArticleAlternates } from "../lib/i18n-alternates";
+import { getSearchIndex } from "../lib/searchIndex";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -13,7 +15,16 @@ interface LayoutProps {
   articleAlternates?: ArticleAlternates;
 }
 
-export default function Layout({ children, articleAlternates }: LayoutProps) {
+export default async function Layout({ children, articleAlternates }: LayoutProps) {
+  // Server-side berekend (en niet in Navbar zelf, dat is een client
+  // component): getSearchIndex() haalt uit de volledige, zware
+  // content-data.generated.json (incl. MDX-body, affiliates, ...) enkel de
+  // paar velden die de zoekfunctie nodig heeft — dat kleine, per-taal
+  // gefilterde resultaat is wat naar de browser gestuurd wordt, niet de
+  // volledige dataset. Zie lib/searchIndex.ts.
+  const locale = await getLocale();
+  const searchIndex = getSearchIndex(locale as "nl" | "en");
+
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       {/* Travelpayouts verificatie */}
@@ -28,7 +39,7 @@ export default function Layout({ children, articleAlternates }: LayoutProps) {
         `}
       </Script>
 
-      <Navbar articleAlternates={articleAlternates} />
+      <Navbar articleAlternates={articleAlternates} searchIndex={searchIndex} />
       <main className="flex-grow mb-20">{children}<ScrollToTopButton /></main>
       <Footer />
     </div>
