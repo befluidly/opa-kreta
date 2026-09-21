@@ -5,15 +5,28 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useTranslations, useLocale } from "next-intl";
 import type { ArticleAlternates } from "../lib/i18n-alternates";
+import type { SearchIndexEntry } from "../lib/searchIndex";
+import SearchBox from "./SearchBox";
 
 interface NavBarProps {
   // Enkel meegegeven op artikelpagina's — zie components/Layout.tsx.
   articleAlternates?: ArticleAlternates;
+  // Server-side opgebouwd in Layout.tsx (getSearchIndex) — zie SearchBox.tsx.
+  searchIndex: SearchIndexEntry[];
 }
 
-const NavBar = ({ articleAlternates }: NavBarProps) => {
+const NavBar = ({ articleAlternates, searchIndex }: NavBarProps) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const t = useTranslations("nav");
+  // category-waarden (post.category) komen exact overeen met deze
+  // vertaalsleutels — zie de opas-blog->blog-uitzondering hieronder.
+  const categoryLabels: Record<string, string> = {
+    "opas-blog": t("blog"),
+    gidsen: t("gidsen"),
+    praktisch: t("praktisch"),
+    inspiratie: t("inspiratie"),
+    recepten: t("recepten"),
+  };
   // Navbar is een gedeeld component (components/Layout.tsx) dat in zowel de
   // NL- als de EN-routeboom gerenderd wordt — de links moeten dus zelf een
   // "/en"-prefix toevoegen op de EN-site, anders stuurt elke klik je terug
@@ -107,6 +120,8 @@ const NavBar = ({ articleAlternates }: NavBarProps) => {
             </div>
 
             <div className="ml-auto flex items-center gap-4">
+              <SearchBox index={searchIndex} categoryLabels={categoryLabels} variant="icon" />
+
               <Link
                 href={`${prefix}/shop`}
                 className="hover:text-spanishBlue font-semibold transition-colors text-[18px]"
@@ -210,6 +225,13 @@ const NavBar = ({ articleAlternates }: NavBarProps) => {
           }`}
       >
         <div className="flex flex-col items-center py-6 space-y-5 text-darkCornflower text-lg font-medium">
+          <SearchBox
+            index={searchIndex}
+            categoryLabels={categoryLabels}
+            variant="inline"
+            onNavigate={() => setMenuOpen(false)}
+          />
+
           <Link href={prefix || "/"} onClick={() => setMenuOpen(false)}>
             {t("home")}
           </Link>

@@ -11,6 +11,11 @@
     "contact": "Contact",
     "shop": "Shop"
   },
+  "search": {
+    "ariaLabel": "Zoeken",
+    "placeholder": "Zoek een artikel...",
+    "noResults": "Geen resultaten voor \"{query}\""
+  },
   "footer": {
     "brand": "Hidden Crete",
     "aboutUs": "Over ons",
